@@ -77,7 +77,7 @@ function Provider({ children }) {
       },
       {
         id: 8,
-        question: "I was born in Russia. It is my ________.\nA)Tourist Attraction\nB) Abroad\nC)Shopping Center\nD)Hometown",
+        question: "I was born in Russia. It is my ________.",
         answers: [
           { answer: "A)Tourist Attraction", trueAnswer: false },
           { answer: "B) Abroad", trueAnswer: false },
@@ -175,12 +175,12 @@ function Provider({ children }) {
       },
       {
         id: 8,
-        question: "The soccer ball is between the volleyball and the basketball.",
+        question: "! . , * According to the signs on the side:",
         answers: [
-          { answer: "The soccer ball is in front of the volleyball and the basketball.", trueAnswer: false },
-          { answer: "The soccer ball is near the volleyball and the basketball.", trueAnswer: false },
-          { answer: "The soccer ball is opposite the football and the basketball.", trueAnswer: false },
-          { answer: "The soccer ball is between the volleyball and the basketball.", trueAnswer: true }
+          { answer: "The star is at the front of the line.", trueAnswer: false },
+          { answer: "The comma is just to the right of the full stop.", trueAnswer: true },
+          { answer: "The exclamation mark is at the end of the line.", trueAnswer: false },
+          { answer: "The star is next to the period.", trueAnswer: false }
         ]
       },
       {
