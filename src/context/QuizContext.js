@@ -57,7 +57,7 @@ function Provider({ children }) {
       },
       {
         id: 6,
-        question: "My sister is my parents’ ___________.\nA) Son\nB) Nephew\nC) Aunt\nD) Daughter",
+        question: "My sister is my parents’ ___________.\n",
         answers: [
           { answer: "A) Son", trueAnswer: false },
           { answer: "B) Nephew", trueAnswer: false },
