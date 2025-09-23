@@ -9,14 +9,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
   backdrop-filter: blur(5px);
   animation: fadeIn 0.3s ease-out;
   padding: 1rem;
 }
 
 .auth-modal {
-  background: #ffffff;
+  background: var(--bg-white);
   border-radius: var(--radius-2xl);
   width: 100%;
   max-width: 450px;
@@ -71,7 +71,7 @@
 
 .auth-form {
   padding: 2rem;
-  background: #ffffff;
+  background: var(--bg-white);
 }
 
 .form-group {
@@ -93,8 +93,8 @@
   border-radius: var(--radius-lg);
   font-size: 0.875rem;
   transition: var(--transition-fast);
-  background: #ffffff;
-  color: #2d3748;
+  background: var(--bg-white);
+  color: var(--text-primary);
 }
 
 .form-group input:focus {
@@ -143,12 +143,12 @@
 .auth-footer {
   padding: 1.5rem 2rem;
   text-align: center;
-  background: #ffffff;
+  background: var(--bg-white);
   border-top: 1px solid var(--bg-secondary);
 }
 
 .auth-footer p {
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 0.875rem;
 }
 
@@ -190,14 +190,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
   backdrop-filter: blur(5px);
   animation: fadeIn 0.3s ease-out;
   padding: 1rem;
 }
 
 .profile-modal {
-  background: #ffffff;
+  background: var(--bg-white);
   border-radius: var(--radius-2xl);
   width: 100%;
   max-width: 500px;
@@ -211,13 +211,13 @@
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-  background: #ffffff;
+  background: var(--bg-white);
 }
 
 .profile-content {
   padding: 0 2rem 2rem;
   text-align: center;
-  background: #ffffff;
+  background: var(--bg-white);
 }
 
 .profile-avatar {
@@ -255,12 +255,12 @@
 .profile-info h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
 .profile-email {
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 0.875rem;
   margin-bottom: 2rem;
 }
@@ -287,13 +287,13 @@
 
 .xp-next {
   font-size: 0.75rem;
-  color: var(--text-secondary);
+  color: var(--text-light);
 }
 
 .xp-bar {
   width: 100%;
   height: 8px;
-  background: rgba(102, 126, 234, 0.2);
+  background: var(--bg-secondary);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -341,13 +341,13 @@
 .stat-value {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--text-primary);
   line-height: 1.2;
 }
 
 .stat-label {
   font-size: 0.75rem;
-  color: #4a5568;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }

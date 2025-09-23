@@ -215,8 +215,8 @@ function Home() {
 
   const getTypeColor = (type) => {
     switch (type) {
-      case 'listening': return 'var(--warning-gradient)';
-      case 'speaking': return 'var(--danger-gradient)';
+      case 'listening': return 'var(--secondary-gradient)';
+      case 'speaking': return 'var(--warning-gradient)';
       case 'visual': return 'var(--success-gradient)';
       default: return 'var(--primary-gradient)';
     }
