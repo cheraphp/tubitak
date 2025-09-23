@@ -23,11 +23,7 @@ function UserProfile({ onClose }) {
   };
 
   return (
-    <div 
-      className="profile-modal-overlay" 
-      onClick={onClose}
-      style={{ zIndex: 99999 }}
-    >
+    <div className="profile-modal-overlay" onClick={onClose}>
       <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
         <div className="profile-header">
           <button className="close-btn" onClick={onClose}>
