@@ -28,13 +28,19 @@ function Home() {
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleAuthClick = (type) => {
-  if (type === 'login') {
-    setShowLogin(true);
-  } else if (type === 'register') {
-    setShowRegister(true);
-  }
-};
+  const handleAuthClick = (e, type) => {
+    const rect = e.target.getBoundingClientRect();
+    setPopupPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    });
+    
+    if (type === 'login') {
+      setShowLogin(true);
+    } else if (type === 'register') {
+      setShowRegister(true);
+    }
+  };
 
   const handleProfileClick = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -275,19 +281,19 @@ function Home() {
           ) : (
             <div className="auth-buttons">
               <button 
-                  className="auth-btn-nav login"
-  onClick={() => handleAuthClick('login')}
->
-  <i className="bi bi-box-arrow-in-right"></i>
-  Sign In
-</button>
-<button 
-  className="auth-btn-nav register"
-  onClick={() => handleAuthClick('register')}
->
-  <i className="bi bi-person-plus"></i>
-  Sign Up
-</button>
+                className="auth-btn-nav login"
+                onClick={(e) => handleAuthClick(e, 'login')}
+              >
+                <i className="bi bi-box-arrow-in-right"></i>
+                Sign In
+              </button>
+              <button 
+                className="auth-btn-nav register"
+                onClick={(e) => handleAuthClick(e, 'register')}
+              >
+                <i className="bi bi-person-plus"></i>
+                Sign Up
+              </button>
             </div>
           )}
         </div>
