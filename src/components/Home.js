@@ -275,19 +275,19 @@ function Home() {
           ) : (
             <div className="auth-buttons">
               <button 
-                className="auth-btn-nav login"
-                onClick={(e) => handleAuthClick(e, 'login')}
-              >
-                <i className="bi bi-box-arrow-in-right"></i>
-                Sign In
-              </button>
-              <button 
-                className="auth-btn-nav register"
-                onClick={(e) => handleAuthClick(e, 'register')}
-              >
-                <i className="bi bi-person-plus"></i>
-                Sign Up
-              </button>
+                  className="auth-btn-nav login"
+  onClick={() => handleAuthClick('login')}
+>
+  <i className="bi bi-box-arrow-in-right"></i>
+  Sign In
+</button>
+<button 
+  className="auth-btn-nav register"
+  onClick={() => handleAuthClick('register')}
+>
+  <i className="bi bi-person-plus"></i>
+  Sign Up
+</button>
             </div>
           )}
         </div>
