@@ -419,9 +419,8 @@ body {
 /* Theme Toggle */
 .theme-toggle {
   position: fixed;
-  top: 50%;
+  bottom: 2rem;
   right: 2rem;
-  transform: translateY(-50%);
   z-index: 999;
   width: 50px;
   height: 50px;
@@ -485,10 +484,8 @@ body {
   }
   
   .theme-toggle {
-    top: auto;
     bottom: 2rem;
     right: 1rem;
-    transform: none;
     width: 45px;
     height: 45px;
   }

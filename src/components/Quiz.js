@@ -186,7 +186,7 @@ function Quiz() {
       }
     }
 
-    return navigate("/result", {
+    navigate("/result", {
       state: {
         answers: selectedAnswers,
         questions: questions[level],
@@ -195,6 +195,7 @@ function Quiz() {
         levelUp: xpData?.newLevel > xpData?.oldLevel
       },
     });
+    return null;
   }
 
   const progressPercentage = ((currentQuestion + 1) / questions[level].length) * 100;

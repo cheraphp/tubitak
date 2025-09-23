@@ -23,7 +23,11 @@ function UserProfile({ onClose }) {
   };
 
   return (
-    <div className="profile-modal-overlay" onClick={onClose}>
+    <div className="profile-modal-overlay" onClick={(e) => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    }}>
       <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
         <div className="profile-header">
           <button className="close-btn" onClick={onClose}>
