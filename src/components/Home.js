@@ -13,6 +13,20 @@ function Home() {
   const [showProfile, setShowProfile] = useState(false);
   const { user } = useAuth();
 
+  // Modal açıldığında body scroll'unu engelle
+  useEffect(() => {
+    if (showLogin || showRegister || showProfile) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showLogin, showRegister, showProfile]);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
