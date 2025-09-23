@@ -28,19 +28,13 @@ function Home() {
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  const handleAuthClick = (e, type) => {
-    const rect = e.target.getBoundingClientRect();
-    setPopupPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
-    });
-    
-    if (type === 'login') {
-      setShowLogin(true);
-    } else if (type === 'register') {
-      setShowRegister(true);
-    }
-  };
+  const handleAuthClick = (type) => {
+  if (type === 'login') {
+    setShowLogin(true);
+  } else if (type === 'register') {
+    setShowRegister(true);
+  }
+};
 
   const handleProfileClick = (e) => {
     const rect = e.target.getBoundingClientRect();
