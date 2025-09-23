@@ -11,6 +11,7 @@ function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const { user } = useAuth();
 
   useEffect(() => {
@@ -25,6 +26,29 @@ function Home() {
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  const handleAuthClick = (e, type) => {
+    const rect = e.target.getBoundingClientRect();
+    setPopupPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    });
+    
+    if (type === 'login') {
+      setShowLogin(true);
+    } else if (type === 'register') {
+      setShowRegister(true);
+    }
+  };
+
+  const handleProfileClick = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    setPopupPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    });
+    setShowProfile(true);
   };
 
   const gradeData = [
@@ -251,21 +275,21 @@ function Home() {
                 src={user.avatar} 
                 alt={user.username}
                 className="user-avatar"
-                onClick={() => setShowProfile(true)}
+                onClick={handleProfileClick}
               />
             </div>
           ) : (
             <div className="auth-buttons">
               <button 
                 className="auth-btn-nav login"
-                onClick={() => setShowLogin(true)}
+                onClick={(e) => handleAuthClick(e, 'login')}
               >
                 <i className="bi bi-box-arrow-in-right"></i>
                 Sign In
               </button>
               <button 
                 className="auth-btn-nav register"
-                onClick={() => setShowRegister(true)}
+                onClick={(e) => handleAuthClick(e, 'register')}
               >
                 <i className="bi bi-person-plus"></i>
                 Sign Up
@@ -374,7 +398,7 @@ function Home() {
                         to={user ? `/quiz/${unit.id}` : '#'}
                         onClick={!user ? (e) => {
                           e.preventDefault();
-                          setShowLogin(true);
+                          handleAuthClick(e, 'login');
                         } : undefined}
                         style={{ background: getTypeColor(unit.type) }}
                       >
@@ -443,6 +467,7 @@ function Home() {
             setShowLogin(false);
             setShowRegister(true);
           }}
+          position={popupPosition}
         />
       )}
       
@@ -453,11 +478,12 @@ function Home() {
             setShowRegister(false);
             setShowLogin(true);
           }}
+          position={popupPosition}
         />
       )}
 
       {showProfile && user && (
-        <UserProfile onClose={() => setShowProfile(false)} />
+        <UserProfile onClose={() => setShowProfile(false)} position={popupPosition} />
       )}
     </>
   );

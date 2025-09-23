@@ -22,11 +22,11 @@
   width: 100%;
   max-width: 450px;
   box-shadow: var(--shadow-xl);
-  animation: slideUp 0.3s ease-out;
+  animation: slideFromPosition 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
   max-height: calc(100vh - 2rem);
-  margin: auto;
   position: relative;
+  transform-origin: var(--popup-x, 50%) var(--popup-y, 50%);
 }
 
 .auth-header {
@@ -204,11 +204,11 @@
   width: 100%;
   max-width: 500px;
   box-shadow: var(--shadow-xl);
-  animation: slideUp 0.3s ease-out;
+  animation: slideFromPosition 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
   position: relative;
   max-height: calc(100vh - 2rem);
-  margin: auto;
+  transform-origin: var(--popup-x, 50%) var(--popup-y, 50%);
 }
 
 .profile-header {
@@ -384,14 +384,17 @@
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
+@keyframes slideFromPosition {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: scale(0.3) translate(
+      calc(var(--popup-x, 50vw) - 50vw), 
+      calc(var(--popup-y, 50vh) - 50vh)
+    );
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translate(0, 0);
   }
 }
 

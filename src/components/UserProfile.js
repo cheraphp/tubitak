@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 
-function UserProfile({ onClose }) {
+function UserProfile({ onClose, position }) {
   const { user, logout } = useAuth();
 
   if (!user) return null;
@@ -23,7 +23,13 @@ function UserProfile({ onClose }) {
   };
 
   return (
-    <div className="profile-modal-overlay" onClick={(e) => {
+    <div 
+      className="profile-modal-overlay" 
+      style={{
+        '--popup-x': `${position?.x || window.innerWidth / 2}px`,
+        '--popup-y': `${position?.y || window.innerHeight / 2}px`
+      }}
+      onClick={(e) => {
       if (e.target === e.currentTarget) {
         onClose();
       }

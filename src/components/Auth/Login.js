@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 
-function Login({ onClose, switchToRegister }) {
+function Login({ onClose, switchToRegister, position }) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -35,7 +35,13 @@ function Login({ onClose, switchToRegister }) {
   };
 
   return (
-    <div className="auth-modal-overlay" onClick={(e) => {
+    <div 
+      className="auth-modal-overlay" 
+      style={{
+        '--popup-x': `${position?.x || window.innerWidth / 2}px`,
+        '--popup-y': `${position?.y || window.innerHeight / 2}px`
+      }}
+      onClick={(e) => {
       if (e.target === e.currentTarget) {
         onClose();
       }
