@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Login from "./Auth/Login";
+import Register from "./Auth/Register";
+import UserProfile from "./UserProfile";
 
 function Home() {
   const [theme, setTheme] = useState('light');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -30,21 +38,40 @@ function Home() {
           title: "Personal Information & Jobs",
           description: "Learn vocabulary about nationalities, jobs, and personal details",
           questions: 10,
-          difficulty: "Beginner"
+          difficulty: "Beginner",
+          type: "vocabulary"
         },
         {
           id: "Grade_9_Unit2",
           title: "My Environment",
           description: "Explore vocabulary about places, directions, and surroundings",
           questions: 10,
-          difficulty: "Beginner"
+          difficulty: "Beginner",
+          type: "vocabulary"
+        },
+        {
+          id: "Grade_9_Unit1_Listening",
+          title: "Personal Information - Listening",
+          description: "Practice listening skills with audio questions",
+          questions: 5,
+          difficulty: "Beginner",
+          type: "listening"
         },
         {
           id: "Grade_9_Unit3",
           title: "Movies & Hobbies",
           description: "Discover entertainment vocabulary and leisure activities",
           questions: 10,
-          difficulty: "Beginner"
+          difficulty: "Beginner",
+          type: "vocabulary"
+        },
+        {
+          id: "Grade_9_Unit2_Visual",
+          title: "Environment - Visual Quiz",
+          description: "Identify vocabulary through images and visual cues",
+          questions: 8,
+          difficulty: "Beginner",
+          type: "visual"
         }
       ]
     },
@@ -58,21 +85,32 @@ function Home() {
           title: "School Life",
           description: "Academic vocabulary and school-related terms",
           questions: 10,
-          difficulty: "Intermediate"
+          difficulty: "Intermediate",
+          type: "vocabulary"
         },
         {
           id: "Grade_10_Unit2",
           title: "Plans & Future",
           description: "Vocabulary about planning and future aspirations",
           questions: 10,
-          difficulty: "Intermediate"
+          difficulty: "Intermediate",
+          type: "vocabulary"
+        },
+        {
+          id: "Grade_10_Unit1_Speaking",
+          title: "School Life - Speaking",
+          description: "Practice pronunciation and speaking skills",
+          questions: 6,
+          difficulty: "Intermediate",
+          type: "speaking"
         },
         {
           id: "Grade_10_Unit3",
           title: "Legends & Stories",
           description: "Historical and narrative vocabulary",
           questions: 10,
-          difficulty: "Intermediate"
+          difficulty: "Intermediate",
+          type: "vocabulary"
         }
       ]
     },
@@ -86,21 +124,32 @@ function Home() {
           title: "Future Jobs",
           description: "Professional vocabulary and career-related terms",
           questions: 10,
-          difficulty: "Upper-Int"
+          difficulty: "Upper-Int",
+          type: "vocabulary"
         },
         {
           id: "Grade_11_Unit2",
           title: "Hobbies & Skills",
           description: "Advanced vocabulary about abilities and interests",
           questions: 9,
-          difficulty: "Upper-Int"
+          difficulty: "Upper-Int",
+          type: "vocabulary"
+        },
+        {
+          id: "Grade_11_Unit1_Listening",
+          title: "Future Jobs - Listening",
+          description: "Advanced listening comprehension exercises",
+          questions: 7,
+          difficulty: "Upper-Int",
+          type: "listening"
         },
         {
           id: "Grade_11_Unit3",
           title: "Hard Times",
           description: "Vocabulary about challenges and difficulties",
           questions: 10,
-          difficulty: "Upper-Int"
+          difficulty: "Upper-Int",
+          type: "vocabulary"
         }
       ]
     },
@@ -114,21 +163,32 @@ function Home() {
           title: "Music",
           description: "Musical vocabulary and artistic expressions",
           questions: 10,
-          difficulty: "Advanced"
+          difficulty: "Advanced",
+          type: "vocabulary"
         },
         {
           id: "Grade_12_Unit2",
           title: "Friendship",
           description: "Relationship vocabulary and social interactions",
           questions: 10,
-          difficulty: "Advanced"
+          difficulty: "Advanced",
+          type: "vocabulary"
+        },
+        {
+          id: "Grade_12_Unit1_Visual",
+          title: "Music - Visual Quiz",
+          description: "Advanced visual vocabulary recognition",
+          questions: 8,
+          difficulty: "Advanced",
+          type: "visual"
         },
         {
           id: "Grade_12_Unit3",
           title: "Human Rights",
           description: "Social and ethical vocabulary",
           questions: 10,
-          difficulty: "Advanced"
+          difficulty: "Advanced",
+          type: "vocabulary"
         }
       ]
     }
@@ -144,6 +204,24 @@ function Home() {
     }
   };
 
+  const getTypeIcon = (type) => {
+    switch (type) {
+      case 'listening': return 'bi-headphones';
+      case 'speaking': return 'bi-mic';
+      case 'visual': return 'bi-image';
+      default: return 'bi-book';
+    }
+  };
+
+  const getTypeColor = (type) => {
+    switch (type) {
+      case 'listening': return 'var(--warning-gradient)';
+      case 'speaking': return 'var(--danger-gradient)';
+      case 'visual': return 'var(--success-gradient)';
+      default: return 'var(--primary-gradient)';
+    }
+  };
+
   if (!isLoaded) {
     return (
       <div className="home" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
@@ -154,11 +232,76 @@ function Home() {
 
   return (
     <>
+      {/* Navigation */}
+      <nav className="navbar">
+        <Link to="/" className="navbar-brand">
+          <i className="bi bi-mortarboard-fill"></i>
+          VocQuiz
+        </Link>
+        
+        <div className="navbar-nav">
+          <Link to="/leaderboard" className="nav-link">
+            <i className="bi bi-trophy"></i>
+            Leaderboard
+          </Link>
+          
+          {user ? (
+            <div className="user-menu">
+              <img 
+                src={user.avatar} 
+                alt={user.username}
+                className="user-avatar"
+                onClick={() => setShowProfile(true)}
+              />
+            </div>
+          ) : (
+            <div className="auth-buttons">
+              <button 
+                className="auth-btn-nav login"
+                onClick={() => setShowLogin(true)}
+              >
+                <i className="bi bi-box-arrow-in-right"></i>
+                Sign In
+              </button>
+              <button 
+                className="auth-btn-nav register"
+                onClick={() => setShowRegister(true)}
+              >
+                <i className="bi bi-person-plus"></i>
+                Sign Up
+              </button>
+            </div>
+          )}
+        </div>
+      </nav>
+
       <button className="theme-toggle" onClick={toggleTheme}>
         <i className={`bi bi-${theme === 'light' ? 'moon' : 'sun'}`}></i>
       </button>
       
       <div className="home animate-fadeInUp">
+        {user && (
+          <div className="user-welcome">
+            <div className="welcome-content">
+              <h2>Welcome back, {user.username}! 👋</h2>
+              <div className="user-stats-quick">
+                <div className="stat-quick">
+                  <i className="bi bi-star-fill"></i>
+                  <span>Level {user.level}</span>
+                </div>
+                <div className="stat-quick">
+                  <i className="bi bi-lightning-fill"></i>
+                  <span>{user.xp} XP</span>
+                </div>
+                <div className="stat-quick">
+                  <i className="bi bi-trophy-fill"></i>
+                  <span>{user.totalQuizzes} Quizzes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="intro-section">
           <div className="intro-box">
             <div className="intro-content">
@@ -168,16 +311,16 @@ function Home() {
               </p>
               <div className="intro-stats">
                 <div className="stat-item">
-                  <span className="stat-number">120+</span>
+                  <span className="stat-number">150+</span>
                   <span className="stat-label">Questions</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-number">12</span>
+                  <span className="stat-number">16</span>
                   <span className="stat-label">Units</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-number">4</span>
-                  <span className="stat-label">Levels</span>
+                  <span className="stat-label">Types</span>
                 </div>
               </div>
             </div>
@@ -213,6 +356,10 @@ function Home() {
                       
                       <div className="unit-stats">
                         <div className="unit-stat">
+                          <i className={getTypeIcon(unit.type)} style={{ color: getTypeColor(unit.type).replace('var(--', '').replace(')', '').replace('-gradient', '-color') }}></i>
+                          <span>{unit.type.charAt(0).toUpperCase() + unit.type.slice(1)}</span>
+                        </div>
+                        <div className="unit-stat">
                           <i className="bi bi-question-circle"></i>
                           <span>{unit.questions} Questions</span>
                         </div>
@@ -222,7 +369,15 @@ function Home() {
                         </div>
                       </div>
                       
-                      <Link className="unit-link" to={`/quiz/${unit.id}`}>
+                      <Link 
+                        className="unit-link" 
+                        to={user ? `/quiz/${unit.id}` : '#'}
+                        onClick={!user ? (e) => {
+                          e.preventDefault();
+                          setShowLogin(true);
+                        } : undefined}
+                        style={{ background: getTypeColor(unit.type) }}
+                      >
                         <span>Start Quiz</span>
                         <i className="bi bi-arrow-right"></i>
                       </Link>
@@ -249,21 +404,21 @@ function Home() {
             
             <div className="feature-item">
               <div className="feature-icon">
-                <i className="bi bi-graph-up"></i>
+                <i className="bi bi-headphones"></i>
               </div>
-              <h3 className="feature-title">Progress Tracking</h3>
+              <h3 className="feature-title">Multiple Question Types</h3>
               <p className="feature-description">
-                Monitor your improvement with detailed results and performance analytics
+                Practice with vocabulary, listening, speaking, and visual recognition questions
               </p>
             </div>
             
             <div className="feature-item">
               <div className="feature-icon">
-                <i className="bi bi-award"></i>
+                <i className="bi bi-graph-up"></i>
               </div>
-              <h3 className="feature-title">Graded Content</h3>
+              <h3 className="feature-title">XP & Levels</h3>
               <p className="feature-description">
-                Curriculum-aligned vocabulary from 9th to 12th grade Turkish education system
+                Earn experience points, level up, and compete with other learners on the leaderboard
               </p>
             </div>
             
@@ -279,6 +434,31 @@ function Home() {
           </div>
         </div>
       </div>
+
+      {/* Auth Modals */}
+      {showLogin && (
+        <Login 
+          onClose={() => setShowLogin(false)}
+          switchToRegister={() => {
+            setShowLogin(false);
+            setShowRegister(true);
+          }}
+        />
+      )}
+      
+      {showRegister && (
+        <Register 
+          onClose={() => setShowRegister(false)}
+          switchToLogin={() => {
+            setShowRegister(false);
+            setShowLogin(true);
+          }}
+        />
+      )}
+
+      {showProfile && user && (
+        <UserProfile onClose={() => setShowProfile(false)} />
+      )}
     </>
   );
 }

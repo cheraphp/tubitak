@@ -4,6 +4,41 @@
   animation: fadeInUp 0.8s ease-out;
 }
 
+/* User Welcome Section */
+.user-welcome {
+  background: var(--success-gradient);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  color: var(--text-white);
+  box-shadow: var(--shadow-lg);
+}
+
+.welcome-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.user-stats-quick {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-quick {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.stat-quick i {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
 .intro-section {
   text-align: center;
   margin-bottom: 3rem;
@@ -343,6 +378,14 @@
     padding: 1rem;
   }
   
+  .user-welcome {
+    padding: 1rem 1.5rem;
+  }
+  
+  .user-stats-quick {
+    gap: 1rem;
+  }
+  
   .intro-title {
     font-size: 2rem;
   }
@@ -373,6 +416,15 @@
 @media screen and (max-width: 480px) {
   .intro-box {
     padding: 2rem 1rem;
+  }
+  
+  .user-welcome {
+    padding: 1rem;
+  }
+  
+  .user-stats-quick {
+    flex-direction: column;
+    gap: 0.5rem;
   }
   
   .grade-section {

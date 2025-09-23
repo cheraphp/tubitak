@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Quiz() {
   const { level } = useParams();
   const navigate = useNavigate();
   const { questions, currentQuestion, setCurrentQuestion } = useQuizContext();
+  const { user, updateUserStats } = useAuth();
 
   const [isNextButton, setIsNextButton] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
@@ -15,6 +17,11 @@ function Quiz() {
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isResult, setIsResult] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [showXPNotification, setShowXPNotification] = useState(false);
+  const [xpData, setXpData] = useState(null);
 
   // Get level display name
   const getLevelDisplayName = (levelKey) => {
@@ -41,6 +48,47 @@ function Quiz() {
     }
   }, [level, questions]);
 
+  // Initialize speech recognition for speaking questions
+  useEffect(() => {
+    if (questions[level] && questions[level][currentQuestion]?.type === 'speaking') {
+      initializeSpeechRecording();
+    }
+  }, [currentQuestion, level, questions]);
+
+  const initializeSpeechRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      setMediaRecorder(recorder);
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          setAudioBlob(event.data);
+        }
+      };
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
+  };
+
+  const startRecording = () => {
+    if (mediaRecorder && mediaRecorder.state === 'inactive') {
+      setIsRecording(true);
+      mediaRecorder.start();
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      setIsRecording(false);
+      mediaRecorder.stop();
+      // For demo purposes, automatically select the first answer
+      setTimeout(() => {
+        selectAnswer(0);
+      }, 1000);
+    }
+  };
+
   const selectAnswer = (index) => {
     if (currentQuestion === questions[level].length - 1) {
       setIsNextButton(false);
@@ -62,6 +110,7 @@ function Quiz() {
       addAnswer(index);
       setCurrentQuestion(currentQuestion + 1);
       setSelectedIndex(null);
+      setAudioBlob(null);
     }
   };
 
@@ -92,6 +141,16 @@ function Quiz() {
     return () => clearInterval(timer);
   }, [time]);
 
+  // Show XP notification effect
+  useEffect(() => {
+    if (showXPNotification && xpData) {
+      const timer = setTimeout(() => {
+        setShowXPNotification(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showXPNotification, xpData]);
+
   if (isLoading) {
     return (
       <div className="quiz-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
@@ -112,19 +171,114 @@ function Quiz() {
   }
 
   if (isResult) {
+    // Calculate and update user stats if logged in
+    if (user) {
+      const correctCount = selectedAnswers.filter(answer => answer.trueAnswer).length;
+      const stats = updateUserStats({
+        correctAnswers: correctCount,
+        totalQuestions: questions[level].length,
+        level: level
+      });
+      
+      if (stats) {
+        setXpData(stats);
+        setShowXPNotification(true);
+      }
+    }
+
     return navigate("/result", {
       state: {
         answers: selectedAnswers,
         questions: questions[level],
-        level: level
+        level: level,
+        xpGained: xpData?.xpGained || 0,
+        levelUp: xpData?.newLevel > xpData?.oldLevel
       },
     });
   }
 
   const progressPercentage = ((currentQuestion + 1) / questions[level].length) * 100;
   const timePercentage = (time / 30) * 100;
+  const currentQuestionData = questions[level][currentQuestion];
+
+  const renderQuestionContent = () => {
+    switch (currentQuestionData.type) {
+      case 'listening':
+        return (
+          <div className="listening-question">
+            <div className="audio-player">
+              <audio controls>
+                <source src={currentQuestionData.audioUrl} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+            <div className="question-text">
+              {currentQuestionData.question}
+            </div>
+          </div>
+        );
+      
+      case 'visual':
+        return (
+          <div className="visual-question">
+            <div className="question-image">
+              <img src={currentQuestionData.imageUrl} alt="Question" />
+            </div>
+            <div className="question-text">
+              {currentQuestionData.question}
+            </div>
+          </div>
+        );
+      
+      case 'speaking':
+        return (
+          <div className="speaking-question">
+            <div className="question-text">
+              {currentQuestionData.question}
+            </div>
+            <div className="target-text">
+              <strong>Target text:</strong> "{currentQuestionData.targetText}"
+            </div>
+            <div className="recording-controls">
+              {!isRecording ? (
+                <button 
+                  className="record-btn start"
+                  onClick={startRecording}
+                  disabled={audioBlob}
+                >
+                  <i className="bi bi-mic"></i>
+                  Start Recording
+                </button>
+              ) : (
+                <button 
+                  className="record-btn stop"
+                  onClick={stopRecording}
+                >
+                  <i className="bi bi-stop-circle"></i>
+                  Stop Recording
+                </button>
+              )}
+              {audioBlob && (
+                <div className="recording-status">
+                  <i className="bi bi-check-circle"></i>
+                  Recording completed!
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      
+      default:
+        return (
+          <div className="question-text">
+            {currentQuestionData.question}
+          </div>
+        );
+    }
+  };
 
   return (
+    <>
     <div className="quiz-container">
       {/* Quiz Header */}
       <div className="quiz-header">
@@ -132,7 +286,10 @@ function Quiz() {
           <div className="quiz-info">
             <h1>{getLevelDisplayName(level)}</h1>
             <p className="quiz-subtitle">
-              Test your English vocabulary knowledge with this interactive quiz
+              {currentQuestionData.type === 'listening' && 'Listen carefully and choose the correct answer'}
+              {currentQuestionData.type === 'speaking' && 'Practice your pronunciation skills'}
+              {currentQuestionData.type === 'visual' && 'Look at the image and select the right answer'}
+              {currentQuestionData.type === 'vocabulary' && 'Test your English vocabulary knowledge'}
             </p>
             <div className="quiz-meta">
               <div className="meta-item">
@@ -144,13 +301,23 @@ function Quiz() {
                 <span>30 seconds per question</span>
               </div>
               <div className="meta-item">
-                <i className="bi bi-award"></i>
-                <span>Vocabulary Quiz</span>
+                <i className={`bi ${
+                  currentQuestionData.type === 'listening' ? 'bi-headphones' :
+                  currentQuestionData.type === 'speaking' ? 'bi-mic' :
+                  currentQuestionData.type === 'visual' ? 'bi-image' :
+                  'bi-book'
+                }`}></i>
+                <span>{currentQuestionData.type.charAt(0).toUpperCase() + currentQuestionData.type.slice(1)} Quiz</span>
               </div>
             </div>
           </div>
           <div className="quiz-icon">
-            <i className="bi bi-mortarboard"></i>
+            <i className={`bi ${
+              currentQuestionData.type === 'listening' ? 'bi-headphones' :
+              currentQuestionData.type === 'speaking' ? 'bi-mic' :
+              currentQuestionData.type === 'visual' ? 'bi-image' :
+              'bi-mortarboard'
+            }`}></i>
           </div>
         </div>
       </div>
@@ -197,32 +364,57 @@ function Quiz() {
           </div>
         </div>
         
-        <div className="question-text">
-          {questions[level][currentQuestion].question}
-        </div>
+        {renderQuestionContent()}
 
-        <div className="answers-grid">
-          {questions[level][currentQuestion].answers.map((answer, index) => (
-            <div
-              key={index}
-              className={`answer-option ${selectedIndex === index ? 'selected' : ''}`}
-              onClick={() => selectAnswer(index)}
-            >
-              <input
-                type="radio"
-                name="answer"
-                id={`answer-${index}`}
-                className="answer-input"
-                checked={selectedIndex === index}
-                onChange={() => selectAnswer(index)}
-              />
-              <label htmlFor={`answer-${index}`} className="answer-label">
-                <span className="answer-text">{answer.answer}</span>
-                <div className="answer-indicator"></div>
-              </label>
-            </div>
-          ))}
-        </div>
+        {currentQuestionData.type !== 'speaking' && (
+          <div className="answers-grid">
+            {currentQuestionData.answers.map((answer, index) => (
+              <div
+                key={index}
+                className={`answer-option ${selectedIndex === index ? 'selected' : ''}`}
+                onClick={() => selectAnswer(index)}
+              >
+                <input
+                  type="radio"
+                  name="answer"
+                  id={`answer-${index}`}
+                  className="answer-input"
+                  checked={selectedIndex === index}
+                  onChange={() => selectAnswer(index)}
+                />
+                <label htmlFor={`answer-${index}`} className="answer-label">
+                  <span className="answer-text">{answer.answer}</span>
+                  <div className="answer-indicator"></div>
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {currentQuestionData.type === 'speaking' && audioBlob && (
+          <div className="answers-grid">
+            {currentQuestionData.answers.map((answer, index) => (
+              <div
+                key={index}
+                className={`answer-option ${selectedIndex === index ? 'selected' : ''}`}
+                onClick={() => selectAnswer(index)}
+              >
+                <input
+                  type="radio"
+                  name="answer"
+                  id={`answer-${index}`}
+                  className="answer-input"
+                  checked={selectedIndex === index}
+                  onChange={() => selectAnswer(index)}
+                />
+                <label htmlFor={`answer-${index}`} className="answer-label">
+                  <span className="answer-text">{answer.answer}</span>
+                  <div className="answer-indicator"></div>
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="quiz-actions">
           {isNextButton && (
@@ -261,6 +453,29 @@ function Quiz() {
         </div>
       )}
     </div>
+
+    {/* XP Notification */}
+    {showXPNotification && xpData && (
+      <div className={`xp-notification ${xpData.newLevel > xpData.oldLevel ? 'level-up' : ''}`}>
+        <div className="xp-icon">
+          <i className={`bi ${xpData.newLevel > xpData.oldLevel ? 'bi-star-fill' : 'bi-lightning-fill'}`}></i>
+        </div>
+        <div>
+          {xpData.newLevel > xpData.oldLevel ? (
+            <>
+              <div><strong>Level Up!</strong></div>
+              <div>You reached Level {xpData.newLevel}!</div>
+            </>
+          ) : (
+            <>
+              <div><strong>+{xpData.xpGained} XP</strong></div>
+              <div>Great job!</div>
+            </>
+          )}
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 

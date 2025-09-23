@@ -15,7 +15,8 @@ function Provider({ children }) {
           { answer: "Job", trueAnswer: false },
           { answer: "Age", trueAnswer: false },
           { answer: "Nationality", trueAnswer: true }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 2,
@@ -25,7 +26,8 @@ function Provider({ children }) {
           { answer: "Turkey", trueAnswer: true },
           { answer: "Canadian", trueAnswer: false },
           { answer: "Spanish", trueAnswer: false }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 3,
@@ -35,7 +37,8 @@ function Provider({ children }) {
           { answer: "Waiter", trueAnswer: false },
           { answer: "Fashion designer", trueAnswer: false },
           { answer: "Instructor", trueAnswer: false }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 4,
@@ -45,7 +48,8 @@ function Provider({ children }) {
           { answer: "Classmates", trueAnswer: false },
           { answer: "Colleagues", trueAnswer: true },
           { answer: "Deskmates", trueAnswer: false }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 5,
@@ -53,7 +57,8 @@ function Provider({ children }) {
         answers: [
           { answer: "Full-time", trueAnswer: false },
           { answer: "Part-time", trueAnswer: true }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 6,
@@ -63,7 +68,8 @@ function Provider({ children }) {
           { answer: "B) Nephew", trueAnswer: false },
           { answer: "C) Aunt", trueAnswer: false },
           { answer: "D) Daughter", trueAnswer: true }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 7,
@@ -73,7 +79,8 @@ function Provider({ children }) {
           { answer: "Empty", trueAnswer: false },
           { answer: "Crowded", trueAnswer: true },
           { answer: "Quiet", trueAnswer: false }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 8,
@@ -83,7 +90,8 @@ function Provider({ children }) {
           { answer: "B) Abroad", trueAnswer: false },
           { answer: "C)Shopping Center", trueAnswer: false },
           { answer: "D)Hometown", trueAnswer: true }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 9,
@@ -91,7 +99,8 @@ function Provider({ children }) {
         answers: [
           { answer: "Having two birds in one cage", trueAnswer: false },
           { answer: "Doing two things in one action.", trueAnswer: true }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 10,
@@ -99,7 +108,419 @@ function Provider({ children }) {
         answers: [
           { answer: "People who are close relatives or friends", trueAnswer: true },
           { answer: "People who are in a bad relationship with you", trueAnswer: false }
-        ]
+        ],
+        type: "vocabulary"
+      }
+    ],
+    Grade_9_Unit1_Listening: [
+      {
+        id: 1,
+        question: "Listen to the audio and choose the correct nationality:",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "American", trueAnswer: true },
+          { answer: "British", trueAnswer: false },
+          { answer: "Canadian", trueAnswer: false },
+          { answer: "Australian", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 2,
+        question: "What job does the person describe?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Teacher", trueAnswer: false },
+          { answer: "Doctor", trueAnswer: true },
+          { answer: "Engineer", trueAnswer: false },
+          { answer: "Lawyer", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 3,
+        question: "Listen and identify the correct personal information:",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Age: 25", trueAnswer: true },
+          { answer: "Age: 35", trueAnswer: false },
+          { answer: "Age: 45", trueAnswer: false },
+          { answer: "Age: 55", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 4,
+        question: "What workplace is mentioned in the audio?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Hospital", trueAnswer: false },
+          { answer: "School", trueAnswer: false },
+          { answer: "Restaurant", trueAnswer: true },
+          { answer: "Bank", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 5,
+        question: "Listen to the conversation. What relationship do they have?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Colleagues", trueAnswer: true },
+          { answer: "Friends", trueAnswer: false },
+          { answer: "Siblings", trueAnswer: false },
+          { answer: "Neighbors", trueAnswer: false }
+        ],
+        type: "listening"
+      }
+    ],
+    Grade_9_Unit2_Visual: [
+      {
+        id: 1,
+        question: "What room is shown in this image?",
+        imageUrl: "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Kitchen", trueAnswer: true },
+          { answer: "Living room", trueAnswer: false },
+          { answer: "Bedroom", trueAnswer: false },
+          { answer: "Bathroom", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 2,
+        question: "What can you see in this picture?",
+        imageUrl: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Library", trueAnswer: true },
+          { answer: "Bookstore", trueAnswer: false },
+          { answer: "Classroom", trueAnswer: false },
+          { answer: "Office", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 3,
+        question: "What type of building is this?",
+        imageUrl: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Hospital", trueAnswer: true },
+          { answer: "School", trueAnswer: false },
+          { answer: "Shopping mall", trueAnswer: false },
+          { answer: "Hotel", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 4,
+        question: "What furniture can you identify?",
+        imageUrl: "https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Sofa", trueAnswer: true },
+          { answer: "Bed", trueAnswer: false },
+          { answer: "Desk", trueAnswer: false },
+          { answer: "Table", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 5,
+        question: "What place is shown in the image?",
+        imageUrl: "https://images.pexels.com/photos/1005417/pexels-photo-1005417.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Park", trueAnswer: true },
+          { answer: "Garden", trueAnswer: false },
+          { answer: "Forest", trueAnswer: false },
+          { answer: "Beach", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 6,
+        question: "What transportation can you see?",
+        imageUrl: "https://images.pexels.com/photos/136739/pexels-photo-136739.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Bus", trueAnswer: true },
+          { answer: "Car", trueAnswer: false },
+          { answer: "Train", trueAnswer: false },
+          { answer: "Bicycle", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 7,
+        question: "What type of shop is this?",
+        imageUrl: "https://images.pexels.com/photos/305821/pexels-photo-305821.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Pharmacy", trueAnswer: true },
+          { answer: "Grocery store", trueAnswer: false },
+          { answer: "Clothing store", trueAnswer: false },
+          { answer: "Electronics store", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 8,
+        question: "What can you see in this environment?",
+        imageUrl: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Museum", trueAnswer: true },
+          { answer: "Gallery", trueAnswer: false },
+          { answer: "Theater", trueAnswer: false },
+          { answer: "Cinema", trueAnswer: false }
+        ],
+        type: "visual"
+      }
+    ],
+    Grade_10_Unit1_Speaking: [
+      {
+        id: 1,
+        question: "Record yourself saying: 'I study at university and take compulsory courses.'",
+        answers: [
+          { answer: "Correct pronunciation", trueAnswer: true },
+          { answer: "Needs improvement", trueAnswer: false }
+        ],
+        type: "speaking",
+        targetText: "I study at university and take compulsory courses."
+      },
+      {
+        id: 2,
+        question: "Pronounce this sentence: 'Students must obey the school rules.'",
+        answers: [
+          { answer: "Excellent", trueAnswer: true },
+          { answer: "Good", trueAnswer: false },
+          { answer: "Needs practice", trueAnswer: false }
+        ],
+        type: "speaking",
+        targetText: "Students must obey the school rules."
+      },
+      {
+        id: 3,
+        question: "Say: 'I need to do revision for my exams.'",
+        answers: [
+          { answer: "Perfect", trueAnswer: true },
+          { answer: "Almost correct", trueAnswer: false },
+          { answer: "Try again", trueAnswer: false }
+        ],
+        type: "speaking",
+        targetText: "I need to do revision for my exams."
+      },
+      {
+        id: 4,
+        question: "Pronounce: 'Freshman students attend orientation programs.'",
+        answers: [
+          { answer: "Excellent pronunciation", trueAnswer: true },
+          { answer: "Good attempt", trueAnswer: false },
+          { answer: "Needs improvement", trueAnswer: false }
+        ],
+        type: "speaking",
+        targetText: "Freshman students attend orientation programs."
+      },
+      {
+        id: 5,
+        question: "Say: 'Elective courses are optional for students.'",
+        answers: [
+          { answer: "Perfect", trueAnswer: true },
+          { answer: "Good", trueAnswer: false },
+          { answer: "Practice more", trueAnswer: false }
+        ],
+        type: "speaking",
+        targetText: "Elective courses are optional for students."
+      },
+      {
+        id: 6,
+        question: "Pronounce: 'Icebreaker activities help students get to know each other.'",
+        answers: [
+          { answer: "Excellent", trueAnswer: true },
+          { answer: "Very good", trueAnswer: false },
+          { answer: "Keep practicing", trueAnswer: false }
+        ],
+        type: "speaking",
+        targetText: "Icebreaker activities help students get to know each other."
+      }
+    ],
+    Grade_11_Unit1_Listening: [
+      {
+        id: 1,
+        question: "Listen to the job interview. What position is being discussed?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Software Engineer", trueAnswer: true },
+          { answer: "App Developer", trueAnswer: false },
+          { answer: "Entrepreneur", trueAnswer: false },
+          { answer: "Biotechnologist", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 2,
+        question: "What benefit is mentioned in the audio?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Health insurance", trueAnswer: true },
+          { answer: "Vacation days", trueAnswer: false },
+          { answer: "Flexible hours", trueAnswer: false },
+          { answer: "Remote work", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 3,
+        question: "Listen to the conversation about work shifts. What shift is preferred?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Morning shift", trueAnswer: true },
+          { answer: "Evening shift", trueAnswer: false },
+          { answer: "Night shift", trueAnswer: false },
+          { answer: "Weekend shift", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 4,
+        question: "What does the candidate say about artificial intelligence?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "It's the future of technology", trueAnswer: true },
+          { answer: "It's too complicated", trueAnswer: false },
+          { answer: "It's not important", trueAnswer: false },
+          { answer: "It's dangerous", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 5,
+        question: "Listen to the discussion about career goals. What is mentioned?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Getting ahead in career", trueAnswer: true },
+          { answer: "Changing jobs", trueAnswer: false },
+          { answer: "Starting a business", trueAnswer: false },
+          { answer: "Retiring early", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 6,
+        question: "What warning is given about work-life balance?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "Don't burn out", trueAnswer: true },
+          { answer: "Work harder", trueAnswer: false },
+          { answer: "Take more breaks", trueAnswer: false },
+          { answer: "Change careers", trueAnswer: false }
+        ],
+        type: "listening"
+      },
+      {
+        id: 7,
+        question: "Listen to the salary negotiation. What is the final offer?",
+        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+        answers: [
+          { answer: "$75,000 per year", trueAnswer: true },
+          { answer: "$65,000 per year", trueAnswer: false },
+          { answer: "$85,000 per year", trueAnswer: false },
+          { answer: "$70,000 per year", trueAnswer: false }
+        ],
+        type: "listening"
+      }
+    ],
+    Grade_12_Unit1_Visual: [
+      {
+        id: 1,
+        question: "What musical instrument is shown?",
+        imageUrl: "https://images.pexels.com/photos/164743/pexels-photo-164743.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Piano", trueAnswer: true },
+          { answer: "Guitar", trueAnswer: false },
+          { answer: "Violin", trueAnswer: false },
+          { answer: "Drums", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 2,
+        question: "What type of musical performance is this?",
+        imageUrl: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Orchestra", trueAnswer: true },
+          { answer: "Band", trueAnswer: false },
+          { answer: "Solo performance", trueAnswer: false },
+          { answer: "Choir", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 3,
+        question: "What percussion instrument can you see?",
+        imageUrl: "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Drums", trueAnswer: true },
+          { answer: "Xylophone", trueAnswer: false },
+          { answer: "Tambourine", trueAnswer: false },
+          { answer: "Maracas", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 4,
+        question: "What string instrument is displayed?",
+        imageUrl: "https://images.pexels.com/photos/1407322/pexels-photo-1407322.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Guitar", trueAnswer: true },
+          { answer: "Violin", trueAnswer: false },
+          { answer: "Cello", trueAnswer: false },
+          { answer: "Bass", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 5,
+        question: "What music-related activity is shown?",
+        imageUrl: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Recording studio", trueAnswer: true },
+          { answer: "Concert hall", trueAnswer: false },
+          { answer: "Music lesson", trueAnswer: false },
+          { answer: "Practice room", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 6,
+        question: "What wind instrument can you identify?",
+        imageUrl: "https://images.pexels.com/photos/1407354/pexels-photo-1407354.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Flute", trueAnswer: true },
+          { answer: "Trumpet", trueAnswer: false },
+          { answer: "Saxophone", trueAnswer: false },
+          { answer: "Clarinet", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 7,
+        question: "What type of musical event is this?",
+        imageUrl: "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Concert", trueAnswer: true },
+          { answer: "Rehearsal", trueAnswer: false },
+          { answer: "Music festival", trueAnswer: false },
+          { answer: "Competition", trueAnswer: false }
+        ],
+        type: "visual"
+      },
+      {
+        id: 8,
+        question: "What music equipment is shown?",
+        imageUrl: "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Headphones", trueAnswer: true },
+          { answer: "Microphone", trueAnswer: false },
+          { answer: "Speakers", trueAnswer: false },
+          { answer: "Amplifier", trueAnswer: false }
+        ],
+        type: "visual"
       }
     ],
     Grade_9_Unit2: [
@@ -111,7 +532,8 @@ function Provider({ children }) {
           { answer: "Bathroom", trueAnswer: false },
           { answer: "Kitchen", trueAnswer: true },
           { answer: "Garage", trueAnswer: false }
-        ]
+        ],
+        type: "vocabulary"
       },
       {
         id: 2,
