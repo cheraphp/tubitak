@@ -4,7 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 function Result() {
   const location = useLocation();
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  // Eğer state yoksa hata mesajı dön
   if (!location.state) {
     return (
       <div className="result-container">
@@ -20,10 +25,6 @@ function Result() {
   }
 
   const { answers: allAnswers, questions: allQuestions, level } = location.state;
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
 
   // Calculate results
   let correctAnswers = 0;
@@ -69,7 +70,15 @@ function Result() {
 
   if (!isLoaded) {
     return (
-      <div className="result-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+      <div
+        className="result-container"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "400px",
+        }}
+      >
         <div className="loading-spinner"></div>
       </div>
     );
@@ -78,19 +87,24 @@ function Result() {
   return (
     <div className="result-container animate-fadeInUp">
       {/* Score Section */}
-      <div className="score-section" style={{ background: `linear-gradient(135deg, ${performance.color}dd 0%, ${performance.color}aa 100%)` }}>
+      <div
+        className="score-section"
+        style={{
+          background: `linear-gradient(135deg, ${performance.color}dd 0%, ${performance.color}aa 100%)`,
+        }}
+      >
         <div className="score-content">
           <div className="score-percentage">{percentage}%</div>
           <h1 className="score-title">Quiz Completed!</h1>
           <p className="score-description">
             You completed the {getLevelDisplayName(level)} vocabulary quiz
           </p>
-          
+
           <div className="performance-badge">
             <i className={`badge-icon ${performance.icon}`}></i>
             <span>{performance.level}</span>
           </div>
-          
+
           <div className="score-stats">
             <div className="stat-item">
               <span className="stat-number">{correctAnswers}</span>
@@ -116,8 +130,13 @@ function Result() {
             <i className="bi bi-arrow-right"></i>
           </div>
         </Link>
-        <button 
-          onClick={() => window.scrollTo({ top: document.querySelector('.review-section').offsetTop, behavior: 'smooth' })}
+        <button
+          onClick={() =>
+            window.scrollTo({
+              top: document.querySelector(".review-section").offsetTop,
+              behavior: "smooth",
+            })
+          }
           className="action-btn btn-secondary"
         >
           <span>Review Answers</span>
@@ -145,12 +164,14 @@ function Result() {
           {allQuestions.map((question, index) => {
             const userAnswer = allAnswers[index];
             const isCorrect = userAnswer.trueAnswer;
-            const correctAnswer = question.answers.find(ans => ans.trueAnswer);
+            const correctAnswer = question.answers.find((ans) => ans.trueAnswer);
 
             return (
-              <div 
-                key={index} 
-                className={`question-card ${isCorrect ? 'correct' : 'incorrect'} animate-fadeInScale`}
+              <div
+                key={index}
+                className={`question-card ${
+                  isCorrect ? "correct" : "incorrect"
+                } animate-fadeInScale`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="question-header">
@@ -159,19 +180,35 @@ function Result() {
                     <div className="question-text">{question.question}</div>
                   </div>
                   <div className="question-status">
-                    <i className={`bi ${isCorrect ? 'bi-check-lg' : 'bi-x-lg'}`}></i>
+                    <i
+                      className={`bi ${
+                        isCorrect ? "bi-check-lg" : "bi-x-lg"
+                      }`}
+                    ></i>
                   </div>
                 </div>
 
                 <div className="answer-comparison">
-                  <div className={`answer-box user-answer ${isCorrect ? 'correct' : ''}`}>
-                    <div className={`answer-label user ${isCorrect ? 'correct-user' : ''}`}>
-                      <i className={`answer-icon bi ${isCorrect ? 'bi-check-circle' : 'bi-x-circle'}`}></i>
+                  <div
+                    className={`answer-box user-answer ${
+                      isCorrect ? "correct" : ""
+                    }`}
+                  >
+                    <div
+                      className={`answer-label user ${
+                        isCorrect ? "correct-user" : ""
+                      }`}
+                    >
+                      <i
+                        className={`answer-icon bi ${
+                          isCorrect ? "bi-check-circle" : "bi-x-circle"
+                        }`}
+                      ></i>
                       Your Answer
                     </div>
                     <div className="answer-text">{userAnswer.answer}</div>
                   </div>
-                  
+
                   {!isCorrect && (
                     <div className="answer-box correct-answer">
                       <div className="answer-label correct">
@@ -199,7 +236,9 @@ function Result() {
               <div className="insight-label">Accuracy</div>
             </div>
             <div className="insight-item">
-              <div className="insight-value">{correctAnswers}/{totalQuestions}</div>
+              <div className="insight-value">
+                {correctAnswers}/{totalQuestions}
+              </div>
               <div className="insight-label">Score</div>
             </div>
             <div className="insight-item">
@@ -207,7 +246,9 @@ function Result() {
               <div className="insight-label">Performance</div>
             </div>
             <div className="insight-item">
-              <div className="insight-value">{Math.round((correctAnswers / totalQuestions) * 100) >= 70 ? 'Pass' : 'Retry'}</div>
+              <div className="insight-value">
+                {percentage >= 70 ? "Pass" : "Retry"}
+              </div>
               <div className="insight-label">Result</div>
             </div>
           </div>
