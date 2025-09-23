@@ -2,1639 +2,1781 @@ import React, { createContext, useContext, useState } from "react";
 
 const QuizContext = createContext();
 
-function Provider({ children }) {
+export function Provider({ children }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
+  // Quiz questions data
   const questions = {
     Grade_9_Unit1: [
       {
         id: 1,
-        question: "A: What is your ________?\nB: I’m Chinese.",
+        question: "What is your nationality?",
+        type: "vocabulary",
         answers: [
-          { answer: "Country", trueAnswer: false },
-          { answer: "Job", trueAnswer: false },
-          { answer: "Age", trueAnswer: false },
-          { answer: "Nationality", trueAnswer: true }
-        ],
-        type: "vocabulary"
+          { answer: "I am Turkish", trueAnswer: true },
+          { answer: "I am Turkey", trueAnswer: false },
+          { answer: "I am from Turkey", trueAnswer: false },
+          { answer: "I live in Turkey", trueAnswer: false }
+        ]
       },
       {
         id: 2,
-        question: "A: Where are you from?\nB: I’m from ________.",
+        question: "What does a teacher do?",
+        type: "vocabulary",
         answers: [
-          { answer: "Turkish", trueAnswer: false },
-          { answer: "Turkey", trueAnswer: true },
-          { answer: "Canadian", trueAnswer: false },
-          { answer: "Spanish", trueAnswer: false }
-        ],
-        type: "vocabulary"
+          { answer: "Teaches students", trueAnswer: true },
+          { answer: "Cooks food", trueAnswer: false },
+          { answer: "Fixes cars", trueAnswer: false },
+          { answer: "Sells clothes", trueAnswer: false }
+        ]
       },
       {
         id: 3,
-        question: "A/an _______a woman whose job is to serve customers at their tables in a restaurant.",
+        question: "Which one is a job?",
+        type: "vocabulary",
         answers: [
-          { answer: "Waitress", trueAnswer: true },
-          { answer: "Waiter", trueAnswer: false },
-          { answer: "Fashion designer", trueAnswer: false },
-          { answer: "Instructor", trueAnswer: false }
-        ],
-        type: "vocabulary"
+          { answer: "Doctor", trueAnswer: true },
+          { answer: "Happy", trueAnswer: false },
+          { answer: "Beautiful", trueAnswer: false },
+          { answer: "Quickly", trueAnswer: false }
+        ]
       },
       {
         id: 4,
-        question: "July and Britney work at the same workplace. So they are _______.",
+        question: "How old are you?",
+        type: "vocabulary",
         answers: [
-          { answer: "Roommates", trueAnswer: false },
-          { answer: "Classmates", trueAnswer: false },
-          { answer: "Colleagues", trueAnswer: true },
-          { answer: "Deskmates", trueAnswer: false }
-        ],
-        type: "vocabulary"
+          { answer: "I am 16 years old", trueAnswer: true },
+          { answer: "I am 16 years", trueAnswer: false },
+          { answer: "I have 16 years", trueAnswer: false },
+          { answer: "My age is 16 years", trueAnswer: false }
+        ]
       },
       {
         id: 5,
-        question: "When I was a student, I used to be _______ waiter at a cafe. I mean, I didn’t use to work all day long.",
+        question: "What is your name?",
+        type: "vocabulary",
         answers: [
-          { answer: "Full-time", trueAnswer: false },
-          { answer: "Part-time", trueAnswer: true }
-        ],
-        type: "vocabulary"
+          { answer: "My name is Ali", trueAnswer: true },
+          { answer: "My name Ali", trueAnswer: false },
+          { answer: "I name is Ali", trueAnswer: false },
+          { answer: "Name is Ali", trueAnswer: false }
+        ]
       },
       {
         id: 6,
-        question: "My sister is my parents’ ___________.\n",
+        question: "Where do you work?",
+        type: "vocabulary",
         answers: [
-          { answer: "A) Son", trueAnswer: false },
-          { answer: "B) Nephew", trueAnswer: false },
-          { answer: "C) Aunt", trueAnswer: false },
-          { answer: "D) Daughter", trueAnswer: true }
-        ],
-        type: "vocabulary"
+          { answer: "I work at a hospital", trueAnswer: true },
+          { answer: "I work in hospital", trueAnswer: false },
+          { answer: "I work on hospital", trueAnswer: false },
+          { answer: "I work hospital", trueAnswer: false }
+        ]
       },
       {
         id: 7,
-        question: "In summer, the streets are full of people in Antalya. It is a _______ city.",
+        question: "What is a nurse?",
+        type: "vocabulary",
         answers: [
-          { answer: "Old", trueAnswer: false },
-          { answer: "Empty", trueAnswer: false },
-          { answer: "Crowded", trueAnswer: true },
-          { answer: "Quiet", trueAnswer: false }
-        ],
-        type: "vocabulary"
+          { answer: "A person who helps doctors", trueAnswer: true },
+          { answer: "A person who teaches", trueAnswer: false },
+          { answer: "A person who cooks", trueAnswer: false },
+          { answer: "A person who drives", trueAnswer: false }
+        ]
       },
       {
         id: 8,
-        question: "I was born in Russia. It is my ________.",
+        question: "Which country are you from?",
+        type: "vocabulary",
         answers: [
-          { answer: "A)Tourist Attraction", trueAnswer: false },
-          { answer: "B) Abroad", trueAnswer: false },
-          { answer: "C)Shopping Center", trueAnswer: false },
-          { answer: "D)Hometown", trueAnswer: true }
-        ],
-        type: "vocabulary"
+          { answer: "I am from Turkey", trueAnswer: true },
+          { answer: "I am Turkey", trueAnswer: false },
+          { answer: "I from Turkey", trueAnswer: false },
+          { answer: "I come Turkey", trueAnswer: false }
+        ]
       },
       {
         id: 9,
-        question: "“Thanks to graduation from university, I found a job and my parents bought a new car for me as a present. So I killed two birds with one stone.” What is the meaning of the underlined idiom?",
+        question: "What does 'occupation' mean?",
+        type: "vocabulary",
         answers: [
-          { answer: "Having two birds in one cage", trueAnswer: false },
-          { answer: "Doing two things in one action.", trueAnswer: true }
-        ],
-        type: "vocabulary"
+          { answer: "Job", trueAnswer: true },
+          { answer: "Age", trueAnswer: false },
+          { answer: "Name", trueAnswer: false },
+          { answer: "Address", trueAnswer: false }
+        ]
       },
       {
         id: 10,
-        question: "“I get along with my classmates. They are my nearest and dearest.” What is the meaning of the underlined idiom?",
+        question: "I am a student. I _____ at university.",
+        type: "vocabulary",
         answers: [
-          { answer: "People who are close relatives or friends", trueAnswer: true },
-          { answer: "People who are in a bad relationship with you", trueAnswer: false }
-        ],
-        type: "vocabulary"
-      }
-    ],
-    Grade_9_Unit1_Listening: [
-      {
-        id: 1,
-        question: "Listen to the audio and choose the correct nationality:",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "American", trueAnswer: true },
-          { answer: "British", trueAnswer: false },
-          { answer: "Canadian", trueAnswer: false },
-          { answer: "Australian", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 2,
-        question: "What job does the person describe?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Teacher", trueAnswer: false },
-          { answer: "Doctor", trueAnswer: true },
-          { answer: "Engineer", trueAnswer: false },
-          { answer: "Lawyer", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 3,
-        question: "Listen and identify the correct personal information:",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Age: 25", trueAnswer: true },
-          { answer: "Age: 35", trueAnswer: false },
-          { answer: "Age: 45", trueAnswer: false },
-          { answer: "Age: 55", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 4,
-        question: "What workplace is mentioned in the audio?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Hospital", trueAnswer: false },
-          { answer: "School", trueAnswer: false },
-          { answer: "Restaurant", trueAnswer: true },
-          { answer: "Bank", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 5,
-        question: "Listen to the conversation. What relationship do they have?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Colleagues", trueAnswer: true },
-          { answer: "Friends", trueAnswer: false },
-          { answer: "Siblings", trueAnswer: false },
-          { answer: "Neighbors", trueAnswer: false }
-        ],
-        type: "listening"
-      }
-    ],
-    Grade_9_Unit2_Visual: [
-      {
-        id: 1,
-        question: "What room is shown in this image?",
-        imageUrl: "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Kitchen", trueAnswer: true },
-          { answer: "Living room", trueAnswer: false },
-          { answer: "Bedroom", trueAnswer: false },
-          { answer: "Bathroom", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 2,
-        question: "What can you see in this picture?",
-        imageUrl: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Library", trueAnswer: true },
-          { answer: "Bookstore", trueAnswer: false },
-          { answer: "Classroom", trueAnswer: false },
-          { answer: "Office", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 3,
-        question: "What type of building is this?",
-        imageUrl: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Hospital", trueAnswer: true },
-          { answer: "School", trueAnswer: false },
-          { answer: "Shopping mall", trueAnswer: false },
-          { answer: "Hotel", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 4,
-        question: "What furniture can you identify?",
-        imageUrl: "https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Sofa", trueAnswer: true },
-          { answer: "Bed", trueAnswer: false },
-          { answer: "Desk", trueAnswer: false },
-          { answer: "Table", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 5,
-        question: "What place is shown in the image?",
-        imageUrl: "https://images.pexels.com/photos/1005417/pexels-photo-1005417.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Park", trueAnswer: true },
-          { answer: "Garden", trueAnswer: false },
-          { answer: "Forest", trueAnswer: false },
-          { answer: "Beach", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 6,
-        question: "What transportation can you see?",
-        imageUrl: "https://images.pexels.com/photos/136739/pexels-photo-136739.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Bus", trueAnswer: true },
-          { answer: "Car", trueAnswer: false },
-          { answer: "Train", trueAnswer: false },
-          { answer: "Bicycle", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 7,
-        question: "What type of shop is this?",
-        imageUrl: "https://images.pexels.com/photos/305821/pexels-photo-305821.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Pharmacy", trueAnswer: true },
-          { answer: "Grocery store", trueAnswer: false },
-          { answer: "Clothing store", trueAnswer: false },
-          { answer: "Electronics store", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 8,
-        question: "What can you see in this environment?",
-        imageUrl: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Museum", trueAnswer: true },
-          { answer: "Gallery", trueAnswer: false },
-          { answer: "Theater", trueAnswer: false },
-          { answer: "Cinema", trueAnswer: false }
-        ],
-        type: "visual"
-      }
-    ],
-    Grade_10_Unit1_Speaking: [
-      {
-        id: 1,
-        question: "Record yourself saying: 'I study at university and take compulsory courses.'",
-        answers: [
-          { answer: "Correct pronunciation", trueAnswer: true },
-          { answer: "Needs improvement", trueAnswer: false }
-        ],
-        type: "speaking",
-        targetText: "I study at university and take compulsory courses."
-      },
-      {
-        id: 2,
-        question: "Pronounce this sentence: 'Students must obey the school rules.'",
-        answers: [
-          { answer: "Excellent", trueAnswer: true },
-          { answer: "Good", trueAnswer: false },
-          { answer: "Needs practice", trueAnswer: false }
-        ],
-        type: "speaking",
-        targetText: "Students must obey the school rules."
-      },
-      {
-        id: 3,
-        question: "Say: 'I need to do revision for my exams.'",
-        answers: [
-          { answer: "Perfect", trueAnswer: true },
-          { answer: "Almost correct", trueAnswer: false },
-          { answer: "Try again", trueAnswer: false }
-        ],
-        type: "speaking",
-        targetText: "I need to do revision for my exams."
-      },
-      {
-        id: 4,
-        question: "Pronounce: 'Freshman students attend orientation programs.'",
-        answers: [
-          { answer: "Excellent pronunciation", trueAnswer: true },
-          { answer: "Good attempt", trueAnswer: false },
-          { answer: "Needs improvement", trueAnswer: false }
-        ],
-        type: "speaking",
-        targetText: "Freshman students attend orientation programs."
-      },
-      {
-        id: 5,
-        question: "Say: 'Elective courses are optional for students.'",
-        answers: [
-          { answer: "Perfect", trueAnswer: true },
-          { answer: "Good", trueAnswer: false },
-          { answer: "Practice more", trueAnswer: false }
-        ],
-        type: "speaking",
-        targetText: "Elective courses are optional for students."
-      },
-      {
-        id: 6,
-        question: "Pronounce: 'Icebreaker activities help students get to know each other.'",
-        answers: [
-          { answer: "Excellent", trueAnswer: true },
-          { answer: "Very good", trueAnswer: false },
-          { answer: "Keep practicing", trueAnswer: false }
-        ],
-        type: "speaking",
-        targetText: "Icebreaker activities help students get to know each other."
-      }
-    ],
-    Grade_11_Unit1_Listening: [
-      {
-        id: 1,
-        question: "Listen to the job interview. What position is being discussed?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Software Engineer", trueAnswer: true },
-          { answer: "App Developer", trueAnswer: false },
-          { answer: "Entrepreneur", trueAnswer: false },
-          { answer: "Biotechnologist", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 2,
-        question: "What benefit is mentioned in the audio?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Health insurance", trueAnswer: true },
-          { answer: "Vacation days", trueAnswer: false },
-          { answer: "Flexible hours", trueAnswer: false },
-          { answer: "Remote work", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 3,
-        question: "Listen to the conversation about work shifts. What shift is preferred?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Morning shift", trueAnswer: true },
-          { answer: "Evening shift", trueAnswer: false },
-          { answer: "Night shift", trueAnswer: false },
-          { answer: "Weekend shift", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 4,
-        question: "What does the candidate say about artificial intelligence?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "It's the future of technology", trueAnswer: true },
-          { answer: "It's too complicated", trueAnswer: false },
-          { answer: "It's not important", trueAnswer: false },
-          { answer: "It's dangerous", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 5,
-        question: "Listen to the discussion about career goals. What is mentioned?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Getting ahead in career", trueAnswer: true },
-          { answer: "Changing jobs", trueAnswer: false },
-          { answer: "Starting a business", trueAnswer: false },
-          { answer: "Retiring early", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 6,
-        question: "What warning is given about work-life balance?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "Don't burn out", trueAnswer: true },
-          { answer: "Work harder", trueAnswer: false },
-          { answer: "Take more breaks", trueAnswer: false },
-          { answer: "Change careers", trueAnswer: false }
-        ],
-        type: "listening"
-      },
-      {
-        id: 7,
-        question: "Listen to the salary negotiation. What is the final offer?",
-        audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-        answers: [
-          { answer: "$75,000 per year", trueAnswer: true },
-          { answer: "$65,000 per year", trueAnswer: false },
-          { answer: "$85,000 per year", trueAnswer: false },
-          { answer: "$70,000 per year", trueAnswer: false }
-        ],
-        type: "listening"
-      }
-    ],
-    Grade_12_Unit1_Visual: [
-      {
-        id: 1,
-        question: "What musical instrument is shown?",
-        imageUrl: "https://images.pexels.com/photos/164743/pexels-photo-164743.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Piano", trueAnswer: true },
-          { answer: "Guitar", trueAnswer: false },
-          { answer: "Violin", trueAnswer: false },
-          { answer: "Drums", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 2,
-        question: "What type of musical performance is this?",
-        imageUrl: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Orchestra", trueAnswer: true },
-          { answer: "Band", trueAnswer: false },
-          { answer: "Solo performance", trueAnswer: false },
-          { answer: "Choir", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 3,
-        question: "What percussion instrument can you see?",
-        imageUrl: "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Drums", trueAnswer: true },
-          { answer: "Xylophone", trueAnswer: false },
-          { answer: "Tambourine", trueAnswer: false },
-          { answer: "Maracas", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 4,
-        question: "What string instrument is displayed?",
-        imageUrl: "https://images.pexels.com/photos/1407322/pexels-photo-1407322.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Guitar", trueAnswer: true },
-          { answer: "Violin", trueAnswer: false },
-          { answer: "Cello", trueAnswer: false },
-          { answer: "Bass", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 5,
-        question: "What music-related activity is shown?",
-        imageUrl: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Recording studio", trueAnswer: true },
-          { answer: "Concert hall", trueAnswer: false },
-          { answer: "Music lesson", trueAnswer: false },
-          { answer: "Practice room", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 6,
-        question: "What wind instrument can you identify?",
-        imageUrl: "https://images.pexels.com/photos/1407354/pexels-photo-1407354.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Flute", trueAnswer: true },
-          { answer: "Trumpet", trueAnswer: false },
-          { answer: "Saxophone", trueAnswer: false },
-          { answer: "Clarinet", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 7,
-        question: "What type of musical event is this?",
-        imageUrl: "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Concert", trueAnswer: true },
-          { answer: "Rehearsal", trueAnswer: false },
-          { answer: "Music festival", trueAnswer: false },
-          { answer: "Competition", trueAnswer: false }
-        ],
-        type: "visual"
-      },
-      {
-        id: 8,
-        question: "What music equipment is shown?",
-        imageUrl: "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=400",
-        answers: [
-          { answer: "Headphones", trueAnswer: true },
-          { answer: "Microphone", trueAnswer: false },
-          { answer: "Speakers", trueAnswer: false },
-          { answer: "Amplifier", trueAnswer: false }
-        ],
-        type: "visual"
+          { answer: "study", trueAnswer: true },
+          { answer: "work", trueAnswer: false },
+          { answer: "play", trueAnswer: false },
+          { answer: "sleep", trueAnswer: false }
+        ]
       }
     ],
     Grade_9_Unit2: [
       {
         id: 1,
-        question: "________ is the place that we cook food.",
+        question: "Where is the library?",
+        type: "vocabulary",
         answers: [
-          { answer: "Livingroom", trueAnswer: false },
-          { answer: "Bathroom", trueAnswer: false },
-          { answer: "Kitchen", trueAnswer: true },
-          { answer: "Garage", trueAnswer: false }
-        ],
-        type: "vocabulary"
+          { answer: "It's next to the school", trueAnswer: true },
+          { answer: "It's in the school", trueAnswer: false },
+          { answer: "It's on the school", trueAnswer: false },
+          { answer: "It's under the school", trueAnswer: false }
+        ]
       },
       {
         id: 2,
-        question: "There are flowers ____ the vase.",
+        question: "The bank is _____ the post office.",
+        type: "vocabulary",
         answers: [
-          { answer: "On", trueAnswer: true },
-          { answer: "At", trueAnswer: false },
-          { answer: "Under", trueAnswer: false },
-          { answer: "In", trueAnswer: false }
+          { answer: "opposite", trueAnswer: true },
+          { answer: "in", trueAnswer: false },
+          { answer: "on", trueAnswer: false },
+          { answer: "under", trueAnswer: false }
         ]
       },
       {
         id: 3,
-        question: "We buy medicine from ______",
+        question: "How can I go to the hospital?",
+        type: "vocabulary",
         answers: [
-          { answer: "Pharmacy", trueAnswer: true },
-          { answer: "Library", trueAnswer: false },
-          { answer: "Shopping mall", trueAnswer: false },
-          { answer: "Hospital", trueAnswer: false }
+          { answer: "Go straight and turn left", trueAnswer: true },
+          { answer: "Go left and turn straight", trueAnswer: false },
+          { answer: "Turn straight and go left", trueAnswer: false },
+          { answer: "Left turn and go straight", trueAnswer: false }
         ]
       },
       {
         id: 4,
-        question: "In our living room, there is a ______. Which of the followings is NOT suitable for the missing part?",
+        question: "Where do you live?",
+        type: "vocabulary",
         answers: [
-          { answer: "Sofa", trueAnswer: false },
-          { answer: "Fridge", trueAnswer: true },
-          { answer: "Coffee table", trueAnswer: false },
-          { answer: "Cushions", trueAnswer: false }
+          { answer: "I live in Ankara", trueAnswer: true },
+          { answer: "I live on Ankara", trueAnswer: false },
+          { answer: "I live at Ankara", trueAnswer: false },
+          { answer: "I live Ankara", trueAnswer: false }
         ]
       },
       {
         id: 5,
-        question: "I go to school on foot because it is very ____ to my home.",
+        question: "The cinema is _____ the restaurant and the pharmacy.",
+        type: "vocabulary",
         answers: [
-          { answer: "Far", trueAnswer: false },
-          { answer: "Close", trueAnswer: true },
-          { answer: "Quiet", trueAnswer: false },
-          { answer: "Expensive", trueAnswer: false }
+          { answer: "between", trueAnswer: true },
+          { answer: "next", trueAnswer: false },
+          { answer: "opposite", trueAnswer: false },
+          { answer: "behind", trueAnswer: false }
         ]
       },
       {
         id: 6,
-        question: "In Hong Kong, the average yearly temperature is 22.6. In Vaduz, the average yearly temperature is 9.2. Which of the followings is TRUE according to the information above?",
+        question: "Excuse me, where is the nearest ATM?",
+        type: "vocabulary",
         answers: [
-          { answer: "Vaduz is more crowded then Hong Kong.", trueAnswer: false },
-          { answer: "Hong Kong is busier than Vaduz.", trueAnswer: false },
-          { answer: "Vaduz is as cold as Hong Kong.", trueAnswer: false },
-          { answer: "Hong Kong is hotter than Vaduz.", trueAnswer: true }
+          { answer: "It's around the corner", trueAnswer: true },
+          { answer: "It's in the corner", trueAnswer: false },
+          { answer: "It's on the corner", trueAnswer: false },
+          { answer: "It's at the corner", trueAnswer: false }
         ]
       },
       {
         id: 7,
-        question: "We read books and study in a ________.",
+        question: "The park is _____ my house.",
+        type: "vocabulary",
         answers: [
-          { answer: "Leisure centre", trueAnswer: false },
-          { answer: "Museum", trueAnswer: false },
-          { answer: "Library", trueAnswer: true },
-          { answer: "Theatre", trueAnswer: false }
+          { answer: "near", trueAnswer: true },
+          { answer: "in", trueAnswer: false },
+          { answer: "on", trueAnswer: false },
+          { answer: "at", trueAnswer: false }
         ]
       },
       {
         id: 8,
-        question: "! . , * According to the signs on the side:",
+        question: "Turn right _____ the traffic lights.",
+        type: "vocabulary",
         answers: [
-          { answer: "The star is at the front of the line.", trueAnswer: false },
-          { answer: "The comma is just to the right of the full stop.", trueAnswer: true },
-          { answer: "The exclamation mark is at the end of the line.", trueAnswer: false },
-          { answer: "The star is next to the period.", trueAnswer: false }
+          { answer: "at", trueAnswer: true },
+          { answer: "in", trueAnswer: false },
+          { answer: "on", trueAnswer: false },
+          { answer: "to", trueAnswer: false }
         ]
       },
       {
         id: 9,
-        question: "“Make yourself at your home” means……",
+        question: "The supermarket is _____ the second floor.",
+        type: "vocabulary",
         answers: [
-          { answer: "Feeling comfortable in someone else’s home.", trueAnswer: true },
-          { answer: "Feeling uncomfortable in someone else’s home.", trueAnswer: false }
+          { answer: "on", trueAnswer: true },
+          { answer: "in", trueAnswer: false },
+          { answer: "at", trueAnswer: false },
+          { answer: "to", trueAnswer: false }
         ]
       },
       {
         id: 10,
-        question: "“Hustle and bustle” means …….",
+        question: "My neighborhood is very _____.",
+        type: "vocabulary",
         answers: [
-          { answer: "peace and rest", trueAnswer: false },
-          { answer: "noise and activity", trueAnswer: true }
+          { answer: "quiet", trueAnswer: true },
+          { answer: "quietly", trueAnswer: false },
+          { answer: "quietness", trueAnswer: false },
+          { answer: "quieter", trueAnswer: false }
         ]
       }
-    
+    ],
+    Grade_9_Unit1_Listening: [
+      {
+        id: 1,
+        question: "Listen to the audio and choose the correct answer: What is the person's job?",
+        type: "listening",
+        audioUrl: "/audio/job1.mp3",
+        answers: [
+          { answer: "Teacher", trueAnswer: true },
+          { answer: "Doctor", trueAnswer: false },
+          { answer: "Engineer", trueAnswer: false },
+          { answer: "Lawyer", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "Listen and answer: Where is the person from?",
+        type: "listening",
+        audioUrl: "/audio/nationality1.mp3",
+        answers: [
+          { answer: "Turkey", trueAnswer: true },
+          { answer: "Germany", trueAnswer: false },
+          { answer: "France", trueAnswer: false },
+          { answer: "Italy", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What is the person's age?",
+        type: "listening",
+        audioUrl: "/audio/age1.mp3",
+        answers: [
+          { answer: "25", trueAnswer: true },
+          { answer: "23", trueAnswer: false },
+          { answer: "27", trueAnswer: false },
+          { answer: "29", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "Listen: What is the person's name?",
+        type: "listening",
+        audioUrl: "/audio/name1.mp3",
+        answers: [
+          { answer: "Mehmet", trueAnswer: true },
+          { answer: "Ali", trueAnswer: false },
+          { answer: "Ahmet", trueAnswer: false },
+          { answer: "Mustafa", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "Where does the person work?",
+        type: "listening",
+        audioUrl: "/audio/workplace1.mp3",
+        answers: [
+          { answer: "Hospital", trueAnswer: true },
+          { answer: "School", trueAnswer: false },
+          { answer: "Bank", trueAnswer: false },
+          { answer: "Restaurant", trueAnswer: false }
+        ]
+      }
     ],
     Grade_9_Unit3: [
       {
         id: 1,
-        question: "_____________ film is a film that dramatizes the life of a non-fictional or historically-based person or people.",
+        question: "What type of movie is 'Titanic'?",
+        type: "vocabulary",
         answers: [
-          { answer: "Historical", trueAnswer: false },
+          { answer: "Romance", trueAnswer: true },
           { answer: "Horror", trueAnswer: false },
-          { answer: "Animation", trueAnswer: false },
-          { answer: "Biography", trueAnswer: true }
+          { answer: "Comedy", trueAnswer: false },
+          { answer: "Action", trueAnswer: false }
         ]
       },
       {
         id: 2,
-        question: "What is the synonym of the idiom 'kick the bucket'?",
+        question: "I like _____ movies. They make me laugh.",
+        type: "vocabulary",
         answers: [
-          { answer: "to survive", trueAnswer: false },
-          { answer: "to die", trueAnswer: true },
-          { answer: "to live", trueAnswer: false },
-          { answer: "to fight", trueAnswer: false }
+          { answer: "comedy", trueAnswer: true },
+          { answer: "horror", trueAnswer: false },
+          { answer: "drama", trueAnswer: false },
+          { answer: "thriller", trueAnswer: false }
         ]
       },
       {
         id: 3,
-        question: "”A bomb” means…….",
+        question: "What do you do in your free time?",
+        type: "vocabulary",
         answers: [
-          { answer: "an unpopular movie", trueAnswer: false },
-          { answer: "a popular movie", trueAnswer: false },
-          { answer: "an exciting movie", trueAnswer: true },
-          { answer: "a feel-good movie", trueAnswer: false }
+          { answer: "I read books", trueAnswer: true },
+          { answer: "I go to work", trueAnswer: false },
+          { answer: "I study lessons", trueAnswer: false },
+          { answer: "I do homework", trueAnswer: false }
         ]
       },
       {
         id: 4,
-        question: "I’m keen on _________ I am a man of words and emotions.",
+        question: "My hobby is _____.",
+        type: "vocabulary",
         answers: [
-          { answer: "scuba-diving", trueAnswer: false },
-          { answer: "snowboarding", trueAnswer: false },
-          { answer: "writing poems", trueAnswer: true },
-          { answer: "knitting", trueAnswer: false }
+          { answer: "playing guitar", trueAnswer: true },
+          { answer: "play guitar", trueAnswer: false },
+          { answer: "to play guitar", trueAnswer: false },
+          { answer: "played guitar", trueAnswer: false }
         ]
       },
       {
         id: 5,
-        question: "I want to take up dancing and be on the stage. What is the meaning of the underlined idiom?",
+        question: "Horror movies are very _____.",
+        type: "vocabulary",
         answers: [
-          { answer: "start", trueAnswer: true },
-          { answer: "finish", trueAnswer: false }
+          { answer: "scary", trueAnswer: true },
+          { answer: "funny", trueAnswer: false },
+          { answer: "romantic", trueAnswer: false },
+          { answer: "boring", trueAnswer: false }
         ]
       },
       {
         id: 6,
-        question: "Never give up! You are about to win! What is the meaning of the underlined word?",
+        question: "I _____ watching TV in the evenings.",
+        type: "vocabulary",
         answers: [
-          { answer: "stop", trueAnswer: false },
-          { answer: "fight", trueAnswer: true }
+          { answer: "enjoy", trueAnswer: true },
+          { answer: "hate", trueAnswer: false },
+          { answer: "dislike", trueAnswer: false },
+          { answer: "avoid", trueAnswer: false }
         ]
       },
       {
         id: 7,
-        question: "I don’t like biking because it is ________",
+        question: "What's your favorite _____?",
+        type: "vocabulary",
         answers: [
-          { answer: "relaxing", trueAnswer: false },
-          { answer: "extraordinary", trueAnswer: false },
-          { answer: "fascinating", trueAnswer: false },
-          { answer: "exhausting", trueAnswer: true }
+          { answer: "hobby", trueAnswer: true },
+          { answer: "work", trueAnswer: false },
+          { answer: "lesson", trueAnswer: false },
+          { answer: "duty", trueAnswer: false }
         ]
       },
       {
         id: 8,
-        question: "I give it two thumbs up. While I was watching this movie, I laughed a lot. What is the meaning of the underlined phrase?",
+        question: "Action movies have a lot of _____.",
+        type: "vocabulary",
         answers: [
-          { answer: "to like something very much", trueAnswer: true },
-          { answer: "to dislike something", trueAnswer: false }
+          { answer: "excitement", trueAnswer: true },
+          { answer: "romance", trueAnswer: false },
+          { answer: "sadness", trueAnswer: false },
+          { answer: "boredom", trueAnswer: false }
         ]
       },
       {
         id: 9,
-        question: "”Try someone’s hand at” means……",
+        question: "I prefer _____ books to watching movies.",
+        type: "vocabulary",
         answers: [
-          { answer: "to start doing something new or different", trueAnswer: true },
-          { answer: "to get help from other people", trueAnswer: false }
+          { answer: "reading", trueAnswer: true },
+          { answer: "read", trueAnswer: false },
+          { answer: "to read", trueAnswer: false },
+          { answer: "reads", trueAnswer: false }
         ]
       },
       {
         id: 10,
-        question: "”Reach for the moon” means…….",
+        question: "The movie was so _____ that I fell asleep.",
+        type: "vocabulary",
         answers: [
-          { answer: "to walk on the moon", trueAnswer: false },
-          { answer: "to have very high goals", trueAnswer: true }
-        ]
-      },
-        ],
-    Grade_10_Unit1: [
-      {
-        id: 1,
-        question: "______ are courses that a student is required to take and pass in order to graduate.",
-        answers: [
-          { answer: "Elective courses", trueAnswer: false },
-          { answer: "Ice-breaker activities", trueAnswer: false },
-          { answer: "Compulsory courses", trueAnswer: true },
-          { answer: "Extra-curricular activities", trueAnswer: false }
-        ]
-      },
-      {
-        id: 2,
-        question: "Students have to _______ at school. It is a must.",
-        answers: [
-          { answer: "Obey the rules", trueAnswer: true },
-          { answer: "Play truant", trueAnswer: false },
-          { answer: "Be late", trueAnswer: false },
-          { answer: "Talk each other during the lessons", trueAnswer: false }
-        ]
-      },
-      {
-        id: 3,
-        question: "I’m afraid I can’t join your birthday party. I have an important exam tomorrow. So I should _______.",
-        answers: [
-          { answer: "Stick to the timetable", trueAnswer: false },
-          { answer: "Do revision", trueAnswer: true },
-          { answer: "Sit for exams", trueAnswer: false },
-          { answer: "Obey the rules", trueAnswer: false }
-        ]
-      },
-      {
-        id: 4,
-        question: "In order to ________, students should study hard.",
-        answers: [
-          { answer: "Play truant", trueAnswer: false },
-          { answer: "Get high scores", trueAnswer: true },
-          { answer: "Argue with friends", trueAnswer: false },
-          { answer: "Get enough sleep", trueAnswer: false }
-        ]
-      },
-      {
-        id: 5,
-        question: "“I am nervous today because I started to go a new school. What are my new classmates like?” What is the problem about?",
-        answers: [
-          { answer: "School and campus facilities", trueAnswer: false },
-          { answer: "Timetable", trueAnswer: false },
-          { answer: "Consultants’ and teachers’ attitude", trueAnswer: false },
-          { answer: "The new friend circle", trueAnswer: true }
-        ]
-      },
-      {
-        id: 6,
-        question: "Freshman means __________",
-        answers: [
-          { answer: "A first-year student", trueAnswer: true },
-          { answer: "A hardworking student", trueAnswer: false },
-          { answer: "A second-year student", trueAnswer: false },
-          { answer: "A graduated student", trueAnswer: false }
-        ]
-      },
-      {
-        id: 7,
-        question: "Music and art courses are generally _________ at schools.",
-        answers: [
-          { answer: "Compulsory courses", trueAnswer: false },
-          { answer: "Elective courses", trueAnswer: true },
-          { answer: "Challenging courses", trueAnswer: false },
-          { answer: "Extra-curricular activities", trueAnswer: false }
-        ]
-      },
-      {
-        id: 8,
-        question: "__________  aims to create a friendly and less stressed atmosphere.",
-        answers: [
-          { answer: "Challenging courses", trueAnswer: false },
-          { answer: "Timetable", trueAnswer: false },
-          { answer: "Exams", trueAnswer: false },
-          { answer: "Icebreaker activities", trueAnswer: true }
-        ]
-      },
-      {
-        id: 9,
-        question: "This year, I am going to go a university. Unfortunately, I can’t find a suitable dormitory to stay in. All of them is very crowded.” What  is the problem about?",
-        answers: [
-          { answer: "Transportation", trueAnswer: false },
-          { answer: "The new friend circle", trueAnswer: false },
-          { answer: "Accommodation", trueAnswer: true },
-          { answer: "Adaptation", trueAnswer: false }
-        ]
-      },
-      {
-        id: 10,
-        question: "_________ means country of origin.",
-        answers: [
-          { answer: "Foreign country", trueAnswer: false },
-          { answer: "Hometown", trueAnswer: true },
-          { answer: "Dormitory", trueAnswer: false },
-          { answer: "Host family", trueAnswer: false }
+          { answer: "boring", trueAnswer: true },
+          { answer: "exciting", trueAnswer: false },
+          { answer: "interesting", trueAnswer: false },
+          { answer: "amazing", trueAnswer: false }
         ]
       }
     ],
-
-    Grade_10_Unit2: [
+    Grade_9_Unit2_Visual: [
       {
         id: 1,
-        question: "______________ means making reservation at a restaurant etc.",
+        question: "What place is shown in the image?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "Visiting", trueAnswer: false },
-          { answer: "Booking", trueAnswer: true },
-          { answer: "Hanging around", trueAnswer: false },
-          { answer: "Doing sports", trueAnswer: false }
+          { answer: "Library", trueAnswer: true },
+          { answer: "Hospital", trueAnswer: false },
+          { answer: "Restaurant", trueAnswer: false },
+          { answer: "Bank", trueAnswer: false }
         ]
       },
       {
         id: 2,
-        question: "During my primary school years, I was dreaming my future job. This is a …………..",
+        question: "What can you see in this picture?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/273230/pexels-photo-273230.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "Long-term plan", trueAnswer: true },
-          { answer: "Short-term plan", trueAnswer: false },
-          { answer: "Plan for holiday", trueAnswer: false },
-          { answer: "Plan for the weekend", trueAnswer: false }
+          { answer: "Park", trueAnswer: true },
+          { answer: "School", trueAnswer: false },
+          { answer: "Office", trueAnswer: false },
+          { answer: "Shop", trueAnswer: false }
         ]
       },
       {
         id: 3,
-        question: "His jokes seemed spontaneous, but were in fact carefully prepared beforehand. What is the meaning of the underlined word?",
+        question: "This building is a _____.",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "Done in a planned way", trueAnswer: true },
-          { answer: "Done in an unplanned way", trueAnswer: false },
-          { answer: "Done in a cruel way", trueAnswer: false },
-          { answer: "Done in a happy mood", trueAnswer: false }
+          { answer: "Hospital", trueAnswer: true },
+          { answer: "School", trueAnswer: false },
+          { answer: "Cinema", trueAnswer: false },
+          { answer: "Museum", trueAnswer: false }
         ]
       },
       {
         id: 4,
-        question: "“Let the river flow” What is the synonym of this idiom?",
+        question: "What type of transportation is this?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/136739/pexels-photo-136739.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "Walk on air", trueAnswer: false },
-          { answer: "Kill two birds with one stone", trueAnswer: false },
-          { answer: "Give something the thumbs up", trueAnswer: false },
-          { answer: "Allow the nature to take its course", trueAnswer: true }
+          { answer: "Bus", trueAnswer: true },
+          { answer: "Train", trueAnswer: false },
+          { answer: "Plane", trueAnswer: false },
+          { answer: "Ship", trueAnswer: false }
         ]
       },
       {
         id: 5,
-        question: "“We are going to fly to Italy” expresses ______",
+        question: "Where can you buy food?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "A promise", trueAnswer: false },
-          { answer: "A future plan", trueAnswer: true }
+          { answer: "Supermarket", trueAnswer: true },
+          { answer: "Library", trueAnswer: false },
+          { answer: "Post office", trueAnswer: false },
+          { answer: "Bank", trueAnswer: false }
         ]
       },
       {
         id: 6,
-        question: "“We are meeting at a cafe” expresses ________",
+        question: "This is a _____.",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "An arrangement", trueAnswer: true },
-          { answer: "A promise", trueAnswer: false }
+          { answer: "Restaurant", trueAnswer: true },
+          { answer: "Hospital", trueAnswer: false },
+          { answer: "School", trueAnswer: false },
+          { answer: "Bank", trueAnswer: false }
         ]
       },
       {
         id: 7,
-        question: "“I will not tell your secret to anybody.” expresses ______",
+        question: "What do you see in the picture?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/261679/pexels-photo-261679.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "A promise", trueAnswer: true },
-          { answer: "A wish", trueAnswer: false }
+          { answer: "Street", trueAnswer: true },
+          { answer: "River", trueAnswer: false },
+          { answer: "Mountain", trueAnswer: false },
+          { answer: "Forest", trueAnswer: false }
         ]
       },
       {
         id: 8,
-        question: "“My mother and me are going to go shopping on Saturday” expresses _______",
+        question: "This place is a _____.",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg?auto=compress&cs=tinysrgb&w=400",
         answers: [
-          { answer: "A long-term plan", trueAnswer: false },
-          { answer: "A weekend plan", trueAnswer: true }
+          { answer: "Pharmacy", trueAnswer: true },
+          { answer: "Bakery", trueAnswer: false },
+          { answer: "Bookstore", trueAnswer: false },
+          { answer: "Clothing store", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_10_Unit1: [
+      {
+        id: 1,
+        question: "What subject do you study in chemistry class?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Chemical reactions", trueAnswer: true },
+          { answer: "Historical events", trueAnswer: false },
+          { answer: "Mathematical equations", trueAnswer: false },
+          { answer: "Literary works", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "The teacher _____ the lesson very well.",
+        type: "vocabulary",
+        answers: [
+          { answer: "explains", trueAnswer: true },
+          { answer: "explain", trueAnswer: false },
+          { answer: "explaining", trueAnswer: false },
+          { answer: "explained", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "I need to _____ for the exam tomorrow.",
+        type: "vocabulary",
+        answers: [
+          { answer: "study", trueAnswer: true },
+          { answer: "play", trueAnswer: false },
+          { answer: "sleep", trueAnswer: false },
+          { answer: "eat", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "What do you use to write on the board?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Chalk", trueAnswer: true },
+          { answer: "Pencil", trueAnswer: false },
+          { answer: "Pen", trueAnswer: false },
+          { answer: "Marker", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "The _____ rings at 9 o'clock.",
+        type: "vocabulary",
+        answers: [
+          { answer: "bell", trueAnswer: true },
+          { answer: "clock", trueAnswer: false },
+          { answer: "phone", trueAnswer: false },
+          { answer: "alarm", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "Students sit at their _____ during class.",
+        type: "vocabulary",
+        answers: [
+          { answer: "desks", trueAnswer: true },
+          { answer: "beds", trueAnswer: false },
+          { answer: "chairs", trueAnswer: false },
+          { answer: "tables", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "I forgot my _____ at home, so I can't do my homework.",
+        type: "vocabulary",
+        answers: [
+          { answer: "textbook", trueAnswer: true },
+          { answer: "lunch", trueAnswer: false },
+          { answer: "jacket", trueAnswer: false },
+          { answer: "phone", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "The _____ is very strict about punctuality.",
+        type: "vocabulary",
+        answers: [
+          { answer: "principal", trueAnswer: true },
+          { answer: "student", trueAnswer: false },
+          { answer: "janitor", trueAnswer: false },
+          { answer: "parent", trueAnswer: false }
         ]
       },
       {
         id: 9,
-        question: "“Cool-headed” is the synonym of the word “_______”",
+        question: "We have a _____ every Friday to test our knowledge.",
+        type: "vocabulary",
         answers: [
-          { answer: "Calm", trueAnswer: true },
-          { answer: "Excited", trueAnswer: false },
-          { answer: "Unhappy", trueAnswer: false },
-          { answer: "Nervous", trueAnswer: false }
+          { answer: "quiz", trueAnswer: true },
+          { answer: "party", trueAnswer: false },
+          { answer: "game", trueAnswer: false },
+          { answer: "movie", trueAnswer: false }
         ]
       },
       {
         id: 10,
-        question: "They are having a check-up at __________.",
+        question: "The school _____ has many books.",
+        type: "vocabulary",
         answers: [
-          { answer: "A library", trueAnswer: false },
-          { answer: "A dormitory", trueAnswer: false },
-          { answer: "A luxurious restaurant", trueAnswer: false },
-          { answer: "A private hospital", trueAnswer: true }
+          { answer: "library", trueAnswer: true },
+          { answer: "cafeteria", trueAnswer: false },
+          { answer: "gymnasium", trueAnswer: false },
+          { answer: "office", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_10_Unit2: [
+      {
+        id: 1,
+        question: "What are you going to do this weekend?",
+        type: "vocabulary",
+        answers: [
+          { answer: "I'm going to visit my grandparents", trueAnswer: true },
+          { answer: "I go to visit my grandparents", trueAnswer: false },
+          { answer: "I will to visit my grandparents", trueAnswer: false },
+          { answer: "I visiting my grandparents", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "My dream is _____ a doctor.",
+        type: "vocabulary",
+        answers: [
+          { answer: "to become", trueAnswer: true },
+          { answer: "become", trueAnswer: false },
+          { answer: "becoming", trueAnswer: false },
+          { answer: "became", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "I _____ travel around the world someday.",
+        type: "vocabulary",
+        answers: [
+          { answer: "plan to", trueAnswer: true },
+          { answer: "plan", trueAnswer: false },
+          { answer: "planning", trueAnswer: false },
+          { answer: "planned", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "What do you want to be in the future?",
+        type: "vocabulary",
+        answers: [
+          { answer: "I want to be an engineer", trueAnswer: true },
+          { answer: "I want be an engineer", trueAnswer: false },
+          { answer: "I want being an engineer", trueAnswer: false },
+          { answer: "I wanting to be an engineer", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "She has _____ to study abroad.",
+        type: "vocabulary",
+        answers: [
+          { answer: "decided", trueAnswer: true },
+          { answer: "decide", trueAnswer: false },
+          { answer: "deciding", trueAnswer: false },
+          { answer: "decision", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "My _____ is to graduate with honors.",
+        type: "vocabulary",
+        answers: [
+          { answer: "goal", trueAnswer: true },
+          { answer: "hobby", trueAnswer: false },
+          { answer: "job", trueAnswer: false },
+          { answer: "problem", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "I'm _____ forward to the summer vacation.",
+        type: "vocabulary",
+        answers: [
+          { answer: "looking", trueAnswer: true },
+          { answer: "look", trueAnswer: false },
+          { answer: "looked", trueAnswer: false },
+          { answer: "looks", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "We are _____ a trip to Europe next year.",
+        type: "vocabulary",
+        answers: [
+          { answer: "planning", trueAnswer: true },
+          { answer: "plan", trueAnswer: false },
+          { answer: "planned", trueAnswer: false },
+          { answer: "plans", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "I hope to _____ my dreams come true.",
+        type: "vocabulary",
+        answers: [
+          { answer: "make", trueAnswer: true },
+          { answer: "do", trueAnswer: false },
+          { answer: "have", trueAnswer: false },
+          { answer: "get", trueAnswer: false }
+        ]
+      },
+      {
+        id: 10,
+        question: "What are your _____ for the future?",
+        type: "vocabulary",
+        answers: [
+          { answer: "plans", trueAnswer: true },
+          { answer: "problems", trueAnswer: false },
+          { answer: "hobbies", trueAnswer: false },
+          { answer: "subjects", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_10_Unit1_Speaking: [
+      {
+        id: 1,
+        question: "Practice saying: 'I study mathematics at school.'",
+        type: "speaking",
+        targetText: "I study mathematics at school.",
+        answers: [
+          { answer: "Perfect pronunciation", trueAnswer: true },
+          { answer: "Good pronunciation", trueAnswer: false },
+          { answer: "Needs improvement", trueAnswer: false },
+          { answer: "Try again", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "Say: 'The teacher explains the lesson clearly.'",
+        type: "speaking",
+        targetText: "The teacher explains the lesson clearly.",
+        answers: [
+          { answer: "Excellent", trueAnswer: true },
+          { answer: "Good", trueAnswer: false },
+          { answer: "Fair", trueAnswer: false },
+          { answer: "Poor", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "Pronounce: 'Students take notes during class.'",
+        type: "speaking",
+        targetText: "Students take notes during class.",
+        answers: [
+          { answer: "Very clear", trueAnswer: true },
+          { answer: "Clear", trueAnswer: false },
+          { answer: "Unclear", trueAnswer: false },
+          { answer: "Very unclear", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "Say: 'I need to prepare for the exam.'",
+        type: "speaking",
+        targetText: "I need to prepare for the exam.",
+        answers: [
+          { answer: "Perfect", trueAnswer: true },
+          { answer: "Good", trueAnswer: false },
+          { answer: "Average", trueAnswer: false },
+          { answer: "Below average", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "Practice: 'The library is open until 6 PM.'",
+        type: "speaking",
+        targetText: "The library is open until 6 PM.",
+        answers: [
+          { answer: "Excellent pronunciation", trueAnswer: true },
+          { answer: "Good pronunciation", trueAnswer: false },
+          { answer: "Fair pronunciation", trueAnswer: false },
+          { answer: "Needs practice", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "Say: 'We have chemistry class on Mondays.'",
+        type: "speaking",
+        targetText: "We have chemistry class on Mondays.",
+        answers: [
+          { answer: "Outstanding", trueAnswer: true },
+          { answer: "Very good", trueAnswer: false },
+          { answer: "Good", trueAnswer: false },
+          { answer: "Needs work", trueAnswer: false }
         ]
       }
     ],
     Grade_10_Unit3: [
       {
         id: 1,
-        question: "___________ means taking control of a country or city and its people by force.",
+        question: "Legends are _____ stories from the past.",
+        type: "vocabulary",
         answers: [
-          { answer: "besiege", trueAnswer: false },
-          { answer: "triumphant", trueAnswer: false },
-          { answer: "conquer", trueAnswer: true },
-          { answer: "surrender", trueAnswer: false }
+          { answer: "traditional", trueAnswer: true },
+          { answer: "modern", trueAnswer: false },
+          { answer: "scientific", trueAnswer: false },
+          { answer: "realistic", trueAnswer: false }
         ]
       },
       {
         id: 2,
-        question: "_______________ means very successful  in a way that causes great satisfaction.",
+        question: "The hero in the story was very _____.",
+        type: "vocabulary",
         answers: [
-          { answer: "triumphant", trueAnswer: true },
-          { answer: "cannon", trueAnswer: false },
-          { answer: "surrender", trueAnswer: false },
-          { answer: "besiege", trueAnswer: false }
+          { answer: "brave", trueAnswer: true },
+          { answer: "coward", trueAnswer: false },
+          { answer: "lazy", trueAnswer: false },
+          { answer: "selfish", trueAnswer: false }
         ]
       },
       {
         id: 3,
-        question: "___________ means an old type of big heavy gun, usually on wheels that fires solid metal or stone balls.",
+        question: "What is a myth?",
+        type: "vocabulary",
         answers: [
-          { answer: "surrender", trueAnswer: false },
-          { answer: "cannon", trueAnswer: true },
-          { answer: "conquer", trueAnswer: false },
-          { answer: "besiege", trueAnswer: false }
+          { answer: "A traditional story", trueAnswer: true },
+          { answer: "A news report", trueAnswer: false },
+          { answer: "A scientific fact", trueAnswer: false },
+          { answer: "A modern novel", trueAnswer: false }
         ]
       },
       {
         id: 4,
-        question: "______ means the practice of showing respect for God or a god, saying prayers, chanting.",
+        question: "The _____ lived in a big castle.",
+        type: "vocabulary",
         answers: [
-          { answer: "worship", trueAnswer: true },
-          { answer: "cannon", trueAnswer: false },
-          { answer: "cannon", trueAnswer: false },
-          { answer: "surrender", trueAnswer: false }
+          { answer: "king", trueAnswer: true },
+          { answer: "farmer", trueAnswer: false },
+          { answer: "student", trueAnswer: false },
+          { answer: "worker", trueAnswer: false }
         ]
       },
       {
         id: 5,
-        question: "__________ means admitting that you have lost and want to stop fighting.",
+        question: "Dragons are _____ creatures in legends.",
+        type: "vocabulary",
         answers: [
-          { answer: "conquer", trueAnswer: false },
-          { answer: "surrender", trueAnswer: true },
-          { answer: "besiege", trueAnswer: false },
-          { answer: "worship", trueAnswer: false }
+          { answer: "mythical", trueAnswer: true },
+          { answer: "real", trueAnswer: false },
+          { answer: "modern", trueAnswer: false },
+          { answer: "scientific", trueAnswer: false }
         ]
       },
       {
         id: 6,
-        question: "___________ means surrounding a building, city etc. with soldiers till the people inside give up defending.",
+        question: "The princess was _____ by the dragon.",
+        type: "vocabulary",
         answers: [
-          { answer: "conquer", trueAnswer: false },
-          { answer: "worship", trueAnswer: false },
-          { answer: "besiege", trueAnswer: true },
-          { answer: "surrender", trueAnswer: false }
+          { answer: "captured", trueAnswer: true },
+          { answer: "helped", trueAnswer: false },
+          { answer: "ignored", trueAnswer: false },
+          { answer: "praised", trueAnswer: false }
         ]
       },
       {
         id: 7,
-        question: "What is the synonym of 'surrender'?",
+        question: "Ancient people _____ many stories.",
+        type: "vocabulary",
         answers: [
-          { answer: "give up", trueAnswer: true },
-          { answer: "pass away", trueAnswer: false },
-          { answer: "take off", trueAnswer: false },
-          { answer: "pass by", trueAnswer: false }
+          { answer: "told", trueAnswer: true },
+          { answer: "forgot", trueAnswer: false },
+          { answer: "ignored", trueAnswer: false },
+          { answer: "destroyed", trueAnswer: false }
         ]
       },
       {
         id: 8,
-        question: "What is the synonym of 'look after'?",
+        question: "The knight used a _____ to fight.",
+        type: "vocabulary",
         answers: [
-          { answer: "look around", trueAnswer: false },
-          { answer: "take care of", trueAnswer: true },
-          { answer: "get on well with", trueAnswer: false },
-          { answer: "look forward", trueAnswer: false }
+          { answer: "sword", trueAnswer: true },
+          { answer: "pen", trueAnswer: false },
+          { answer: "book", trueAnswer: false },
+          { answer: "phone", trueAnswer: false }
         ]
       },
       {
         id: 9,
-        question: "___________ means taking hold of something or someone suddenly and roughly.",
+        question: "Fairy tales usually have a _____ ending.",
+        type: "vocabulary",
         answers: [
-          { answer: "grab", trueAnswer: true },
-          { answer: "hit", trueAnswer: false },
-          { answer: "push", trueAnswer: false },
-          { answer: "pull", trueAnswer: false }
+          { answer: "happy", trueAnswer: true },
+          { answer: "sad", trueAnswer: false },
+          { answer: "scary", trueAnswer: false },
+          { answer: "boring", trueAnswer: false }
         ]
       },
       {
         id: 10,
-        question: "____________ means an act of defeating an enemy or opponent in a battle, game, or other competition.",
+        question: "The _____ helped the hero on his journey.",
+        type: "vocabulary",
         answers: [
-          { answer: "surrender", trueAnswer: false },
-          { answer: "worship", trueAnswer: false },
-          { answer: "besiege", trueAnswer: false },
-          { answer: "victory", trueAnswer: true }
-        ],
-      },
+          { answer: "wizard", trueAnswer: true },
+          { answer: "enemy", trueAnswer: false },
+          { answer: "monster", trueAnswer: false },
+          { answer: "villain", trueAnswer: false }
+        ]
+      }
     ],
-      Grade_11_Unit1: [
-        {
-          id: 1,
-          question: "___________________ is our best hope for approaching immortal knowledge.",
-          answers: [
-            { answer: "sustainable energy", trueAnswer: false },
-            { answer: "artificial intelligence", trueAnswer: true },
-            { answer: "space colonisation", trueAnswer: false },
-            { answer: "transportation system", trueAnswer: false }
-          ]
-        },
-        {
-          id: 2,
-          question: "The entire _______ has done a great job this year.",
-          answers: [
-            { answer: "shift", trueAnswer: false },
-            { answer: "benefit", trueAnswer: false },
-            { answer: "staff", trueAnswer: true },
-            { answer: "vacancy", trueAnswer: false }
-          ]
-        },
-        {
-          id: 3,
-          question: "We all spoke to them and John emerged as the best _________",
-          answers: [
-            { answer: "candidate", trueAnswer: true },
-            { answer: "shift", trueAnswer: false },
-            { answer: "vacancy", trueAnswer: false },
-            { answer: "benefit", trueAnswer: false }
-          ]
-        },
-        {
-          id: 4,
-          question: "A/An___________ is a person who sets up businesses and business deals.",
-          answers: [
-            { answer: "app developer", trueAnswer: false },
-            { answer: "biotechnologist", trueAnswer: false },
-            { answer: "orthodontist", trueAnswer: false },
-            { answer: "entrepreneur", trueAnswer: true }
-          ]
-        },
-        {
-          id: 5,
-          question: "The government has ________ May 19th to celebrate his anniversary.",
-          answers: [
-            { answer: "cashed up", trueAnswer: false },
-            { answer: "got ahead", trueAnswer: false },
-            { answer: "burnt out", trueAnswer: false },
-            { answer: "fixed upon", trueAnswer: true }
-          ]
-        },
-        {
-          id: 6,
-          question: "If you _____ yourself ____, you make yourself exhausted or ill by working too hard.",
-          answers: [
-            { answer: "fix/upon", trueAnswer: false },
-            { answer: "get/ahead", trueAnswer: false },
-            { answer: "burn/out", trueAnswer: true },
-            { answer: "cash/up", trueAnswer: false }
-          ]
-        },
-        {
-          id: 7,
-          question: "A/An ________is a dentist who corrects the position of people's teeth.",
-          answers: [
-            { answer: "orthodontist", trueAnswer: true },
-            { answer: "app developer", trueAnswer: false },
-            { answer: "entrepreneur", trueAnswer: false },
-            { answer: "biotechnologist", trueAnswer: false }
-          ]
-        },
-        {
-          id: 8,
-          question: "______________ means being  very pleased or happy about something.",
-          answers: [
-            { answer: "to get on well with", trueAnswer: false },
-            { answer: "to sell like hotcakes", trueAnswer: false },
-            { answer: "to be tickled to death", trueAnswer: true },
-            { answer: "to make prediction", trueAnswer: false }
-          ]
-        },
-        {
-          id: 9,
-          question: "This year's festival tickets are _____________________",
-          answers: [
-            { answer: "being tickled to death", trueAnswer: false },
-            { answer: "raining cats and dogs", trueAnswer: false },
-            { answer: "selling like hotcakes", trueAnswer: true },
-            { answer: "playing a part", trueAnswer: false }
-          ]
-        },
-        {
-          id: 10,
-          question: "John: I design programmes and codes for computers. What is John’s job?",
-          answers: [
-            { answer: "orthodontist", trueAnswer: false },
-            { answer: "software engineer", trueAnswer: true },
-            { answer: "entrepreneur", trueAnswer: false },
-            { answer: "app developer", trueAnswer: false }
-          ]
-        }
-      ],
-
-      Grade_11_Unit2: [
-        {
-          id: 1,
-          question: "Which of the following is not an extreme sport?",
-          answers: [
-            { answer: "Wingsuiting", trueAnswer: false },
-            { answer: "Drifting", trueAnswer: false },
-            { answer: "Ice climbing", trueAnswer: false },
-            { answer: "T-commerce", trueAnswer: true }
-          ]
-        },
-        {
-          id: 2,
-          question: "Which of the following is not a TV programme?",
-          answers: [
-            { answer: "Blues", trueAnswer: true },
-            { answer: "Soap opera", trueAnswer: false },
-            { answer: "Game show", trueAnswer: false },
-            { answer: "Infotainment", trueAnswer: false }
-          ]
-        },
-        {
-          id: 3,
-          question: "Which of the following is not a kind of music?",
-          answers: [
-            { answer: "Soft rock", trueAnswer: false },
-            { answer: "Blues", trueAnswer: false },
-            { answer: "News flash", trueAnswer: true },
-            { answer: "Hip hop", trueAnswer: false }
-          ]
-        },
-        {
-          id: 4,
-          question: "What is the meaning of the underlined phrase in the sentence: 'I am gifted in playing football.'?",
-          answers: [
-            { answer: "To have natural ability", trueAnswer: true },
-            { answer: "To have no ability", trueAnswer: false },
-            { answer: "To decide", trueAnswer: false },
-            { answer: "To plan", trueAnswer: false }
-          ]
-        },
-        {
-          id: 5,
-          question: "Which of the following is the same as this sentence: 'I am good at speaking English.'?",
-          answers: [
-            { answer: "I can't speak English fluently.", trueAnswer: false },
-            { answer: "I am good at speaking English.", trueAnswer: true },
-            { answer: "I hate speaking English.", trueAnswer: false },
-            { answer: "I have to confess that I wasn't really sick yesterday; I just didn't want to come into work.", trueAnswer: false }
-          ]
-        },
-        {
-          id: 6,
-          question: "What is the meaning of the underlined word in the sentence: 'I have to confess that I wasn't really sick yesterday; I just didn't want to come into work.'?",
-          answers: [
-            { answer: "To lie", trueAnswer: true },
-            { answer: "To express", trueAnswer: false },
-            { answer: "To admit", trueAnswer: false },
-            { answer: "To tell", trueAnswer: false }
-          ]
-        },
-        {
-          id: 7,
-          question: "What is the synonym of the underlined word in the sentence: 'I joined Mary’s birthday party uneagerly. I don’t like her.'?",
-          answers: [
-            { answer: "Half-heartedly", trueAnswer: true },
-            { answer: "Willingly", trueAnswer: false },
-            { answer: "Fast", trueAnswer: false },
-            { answer: "Happily", trueAnswer: false }
-          ]
-        },
-        {
-          id: 8,
-          question: "What is the meaning of the underlined phrase in the sentence: 'You have a flair for drawing pictures. I can’t take my eyes off them.'?",
-          answers: [
-            { answer: "To have no ability", trueAnswer: false },
-            { answer: "To be clumsy", trueAnswer: false },
-            { answer: "To have a talent", trueAnswer: true },
-            { answer: "To be exhausted", trueAnswer: false }
-          ]
-        },
-        {
-          id: 9,
-          question: "_____________ is a person or thing differing from all other members of a particular group or set in some way.",
-          answers: [
-            { answer: "Reluctant", trueAnswer: false },
-            { answer: "A flair for", trueAnswer: false },
-            { answer: "A good command", trueAnswer: false },
-            { answer: "The odd man out", trueAnswer: true }
-          ]
-        }
-      ],
-
-      Grade_11_Unit3: [
-        {
-          id: 1,
-          question: "Illiteracy means the inability to read or write.",
-          answers: [
-            { answer: "Failure", trueAnswer: false },
-            { answer: "Illiteracy", trueAnswer: true },
-            { answer: "Poverty", trueAnswer: false },
-            { answer: "Racism", trueAnswer: false }
-          ]
-        },
-        {
-          id: 2,
-          question: "Racism means prejudice, discrimination, or antagonism by an individual, community, or institution against a person or people on the basis of their membership of a particular racial or ethnic group, typically one that is a minority or marginalized.",
-          answers: [
-            { answer: "Racism", trueAnswer: true },
-            { answer: "Failure", trueAnswer: false },
-            { answer: "Poverty", trueAnswer: false },
-            { answer: "Illiteracy", trueAnswer: false }
-          ]
-        },
-        {
-          id: 3,
-          question: "Failure means lack of success.",
-          answers: [
-            { answer: "poverty", trueAnswer: false },
-            { answer: "failure", trueAnswer: true },
-            { answer: "racism", trueAnswer: false },
-            { answer: "illiteracy", trueAnswer: false }
-          ]
-        },
-        {
-          id: 4,
-          question: "Disability means a physical or mental condition that limits a person's movements, senses, or activities.",
-          answers: [
-            { answer: "disability", trueAnswer: true },
-            { answer: "failure", trueAnswer: false },
-            { answer: "poverty", trueAnswer: false },
-            { answer: "racism", trueAnswer: false }
-          ]
-        },
-        {
-          id: 5,
-          question: "Poverty means the state of being extremely poor.",
-          answers: [
-            { answer: "racism", trueAnswer: false },
-            { answer: "failure", trueAnswer: false },
-            { answer: "poverty", trueAnswer: true },
-            { answer: "disability", trueAnswer: false }
-          ]
-        },
-        {
-          id: 6,
-          question: "Make ends meet means earning just enough money to live on.",
-          answers: [
-            { answer: "make ends meet", trueAnswer: true },
-            { answer: "pursue your dreams", trueAnswer: false },
-            { answer: "hit rock bottom", trueAnswer: false },
-            { answer: "fell on hard times", trueAnswer: false }
-          ]
-        },
-        {
-          id: 7,
-          question: "Hit rock bottom means reach the lowest point possible.",
-          answers: [
-            { answer: "pursue your dreams", trueAnswer: false },
-            { answer: "fell on hard times", trueAnswer: false },
-            { answer: "make ends meet", trueAnswer: false },
-            { answer: "hit rock bottom", trueAnswer: true }
-          ]
-        },
-        {
-          id: 8,
-          question: "You can overcome your problems thanks to your beloved ones.",
-          answers: [
-            { answer: "overcome", trueAnswer: true },
-            { answer: "suffer from", trueAnswer: false },
-            { answer: "inspire", trueAnswer: false },
-            { answer: "drop out of", trueAnswer: false }
-          ]
-        },
-        {
-          id: 9,
-          question: "Get rid of means take action so as to be free of (a troublesome or unwanted person or thing).",
-          answers: [
-            { answer: "prescribe", trueAnswer: false },
-            { answer: "get rid of", trueAnswer: true },
-            { answer: "supply", trueAnswer: false },
-            { answer: "suffer from", trueAnswer: false }
-          ]
-        },
-        {
-          id: 10,
-          question: "Prescribe means (of a medical practitioner) advise and authorize the use of (a medicine or treatment) for someone, especially in writing.",
-          answers: [
-            { answer: "apply", trueAnswer: false },
-            { answer: "suffer from", trueAnswer: false },
-            { answer: "prescribe", trueAnswer: true },
-            { answer: "get rid of", trueAnswer: false }
-          ]
-        }
-      ],
-
-      Grade_12_Unit1: [
-        {
-          id: 1,
-          question: "Each ___________ of the song must be memorized before the singer takes the stage.",
-          answers: [
-            { answer: "voice", trueAnswer: false },
-            { answer: "lyric", trueAnswer: true },
-            { answer: "tempo", trueAnswer: false },
-            { answer: "melody", trueAnswer: false }
-          ]
-        },
-        {
-          id: 2,
-          question: "Which of the followings is not a string instrument?",
-          answers: [
-            { answer: "cello", trueAnswer: false },
-            { answer: "guitar", trueAnswer: false },
-            { answer: "piano", trueAnswer: true },
-            { answer: "contrabass", trueAnswer: false }
-          ]
-        },
-        {
-          id: 3,
-          question: "Which of the followings is not a percussion instrument?",
-          answers: [
-            { answer: "tambourine", trueAnswer: false },
-            { answer: "xylophone", trueAnswer: false },
-            { answer: "flute", trueAnswer: true },
-            { answer: "maracas", trueAnswer: false }
-          ]
-        },
-        {
-          id: 4,
-          question: "__________________ is the use of music to effect positive changes in the psychological, physical, cognitive, or social functioning of individuals with health or educational problems.",
-          answers: [
-            { answer: "deafening music", trueAnswer: false },
-            { answer: "raucous music", trueAnswer: false },
-            { answer: "healing music", trueAnswer: true },
-            { answer: "techno music", trueAnswer: false }
-          ]
-        },
-        {
-          id: 5,
-          question: "____________________ means worth remembering or easily remembered, especially because of being special or unusual.",
-          answers: [
-            { answer: "boring", trueAnswer: false },
-            { answer: "unbelievable", trueAnswer: false },
-            { answer: "exhausting", trueAnswer: false },
-            { answer: "memorable", trueAnswer: true }
-          ]
-        },
-        {
-          id: 6,
-          question: "If you describe something as eerie, you mean that ________.",
-          answers: [
-            { answer: "it seems strange and frightening, and makes you feel nervous.", trueAnswer: true },
-            { answer: "it seems perfect", trueAnswer: false },
-            { answer: "it seems ordinary and classical", trueAnswer: false },
-            { answer: "it seems enjoyable", trueAnswer: false }
-          ]
-        },
-        {
-          id: 7,
-          question: "______________ is  a conventional category that groups together pieces of music sharing a set of conventions or traditions.",
-          answers: [
-            { answer: "voice of the singer", trueAnswer: false },
-            { answer: "music genre", trueAnswer: true },
-            { answer: "melody", trueAnswer: false },
-            { answer: "tempo", trueAnswer: false }
-          ]
-        },
-        {
-          id: 8,
-          question: "If you listen to calming music all the time,_________________.",
-          answers: [
-            { answer: "you may dance", trueAnswer: false },
-            { answer: "you may have a headache", trueAnswer: false },
-            { answer: "you may be nervous", trueAnswer: false },
-            { answer: "you may feel sleepy", trueAnswer: true }
-          ]
-        },
-        {
-          id: 9,
-          question: "Listening to __________ alone may distract drivers’ attention and cause sleepiness.",
-          answers: [
-            { answer: "pop music", trueAnswer: false },
-            { answer: "rap music", trueAnswer: false },
-            { answer: "raucous music", trueAnswer: true },
-            { answer: "hip-hop music", trueAnswer: false }
-          ]
-        },
-        {
-          id: 10,
-          question: "_______________ means what is good for one person may be bad for another.",
-          answers: [
-            { answer: "One’s meat is another’s poison", trueAnswer: true },
-            { answer: "waste not want not", trueAnswer: false },
-            { answer: "four eyes see more than two", trueAnswer: false },
-            { answer: "less is more", trueAnswer: false }
-          ]
-        }
-      ],
-      Grade_12_Unit2: [
-        {
-          id: 1,
-          question: "A good friend is ___________. Which of the followings is not suitable for the blank?",
-          answers: [
-            { answer: "helpful", trueAnswer: false },
-            { answer: "reliable", trueAnswer: false },
-            { answer: "dishonest", trueAnswer: true },
-            { answer: "thoughtful", trueAnswer: false }
-          ]
-        },
-        {
-          id: 2,
-          question: "A good friend is ____________.",
-          answers: [
-            { answer: "disrespectful", trueAnswer: true },
-            { answer: "jealous", trueAnswer: false },
-            { answer: "Creckless", trueAnswer: false },
-            { answer: "generous", trueAnswer: false }
-          ]
-        },
-        {
-          id: 3,
-          question: "_____________ means having a similar appearance to or qualities in common with (someone or something); look or seem like.",
-          answers: [
-            { answer: "resemble", trueAnswer: true },
-            { answer: "dislike", trueAnswer: false },
-            { answer: "remind", trueAnswer: false },
-            { answer: "forget", trueAnswer: false }
-          ]
-        },
-        {
-          id: 4,
-          question: "______________ means  imagining how someone else feels in a difficult situation",
-          answers: [
-            { answer: "look forward to", trueAnswer: false },
-            { answer: "look after", trueAnswer: false },
-            { answer: "put oneself in someone’s shoes", trueAnswer: true },
-            { answer: "get on well with", trueAnswer: false }
-          ]
-        },
-        {
-          id: 5,
-          question: "A good friend is someone who will not leave you half way through. Which of the followings is about this statement?",
-          answers: [
-            { answer: "punctual", trueAnswer: false },
-            { answer: "loyal", trueAnswer: true },
-            { answer: "judgmental", trueAnswer: false },
-            { answer: "praising", trueAnswer: false }
-          ]
-        },
-        {
-          id: 6,
-          question: "__________ the absence of pretence, deceit, or hypocrisy.",
-          answers: [
-            { answer: "sincerity", trueAnswer: true },
-            { answer: "dissappointment", trueAnswer: false },
-            { answer: "loyalty", trueAnswer: false },
-            { answer: "punctuality", trueAnswer: false }
-          ]
-        },
-        {
-          id: 7,
-          question: "Only those who are givers can be good friends. Which of the followings is about this statement?",
-          answers: [
-            { answer: "emphatetic", trueAnswer: false },
-            { answer: "considerate", trueAnswer: false },
-            { answer: "generous", trueAnswer: true },
-            { answer: "disrecpectful", trueAnswer: false }
-          ]
-        },
-        {
-          id: 8,
-          question: "_________________ means receive (money, property, or a title) as an heir at the death of the previous holder.",
-          answers: [
-            { answer: "inherit", trueAnswer: true },
-            { answer: "pay", trueAnswer: false },
-            { answer: "sell", trueAnswer: false },
-            { answer: "visit", trueAnswer: false }
-          ]
-        },
-        {
-          id: 9,
-          question: "”He has always told me the truth.” Which of the followings is about this statement?",
-          answers: [
-            { answer: "punctual", trueAnswer: false },
-            { answer: "generous", trueAnswer: false },
-            { answer: "thoughtful", trueAnswer: false },
-            { answer: "honest", trueAnswer: true }
-          ]
-        },
-        {
-          id: 10,
-          question: "We _____________________. We have similar interests.",
-          answers: [
-            { answer: "have much in common", trueAnswer: true },
-            { answer: "hate each other", trueAnswer: false },
-            { answer: "don’t get on well with each other", trueAnswer: false },
-            { answer: "live in the same city", trueAnswer: false }
-          ]
-        }
-      ],
-
-      Grade_12_Unit3: [
-        {
-          id: 1,
-          question: "Each ___________ of the song must be memorized before the singer takes the stage.",
-          answers: [
-            { answer: "voice", trueAnswer: false },
-            { answer: "lyric", trueAnswer: true },
-            { answer: "tempo", trueAnswer: false },
-            { answer: "melody", trueAnswer: false }
-          ]
-        },
-        {
-          id: 2,
-          question: "Which of the followings is not a string instrument?",
-          answers: [
-            { answer: "cello", trueAnswer: false },
-            { answer: "guitar", trueAnswer: false },
-            { answer: "piano", trueAnswer: true },
-            { answer: "contrabass", trueAnswer: false }
-          ]
-        },
-        {
-          id: 3,
-          question: "Which of the followings is not a percussion instrument?",
-          answers: [
-            { answer: "tambourine", trueAnswer: false },
-            { answer: "xylophone", trueAnswer: false },
-            { answer: "flute", trueAnswer: true },
-            { answer: "maracas", trueAnswer: false }
-          ]
-        },
-        {
-          id: 4,
-          question: "__________________ is the use of music to effect positive changes in the psychological, physical, cognitive, or social functioning of individuals with health or educational problems.",
-          answers: [
-            { answer: "deafening music", trueAnswer: false },
-            { answer: "raucous music", trueAnswer: false },
-            { answer: "healing music", trueAnswer: true },
-            { answer: "techno music", trueAnswer: false }
-          ]
-        },
-        {
-          id: 5,
-          question: "____________________ means worth remembering or easily remembered, especially because of being special or unusual.",
-          answers: [
-            { answer: "boring", trueAnswer: false },
-            { answer: "unbelievable", trueAnswer: false },
-            { answer: "exhausting", trueAnswer: false },
-            { answer: "memorable", trueAnswer: true }
-          ]
-        },
-        {
-          id: 6,
-          question: "If you describe something as eerie, you mean that ________.",
-          answers: [
-            { answer: "it seems strange and frightening, and makes you feel nervous.", trueAnswer: true },
-            { answer: "it seems perfect", trueAnswer: false },
-            { answer: "it seems ordinary and classical", trueAnswer: false },
-            { answer: "it seems enjoyable", trueAnswer: false }
-          ]
-        },
-        {
-          id: 7,
-          question: "______________ is  a conventional category that groups together pieces of music sharing a set of conventions or traditions.",
-          answers: [
-            { answer: "voice of the singer", trueAnswer: false },
-            { answer: "music genre", trueAnswer: true },
-            { answer: "melody", trueAnswer: false },
-            { answer: "tempo", trueAnswer: false }
-          ]
-        },
-        {
-          id: 8,
-          question: "If you listen to calming music all the time,_________________.",
-          answers: [
-            { answer: "you may dance", trueAnswer: false },
-            { answer: "you may have a headache", trueAnswer: false },
-            { answer: "you may be nervous", trueAnswer: false },
-            { answer: "you may feel sleepy", trueAnswer: true }
-          ]
-        },
-        {
-          id: 9,
-          question: "Listening to __________ alone may distract drivers’ attention and cause sleepiness.",
-          answers: [
-            { answer: "pop music", trueAnswer: false },
-            { answer: "rap music", trueAnswer: false },
-            { answer: "raucous music", trueAnswer: true },
-            { answer: "hip-hop music", trueAnswer: false }
-          ]
-        },
-        {
-          id: 10,
-          question: "_______________ means what is good for one person may be bad for another.",
-          answers: [
-            { answer: "One’s meat is another’s poison", trueAnswer: true },
-            { answer: "waste not want not", trueAnswer: false },
-            { answer: "four eyes see more than two", trueAnswer: false },
-            { answer: "less is more", trueAnswer: false }
-          ]
-        }
-      ],
+    Grade_11_Unit1: [
+      {
+        id: 1,
+        question: "What career requires working with computers?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Software developer", trueAnswer: true },
+          { answer: "Chef", trueAnswer: false },
+          { answer: "Gardener", trueAnswer: false },
+          { answer: "Mechanic", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "An architect _____ buildings.",
+        type: "vocabulary",
+        answers: [
+          { answer: "designs", trueAnswer: true },
+          { answer: "cooks", trueAnswer: false },
+          { answer: "teaches", trueAnswer: false },
+          { answer: "drives", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What skills do you need to be a journalist?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Writing and communication", trueAnswer: true },
+          { answer: "Cooking and cleaning", trueAnswer: false },
+          { answer: "Singing and dancing", trueAnswer: false },
+          { answer: "Running and jumping", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "A _____ helps people with legal problems.",
+        type: "vocabulary",
+        answers: [
+          { answer: "lawyer", trueAnswer: true },
+          { answer: "doctor", trueAnswer: false },
+          { answer: "teacher", trueAnswer: false },
+          { answer: "engineer", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "What does an entrepreneur do?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Starts their own business", trueAnswer: true },
+          { answer: "Works for the government", trueAnswer: false },
+          { answer: "Teaches at school", trueAnswer: false },
+          { answer: "Fixes cars", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "A veterinarian takes care of _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "animals", trueAnswer: true },
+          { answer: "plants", trueAnswer: false },
+          { answer: "machines", trueAnswer: false },
+          { answer: "buildings", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "What qualification do you need to be a pilot?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Flying license", trueAnswer: true },
+          { answer: "Cooking certificate", trueAnswer: false },
+          { answer: "Driving license", trueAnswer: false },
+          { answer: "Teaching degree", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "A pharmacist works in a _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "pharmacy", trueAnswer: true },
+          { answer: "restaurant", trueAnswer: false },
+          { answer: "school", trueAnswer: false },
+          { answer: "bank", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "What does a psychologist study?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Human behavior", trueAnswer: true },
+          { answer: "Plants", trueAnswer: false },
+          { answer: "Machines", trueAnswer: false },
+          { answer: "Weather", trueAnswer: false }
+        ]
+      },
+      {
+        id: 10,
+        question: "An accountant works with _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "numbers and money", trueAnswer: true },
+          { answer: "animals", trueAnswer: false },
+          { answer: "food", trueAnswer: false },
+          { answer: "music", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_11_Unit2: [
+      {
+        id: 1,
+        question: "Playing chess improves your _____ skills.",
+        type: "vocabulary",
+        answers: [
+          { answer: "strategic thinking", trueAnswer: true },
+          { answer: "cooking", trueAnswer: false },
+          { answer: "singing", trueAnswer: false },
+          { answer: "dancing", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "I'm _____ at playing the piano.",
+        type: "vocabulary",
+        answers: [
+          { answer: "skilled", trueAnswer: true },
+          { answer: "bad", trueAnswer: false },
+          { answer: "terrible", trueAnswer: false },
+          { answer: "hopeless", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What hobby requires creativity?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Painting", trueAnswer: true },
+          { answer: "Sleeping", trueAnswer: false },
+          { answer: "Eating", trueAnswer: false },
+          { answer: "Walking", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "She has a _____ for languages.",
+        type: "vocabulary",
+        answers: [
+          { answer: "talent", trueAnswer: true },
+          { answer: "problem", trueAnswer: false },
+          { answer: "fear", trueAnswer: false },
+          { answer: "hatred", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "Photography is both an art and a _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "skill", trueAnswer: true },
+          { answer: "problem", trueAnswer: false },
+          { answer: "disease", trueAnswer: false },
+          { answer: "punishment", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "To be good at sports, you need to _____ regularly.",
+        type: "vocabulary",
+        answers: [
+          { answer: "practice", trueAnswer: true },
+          { answer: "sleep", trueAnswer: false },
+          { answer: "eat", trueAnswer: false },
+          { answer: "complain", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "Gardening requires _____ and care.",
+        type: "vocabulary",
+        answers: [
+          { answer: "patience", trueAnswer: true },
+          { answer: "anger", trueAnswer: false },
+          { answer: "laziness", trueAnswer: false },
+          { answer: "carelessness", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "What skill is important for public speaking?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Confidence", trueAnswer: true },
+          { answer: "Shyness", trueAnswer: false },
+          { answer: "Fear", trueAnswer: false },
+          { answer: "Nervousness", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "Learning a musical instrument requires _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "dedication", trueAnswer: true },
+          { answer: "laziness", trueAnswer: false },
+          { answer: "carelessness", trueAnswer: false },
+          { answer: "impatience", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_11_Unit1_Listening: [
+      {
+        id: 1,
+        question: "Listen to the career interview. What job is the person applying for?",
+        type: "listening",
+        audioUrl: "/audio/career1.mp3",
+        answers: [
+          { answer: "Marketing Manager", trueAnswer: true },
+          { answer: "Software Developer", trueAnswer: false },
+          { answer: "Graphic Designer", trueAnswer: false },
+          { answer: "Sales Representative", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "What qualification does the candidate have?",
+        type: "listening",
+        audioUrl: "/audio/qualification1.mp3",
+        answers: [
+          { answer: "MBA degree", trueAnswer: true },
+          { answer: "High school diploma", trueAnswer: false },
+          { answer: "Technical certificate", trueAnswer: false },
+          { answer: "Medical degree", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "How many years of experience does the person have?",
+        type: "listening",
+        audioUrl: "/audio/experience1.mp3",
+        answers: [
+          { answer: "5 years", trueAnswer: true },
+          { answer: "2 years", trueAnswer: false },
+          { answer: "8 years", trueAnswer: false },
+          { answer: "10 years", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "What is the person's greatest strength?",
+        type: "listening",
+        audioUrl: "/audio/strength1.mp3",
+        answers: [
+          { answer: "Leadership skills", trueAnswer: true },
+          { answer: "Technical skills", trueAnswer: false },
+          { answer: "Language skills", trueAnswer: false },
+          { answer: "Creative skills", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "When can the person start working?",
+        type: "listening",
+        audioUrl: "/audio/start1.mp3",
+        answers: [
+          { answer: "Next month", trueAnswer: true },
+          { answer: "Next week", trueAnswer: false },
+          { answer: "Next year", trueAnswer: false },
+          { answer: "Immediately", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "What salary is the person expecting?",
+        type: "listening",
+        audioUrl: "/audio/salary1.mp3",
+        answers: [
+          { answer: "$50,000 per year", trueAnswer: true },
+          { answer: "$30,000 per year", trueAnswer: false },
+          { answer: "$70,000 per year", trueAnswer: false },
+          { answer: "$40,000 per year", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "Why does the person want this job?",
+        type: "listening",
+        audioUrl: "/audio/motivation1.mp3",
+        answers: [
+          { answer: "Career growth opportunity", trueAnswer: true },
+          { answer: "High salary", trueAnswer: false },
+          { answer: "Easy work", trueAnswer: false },
+          { answer: "Short hours", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_11_Unit3: [
+      {
+        id: 1,
+        question: "During hard times, people need _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "support", trueAnswer: true },
+          { answer: "problems", trueAnswer: false },
+          { answer: "difficulties", trueAnswer: false },
+          { answer: "troubles", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "When you face a challenge, you should _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "stay strong", trueAnswer: true },
+          { answer: "give up", trueAnswer: false },
+          { answer: "run away", trueAnswer: false },
+          { answer: "complain", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What helps people overcome difficulties?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Determination", trueAnswer: true },
+          { answer: "Laziness", trueAnswer: false },
+          { answer: "Fear", trueAnswer: false },
+          { answer: "Doubt", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "Economic _____ affects many families.",
+        type: "vocabulary",
+        answers: [
+          { answer: "crisis", trueAnswer: true },
+          { answer: "success", trueAnswer: false },
+          { answer: "growth", trueAnswer: false },
+          { answer: "prosperity", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "She showed great _____ during her illness.",
+        type: "vocabulary",
+        answers: [
+          { answer: "courage", trueAnswer: true },
+          { answer: "weakness", trueAnswer: false },
+          { answer: "fear", trueAnswer: false },
+          { answer: "cowardice", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "The family _____ many hardships together.",
+        type: "vocabulary",
+        answers: [
+          { answer: "endured", trueAnswer: true },
+          { answer: "enjoyed", trueAnswer: false },
+          { answer: "celebrated", trueAnswer: false },
+          { answer: "ignored", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "Natural disasters can cause great _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "suffering", trueAnswer: true },
+          { answer: "happiness", trueAnswer: false },
+          { answer: "joy", trueAnswer: false },
+          { answer: "celebration", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "It's important to _____ hope during difficult times.",
+        type: "vocabulary",
+        answers: [
+          { answer: "maintain", trueAnswer: true },
+          { answer: "lose", trueAnswer: false },
+          { answer: "forget", trueAnswer: false },
+          { answer: "abandon", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "The community came together to _____ the victims.",
+        type: "vocabulary",
+        answers: [
+          { answer: "help", trueAnswer: true },
+          { answer: "ignore", trueAnswer: false },
+          { answer: "blame", trueAnswer: false },
+          { answer: "abandon", trueAnswer: false }
+        ]
+      },
+      {
+        id: 10,
+        question: "After the storm, they had to _____ their lives.",
+        type: "vocabulary",
+        answers: [
+          { answer: "rebuild", trueAnswer: true },
+          { answer: "destroy", trueAnswer: false },
+          { answer: "abandon", trueAnswer: false },
+          { answer: "forget", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_12_Unit1: [
+      {
+        id: 1,
+        question: "What instrument has 88 keys?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Piano", trueAnswer: true },
+          { answer: "Guitar", trueAnswer: false },
+          { answer: "Violin", trueAnswer: false },
+          { answer: "Drums", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "A _____ leads an orchestra.",
+        type: "vocabulary",
+        answers: [
+          { answer: "conductor", trueAnswer: true },
+          { answer: "singer", trueAnswer: false },
+          { answer: "dancer", trueAnswer: false },
+          { answer: "actor", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What genre of music is characterized by improvisation?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Jazz", trueAnswer: true },
+          { answer: "Classical", trueAnswer: false },
+          { answer: "Pop", trueAnswer: false },
+          { answer: "Rock", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "The _____ of a song is the main tune.",
+        type: "vocabulary",
+        answers: [
+          { answer: "melody", trueAnswer: true },
+          { answer: "rhythm", trueAnswer: false },
+          { answer: "harmony", trueAnswer: false },
+          { answer: "tempo", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "What do you call a group of musicians playing together?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Band", trueAnswer: true },
+          { answer: "Audience", trueAnswer: false },
+          { answer: "Crowd", trueAnswer: false },
+          { answer: "Team", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "A _____ is a musical composition for a solo instrument.",
+        type: "vocabulary",
+        answers: [
+          { answer: "sonata", trueAnswer: true },
+          { answer: "symphony", trueAnswer: false },
+          { answer: "opera", trueAnswer: false },
+          { answer: "ballet", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "The _____ is the speed of music.",
+        type: "vocabulary",
+        answers: [
+          { answer: "tempo", trueAnswer: true },
+          { answer: "volume", trueAnswer: false },
+          { answer: "pitch", trueAnswer: false },
+          { answer: "tone", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "What instrument family does the trumpet belong to?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Brass", trueAnswer: true },
+          { answer: "Woodwind", trueAnswer: false },
+          { answer: "String", trueAnswer: false },
+          { answer: "Percussion", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "A _____ is a large musical work for orchestra and soloists.",
+        type: "vocabulary",
+        answers: [
+          { answer: "symphony", trueAnswer: true },
+          { answer: "song", trueAnswer: false },
+          { answer: "tune", trueAnswer: false },
+          { answer: "jingle", trueAnswer: false }
+        ]
+      },
+      {
+        id: 10,
+        question: "The words of a song are called the _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "lyrics", trueAnswer: true },
+          { answer: "notes", trueAnswer: false },
+          { answer: "chords", trueAnswer: false },
+          { answer: "scales", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_12_Unit2: [
+      {
+        id: 1,
+        question: "A true friend is always _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "loyal", trueAnswer: true },
+          { answer: "selfish", trueAnswer: false },
+          { answer: "dishonest", trueAnswer: false },
+          { answer: "unreliable", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "What quality is most important in friendship?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Trust", trueAnswer: true },
+          { answer: "Money", trueAnswer: false },
+          { answer: "Beauty", trueAnswer: false },
+          { answer: "Fame", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "When friends disagree, they should _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "communicate", trueAnswer: true },
+          { answer: "fight", trueAnswer: false },
+          { answer: "ignore each other", trueAnswer: false },
+          { answer: "end the friendship", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "A good friend _____ you in difficult times.",
+        type: "vocabulary",
+        answers: [
+          { answer: "supports", trueAnswer: true },
+          { answer: "abandons", trueAnswer: false },
+          { answer: "criticizes", trueAnswer: false },
+          { answer: "ignores", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "Friendship requires _____ understanding.",
+        type: "vocabulary",
+        answers: [
+          { answer: "mutual", trueAnswer: true },
+          { answer: "one-sided", trueAnswer: false },
+          { answer: "selfish", trueAnswer: false },
+          { answer: "temporary", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "What can damage a friendship?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Betrayal", trueAnswer: true },
+          { answer: "Honesty", trueAnswer: false },
+          { answer: "Support", trueAnswer: false },
+          { answer: "Understanding", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "True friends _____ each other's secrets.",
+        type: "vocabulary",
+        answers: [
+          { answer: "keep", trueAnswer: true },
+          { answer: "share", trueAnswer: false },
+          { answer: "sell", trueAnswer: false },
+          { answer: "forget", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "A _____ friend is someone you can depend on.",
+        type: "vocabulary",
+        answers: [
+          { answer: "reliable", trueAnswer: true },
+          { answer: "unreliable", trueAnswer: false },
+          { answer: "dishonest", trueAnswer: false },
+          { answer: "selfish", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "Good friends _____ each other's achievements.",
+        type: "vocabulary",
+        answers: [
+          { answer: "celebrate", trueAnswer: true },
+          { answer: "envy", trueAnswer: false },
+          { answer: "ignore", trueAnswer: false },
+          { answer: "criticize", trueAnswer: false }
+        ]
+      },
+      {
+        id: 10,
+        question: "Friendship is built on _____ and respect.",
+        type: "vocabulary",
+        answers: [
+          { answer: "trust", trueAnswer: true },
+          { answer: "fear", trueAnswer: false },
+          { answer: "jealousy", trueAnswer: false },
+          { answer: "competition", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_12_Unit1_Visual: [
+      {
+        id: 1,
+        question: "What musical instrument is shown in the image?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/164743/pexels-photo-164743.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Piano", trueAnswer: true },
+          { answer: "Guitar", trueAnswer: false },
+          { answer: "Violin", trueAnswer: false },
+          { answer: "Drums", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "What type of performance is this?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Concert", trueAnswer: true },
+          { answer: "Movie", trueAnswer: false },
+          { answer: "Sports game", trueAnswer: false },
+          { answer: "Conference", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What instrument is the person playing?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/1407322/pexels-photo-1407322.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Guitar", trueAnswer: true },
+          { answer: "Piano", trueAnswer: false },
+          { answer: "Violin", trueAnswer: false },
+          { answer: "Flute", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "What is shown in this music-related image?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/1751731/pexels-photo-1751731.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Recording studio", trueAnswer: true },
+          { answer: "Kitchen", trueAnswer: false },
+          { answer: "Classroom", trueAnswer: false },
+          { answer: "Library", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "What musical equipment is this?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Microphone", trueAnswer: true },
+          { answer: "Camera", trueAnswer: false },
+          { answer: "Phone", trueAnswer: false },
+          { answer: "Lamp", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "What instrument family is shown?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/1327430/pexels-photo-1327430.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Drums", trueAnswer: true },
+          { answer: "Strings", trueAnswer: false },
+          { answer: "Brass", trueAnswer: false },
+          { answer: "Woodwinds", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "What is this musical notation called?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Sheet music", trueAnswer: true },
+          { answer: "Book", trueAnswer: false },
+          { answer: "Newspaper", trueAnswer: false },
+          { answer: "Magazine", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "What type of musical event is this?",
+        type: "visual",
+        imageUrl: "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=400",
+        answers: [
+          { answer: "Orchestra performance", trueAnswer: true },
+          { answer: "Dance show", trueAnswer: false },
+          { answer: "Theater play", trueAnswer: false },
+          { answer: "Art exhibition", trueAnswer: false }
+        ]
+      }
+    ],
+    Grade_12_Unit3: [
+      {
+        id: 1,
+        question: "Human rights are _____ for all people.",
+        type: "vocabulary",
+        answers: [
+          { answer: "universal", trueAnswer: true },
+          { answer: "limited", trueAnswer: false },
+          { answer: "optional", trueAnswer: false },
+          { answer: "temporary", trueAnswer: false }
+        ]
+      },
+      {
+        id: 2,
+        question: "Everyone has the right to _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "freedom of speech", trueAnswer: true },
+          { answer: "silence others", trueAnswer: false },
+          { answer: "control others", trueAnswer: false },
+          { answer: "limit others", trueAnswer: false }
+        ]
+      },
+      {
+        id: 3,
+        question: "What is discrimination?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Unfair treatment based on differences", trueAnswer: true },
+          { answer: "Equal treatment for all", trueAnswer: false },
+          { answer: "Fair judgment", trueAnswer: false },
+          { answer: "Respectful behavior", trueAnswer: false }
+        ]
+      },
+      {
+        id: 4,
+        question: "The right to education means _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "everyone can go to school", trueAnswer: true },
+          { answer: "only rich people can study", trueAnswer: false },
+          { answer: "education is not important", trueAnswer: false },
+          { answer: "schools are optional", trueAnswer: false }
+        ]
+      },
+      {
+        id: 5,
+        question: "What does equality mean?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Same rights for everyone", trueAnswer: true },
+          { answer: "Different rules for different people", trueAnswer: false },
+          { answer: "Special privileges for some", trueAnswer: false },
+          { answer: "Unfair treatment", trueAnswer: false }
+        ]
+      },
+      {
+        id: 6,
+        question: "Freedom of religion means people can _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "choose their own beliefs", trueAnswer: true },
+          { answer: "force others to believe", trueAnswer: false },
+          { answer: "ban other religions", trueAnswer: false },
+          { answer: "control others' faith", trueAnswer: false }
+        ]
+      },
+      {
+        id: 7,
+        question: "What is the purpose of human rights?",
+        type: "vocabulary",
+        answers: [
+          { answer: "To protect human dignity", trueAnswer: true },
+          { answer: "To create inequality", trueAnswer: false },
+          { answer: "To limit freedom", trueAnswer: false },
+          { answer: "To cause conflict", trueAnswer: false }
+        ]
+      },
+      {
+        id: 8,
+        question: "Everyone has the right to _____ working conditions.",
+        type: "vocabulary",
+        answers: [
+          { answer: "safe", trueAnswer: true },
+          { answer: "dangerous", trueAnswer: false },
+          { answer: "unhealthy", trueAnswer: false },
+          { answer: "unfair", trueAnswer: false }
+        ]
+      },
+      {
+        id: 9,
+        question: "What does justice mean?",
+        type: "vocabulary",
+        answers: [
+          { answer: "Fair treatment under the law", trueAnswer: true },
+          { answer: "Punishment without trial", trueAnswer: false },
+          { answer: "Favoritism", trueAnswer: false },
+          { answer: "Corruption", trueAnswer: false }
+        ]
+      },
+      {
+        id: 10,
+        question: "Human rights violations should be _____.",
+        type: "vocabulary",
+        answers: [
+          { answer: "reported and stopped", trueAnswer: true },
+          { answer: "ignored", trueAnswer: false },
+          { answer: "encouraged", trueAnswer: false },
+          { answer: "hidden", trueAnswer: false }
+        ]
+      }
+    ]
   };
-  
-  const sharedValuesAndMethods = {
+
+  const value = {
     questions,
     currentQuestion,
-    setCurrentQuestion,
+    setCurrentQuestion
   };
 
   return (
-    <QuizContext.Provider value={sharedValuesAndMethods}>
+    <QuizContext.Provider value={value}>
       {children}
     </QuizContext.Provider>
   );
 }
 
-const useQuizContext = () => useContext(QuizContext);
-export { Provider, useQuizContext };
-export default QuizContext;
+export const useQuizContext = () => {
+  const context = useContext(QuizContext);
+  if (!context) {
+    throw new Error('useQuizContext must be used within a Provider');
+  }
+  return context;
+};

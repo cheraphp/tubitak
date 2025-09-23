@@ -76,7 +76,7 @@ body {
 .app-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1rem;
+  padding: 0;
   position: relative;
   overflow-x: hidden;
 }
@@ -96,15 +96,16 @@ body {
 .quiz-box {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 100%;
   width: 100%;
   margin: auto;
   background: var(--bg-white);
-  border-radius: var(--radius-2xl);
+  border-radius: 0;
   box-shadow: var(--shadow-xl);
   overflow: hidden;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: none;
+  min-height: 100vh;
 }
 
 /* Navigation Bar */
@@ -464,12 +465,12 @@ body {
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .app-container {
-    padding: 1rem;
+    padding: 0;
   }
   
   .quiz-box {
     width: 100%;
-    border-radius: var(--radius-xl);
+    border-radius: 0;
   }
   
   .theme-toggle {
@@ -482,11 +483,11 @@ body {
 
 @media screen and (max-width: 480px) {
   .app-container {
-    padding: 0.5rem;
+    padding: 0;
   }
   
   .quiz-box {
-    border-radius: var(--radius-lg);
+    border-radius: 0;
   }
 }
 

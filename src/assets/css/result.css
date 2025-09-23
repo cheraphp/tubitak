@@ -1,7 +1,9 @@
 /* Result Page Styles */
 .result-container {
-  padding: 2rem;
+  padding: 1rem;
   animation: fadeInUp 0.8s ease-out;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Score Section */
@@ -394,7 +396,7 @@
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .result-container {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .score-percentage {
@@ -428,7 +430,7 @@
 
 @media screen and (max-width: 480px) {
   .score-section {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
   }
   
   .score-percentage {
@@ -436,11 +438,11 @@
   }
   
   .review-section {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .question-card {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .question-header {

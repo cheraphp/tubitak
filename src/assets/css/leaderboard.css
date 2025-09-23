@@ -2,7 +2,7 @@
 .leaderboard-container {
   min-height: 100vh;
   background: var(--bg-primary);
-  padding: 2rem;
+  padding: 1rem;
   animation: fadeInUp 0.6s ease-out;
 }
 
@@ -352,7 +352,7 @@
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .leaderboard-container {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .header-content {
@@ -378,7 +378,7 @@
 
 @media screen and (max-width: 480px) {
   .leaderboard-header {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .header-info h1 {

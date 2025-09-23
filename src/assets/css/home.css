@@ -1,7 +1,9 @@
 /* Home Page Styles */
 .home {
-  padding: 2rem;
+  padding: 1rem;
   animation: fadeInUp 0.8s ease-out;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* User Welcome Section */
@@ -375,7 +377,7 @@
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .home {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .user-welcome {
@@ -415,11 +417,11 @@
 
 @media screen and (max-width: 480px) {
   .intro-box {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
   }
   
   .user-welcome {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .user-stats-quick {
@@ -428,14 +430,14 @@
   }
   
   .grade-section {
-    padding: 1.5rem;
-  }
-  
-  .unit-card {
     padding: 1rem;
   }
   
+  .unit-card {
+    padding: 0.75rem;
+  }
+  
   .features-section {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 }
