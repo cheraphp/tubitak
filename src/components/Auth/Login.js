@@ -35,11 +35,7 @@ function Login({ onClose, switchToRegister }) {
   };
 
   return (
-    <div 
-      className="auth-modal-overlay" 
-      onClick={onClose}
-      style={{ zIndex: 99999 }}
-    >
+    <div className="auth-modal-overlay" onClick={onClose}>
       <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
         <div className="auth-header">
           <h2>Welcome Back!</h2>
