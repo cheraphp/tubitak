@@ -8,8 +8,8 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="app-container">
-      <div className="quiz-box">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+      <div className="min-h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/quiz/:level" element={<Quiz />} />

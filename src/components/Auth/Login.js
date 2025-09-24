@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Link } from 'react-router-dom';
 
 function Login({ onClose, switchToRegister }) {
   const [formData, setFormData] = useState({
@@ -36,31 +35,40 @@ function Login({ onClose, switchToRegister }) {
 
   return (
     <div 
-      className="auth-modal-overlay" 
+      className="modal-overlay animate-fade-in" 
       onClick={(e) => {
-      if (e.target === e.currentTarget) {
-        onClose();
-      }
-    }}>
-      <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="auth-header">
-          <h2>Welcome Back!</h2>
-          <p>Sign in to continue your learning journey</p>
-          <button className="close-btn" onClick={onClose}>
-            <i className="bi bi-x-lg"></i>
-          </button>
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="modal animate-scale-in" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white p-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative">
+            <button 
+              className="absolute top-0 right-0 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+              onClick={onClose}
+            >
+              <i className="bi bi-x-lg text-sm"></i>
+            </button>
+            <h2 className="text-2xl font-bold mb-2">Welcome Back!</h2>
+            <p className="opacity-90">Sign in to continue your learning journey</p>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="auth-form">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="error-message">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
               <i className="bi bi-exclamation-triangle"></i>
-              {error}
+              <span>{error}</span>
             </div>
           )}
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -69,11 +77,14 @@ function Login({ onClose, switchToRegister }) {
               onChange={handleChange}
               required
               placeholder="Enter your email"
+              className="input"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -82,10 +93,11 @@ function Login({ onClose, switchToRegister }) {
               onChange={handleChange}
               required
               placeholder="Enter your password"
+              className="input"
             />
           </div>
 
-          <button type="submit" className="auth-btn primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
             {loading ? (
               <>
                 <div className="loading-spinner"></div>
@@ -100,10 +112,13 @@ function Login({ onClose, switchToRegister }) {
           </button>
         </form>
 
-        <div className="auth-footer">
-          <p>
+        <div className="px-6 pb-6 text-center border-t border-gray-200 pt-4">
+          <p className="text-gray-600">
             Don't have an account?{' '}
-            <button className="link-btn" onClick={switchToRegister}>
+            <button 
+              className="text-primary-600 hover:text-primary-700 font-medium"
+              onClick={switchToRegister}
+            >
               Sign up here
             </button>
           </p>
