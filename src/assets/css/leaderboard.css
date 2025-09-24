@@ -1,10 +1,9 @@
 /* Leaderboard Styles */
 .leaderboard-container {
-  flex: 1;
+  min-height: 100vh;
   background: var(--bg-primary);
   padding: 1rem;
   animation: fadeInUp 0.6s ease-out;
-  width: 100%;
 }
 
 .leaderboard-header {
