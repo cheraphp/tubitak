@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 
-function UserProfile({ onClose, position }) {
+function UserProfile({ onClose }) {
   const { user, logout } = useAuth();
 
   if (!user) return null;
@@ -30,14 +30,7 @@ function UserProfile({ onClose, position }) {
         onClose();
       }
     }}>
-      <div 
-        className="profile-modal" 
-        style={{
-          top: position?.y ? `${position.y}px` : '50%',
-          left: position?.x ? `${position.x}px` : '50%'
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
         <div className="profile-header">
           <button className="close-btn" onClick={onClose}>
             <i className="bi bi-x-lg"></i>

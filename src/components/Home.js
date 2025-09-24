@@ -11,7 +11,7 @@ function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [showWarning, setShowWarning] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -19,6 +19,12 @@ function Home() {
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
     setIsLoaded(true);
+    
+    // Check if warning has been shown before
+    const warningShown = localStorage.getItem('warningShown');
+    if (!warningShown) {
+      setShowWarning(true);
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -29,15 +35,6 @@ function Home() {
   };
 
   const handleAuthClick = (e, type) => {
-    const rect = e.target.getBoundingClientRect();
-    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    
-    setPopupPosition({
-      x: rect.left + rect.width / 2 + scrollX,
-      y: rect.top + rect.height / 2 + scrollY
-    });
-    
     if (type === 'login') {
       setShowLogin(true);
     } else if (type === 'register') {
@@ -46,15 +43,12 @@ function Home() {
   };
 
   const handleProfileClick = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    
-    setPopupPosition({
-      x: rect.left + rect.width / 2 + scrollX,
-      y: rect.top + rect.height / 2 + scrollY
-    });
     setShowProfile(true);
+  };
+
+  const handleWarningClose = () => {
+    localStorage.setItem('warningShown', 'true');
+    setShowWarning(false);
   };
 
   const gradeData = [
@@ -465,6 +459,44 @@ function Home() {
         </div>
       </div>
 
+      {/* Warning Modal */}
+      {showWarning && (
+        <div className="warning-modal-overlay">
+          <div className="warning-modal">
+            <div className="warning-header">
+              <div className="warning-icon">
+                <i className="bi bi-exclamation-triangle-fill"></i>
+              </div>
+              <h2>Geliştirme Aşamasında</h2>
+              <p>Bu site şu anda geliştirme aşamasındadır</p>
+            </div>
+            
+            <div className="warning-content">
+              <div className="warning-text">
+                Bu site henüz geliştirme aşamasındadır. Bazı özellikler tam olarak çalışmayabilir 
+                veya beklenmedik hatalar oluşabilir. Lütfen bu durumu göz önünde bulundurarak kullanınız.
+              </div>
+              
+              <div className="warning-text school-info">
+                Bu site <strong>Süleyman Demirel Mesleki ve Teknik Anadolu Lisesi</strong> için 
+                geliştirilmiştir. İzinsiz kullanılması yasaktır.
+              </div>
+              
+              <div className="warning-text contact-info">
+                <strong>İletişim:</strong><br/>
+                Herhangi bir sorun yaşadığınızda veya önerileriniz için<br/>
+                okul yönetimi ile iletişime geçebilirsiniz.
+              </div>
+              
+              <button className="warning-btn" onClick={handleWarningClose}>
+                <i className="bi bi-check-lg"></i>
+                Anladım, Devam Et
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Auth Modals */}
       {showLogin && (
         <Login 
@@ -473,7 +505,6 @@ function Home() {
             setShowLogin(false);
             setShowRegister(true);
           }}
-          position={popupPosition}
         />
       )}
       
@@ -484,12 +515,11 @@ function Home() {
             setShowRegister(false);
             setShowLogin(true);
           }}
-          position={popupPosition}
         />
       )}
 
       {showProfile && user && (
-        <UserProfile onClose={() => setShowProfile(false)} position={popupPosition} />
+        <UserProfile onClose={() => setShowProfile(false)} />
       )}
     </>
   );

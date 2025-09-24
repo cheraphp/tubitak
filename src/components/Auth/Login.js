@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 
-function Login({ onClose, switchToRegister, position }) {
+function Login({ onClose, switchToRegister }) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -42,14 +42,7 @@ function Login({ onClose, switchToRegister, position }) {
         onClose();
       }
     }}>
-      <div 
-        className="auth-modal" 
-        style={{
-          top: position?.y ? `${position.y}px` : '50%',
-          left: position?.x ? `${position.x}px` : '50%'
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
         <div className="auth-header">
           <h2>Welcome Back!</h2>
           <p>Sign in to continue your learning journey</p>

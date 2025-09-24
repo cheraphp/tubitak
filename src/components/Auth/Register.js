@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
-function Register({ onClose, switchToLogin, position }) {
+function Register({ onClose, switchToLogin }) {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -59,14 +59,7 @@ function Register({ onClose, switchToLogin, position }) {
         onClose();
       }
     }}>
-      <div 
-        className="auth-modal" 
-        style={{
-          top: position?.y ? `${position.y}px` : '50%',
-          left: position?.x ? `${position.x}px` : '50%'
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
         <div className="auth-header">
           <h2>Join VocQuiz!</h2>
           <p>Create your account and start learning</p>
