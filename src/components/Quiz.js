@@ -42,6 +42,33 @@ function Quiz() {
     return levelMap[levelKey] || levelKey;
   };
 
+  const addAnswer = useCallback((index) => {
+    const selectedAnswer =
+      index !== null
+        ? questions[level][currentQuestion].answers[index]
+        : {
+            answer: "Time's Up",
+            trueAnswer: false,
+          };
+    const newAnswers = [...selectedAnswers, selectedAnswer];
+    setSelectedAnswers(newAnswers);
+  }, [questions, level, currentQuestion, selectedAnswers]);
+
+  const nextQuestion = useCallback((index) => {
+    if (currentQuestion >= questions[level].length - 1) {
+      addAnswer(index);
+      setCurrentQuestion(0);
+      setIsResult(true);
+    } else {
+      setTime(30);
+      setIsNextButton(false);
+      addAnswer(index);
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedIndex(null);
+      setAudioBlob(null);
+    }
+  }, [currentQuestion, questions, level, addAnswer, setCurrentQuestion, setIsResult, setTime, setIsNextButton, setSelectedIndex, setAudioBlob]);
+
   useEffect(() => {
     if (questions[level]) {
       setIsLoading(false);
@@ -54,6 +81,31 @@ function Quiz() {
       initializeSpeechRecording();
     }
   }, [currentQuestion, level, questions]);
+
+  useEffect(() => {
+    if (time <= 0) {
+      nextQuestion(null);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTime(prevTime => prevTime - 1);
+    }, 1000);
+
+    setIsErrorMessage(time <= 5);
+
+    return () => clearInterval(timer);
+  }, [time, nextQuestion]);
+
+  // Show XP notification effect
+  useEffect(() => {
+    if (showXPNotification && xpData) {
+      const timer = setTimeout(() => {
+        setShowXPNotification(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showXPNotification, xpData]);
 
   const initializeSpeechRecording = async () => {
     try {
@@ -98,58 +150,6 @@ function Quiz() {
     }
     setSelectedIndex(index);
   };
-
-  const nextQuestion = (index) => {
-    if (currentQuestion >= questions[level].length - 1) {
-      addAnswer(index);
-      setCurrentQuestion(0);
-      setIsResult(true);
-    } else {
-      setTime(30);
-      setIsNextButton(false);
-      addAnswer(index);
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedIndex(null);
-      setAudioBlob(null);
-    }
-  };
-
-  const addAnswer = useCallback((index) => {
-    const selectedAnswer =
-      index !== null
-        ? questions[level][currentQuestion].answers[index]
-        : {
-            answer: "Time's Up",
-            trueAnswer: false,
-          };
-    const newAnswers = [...selectedAnswers, selectedAnswer];
-    setSelectedAnswers(newAnswers);
-  }, [questions, level, currentQuestion, selectedAnswers, setSelectedAnswers]);
-
-  useEffect(() => {
-    if (time <= 0) {
-      nextQuestion(null);
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTime(prevTime => prevTime - 1);
-    }, 1000);
-
-    setIsErrorMessage(time <= 5);
-
-    return () => clearInterval(timer);
-  }, [time, nextQuestion]);
-
-  // Show XP notification effect
-  useEffect(() => {
-    if (showXPNotification && xpData) {
-      const timer = setTimeout(() => {
-        setShowXPNotification(false);
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [showXPNotification, xpData]);
 
   if (isLoading) {
     return (
@@ -263,7 +263,7 @@ function Quiz() {
                 <div className="recording-status">
                   <i className="bi bi-check-circle"></i>
                   Recording completed!
-  const nextQuestion = useCallback((index) => {
+                </div>
               )}
             </div>
           </div>
@@ -276,7 +276,7 @@ function Quiz() {
           </div>
         );
     }
-  }, [currentQuestion, questions, level, addAnswer, setCurrentQuestion, setIsResult, setTime, setIsNextButton, setSelectedIndex, setAudioBlob]);
+  };
 
   return (
     <>
