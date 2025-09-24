@@ -1,9 +1,11 @@
 /* Result Page Styles */
 .result-container {
+  flex: 1;
   padding: 1rem;
   animation: fadeInUp 0.8s ease-out;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Score Section */
