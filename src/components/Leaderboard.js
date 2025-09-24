@@ -8,7 +8,7 @@ function Leaderboard() {
 
   useEffect(() => {
     setLeaderboard(getLeaderboard());
-  }, []);
+  }, [getLeaderboard]);
 
   const getRankIcon = (rank) => {
     switch (rank) {

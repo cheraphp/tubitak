@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -114,7 +114,7 @@ function Quiz() {
     }
   };
 
-  const addAnswer = (index) => {
+  const addAnswer = useCallback((index) => {
     const selectedAnswer =
       index !== null
         ? questions[level][currentQuestion].answers[index]
@@ -124,7 +124,7 @@ function Quiz() {
           };
     const newAnswers = [...selectedAnswers, selectedAnswer];
     setSelectedAnswers(newAnswers);
-  };
+  }, [questions, level, currentQuestion, selectedAnswers, setSelectedAnswers]);
 
   useEffect(() => {
     if (time <= 0) {
@@ -139,7 +139,7 @@ function Quiz() {
     setIsErrorMessage(time <= 5);
 
     return () => clearInterval(timer);
-  }, [time]);
+  }, [time, nextQuestion]);
 
   // Show XP notification effect
   useEffect(() => {
@@ -263,7 +263,7 @@ function Quiz() {
                 <div className="recording-status">
                   <i className="bi bi-check-circle"></i>
                   Recording completed!
-                </div>
+  const nextQuestion = useCallback((index) => {
               )}
             </div>
           </div>
@@ -276,7 +276,7 @@ function Quiz() {
           </div>
         );
     }
-  };
+  }, [currentQuestion, questions, level, addAnswer, setCurrentQuestion, setIsResult, setTime, setIsNextButton, setSelectedIndex, setAudioBlob]);
 
   return (
     <>
