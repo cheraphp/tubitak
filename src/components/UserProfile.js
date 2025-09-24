@@ -25,16 +25,19 @@ function UserProfile({ onClose, position }) {
   return (
     <div 
       className="profile-modal-overlay" 
-      style={{
-        '--popup-x': `${position?.x || window.innerWidth / 2}px`,
-        '--popup-y': `${position?.y || window.innerHeight / 2}px`
-      }}
       onClick={(e) => {
       if (e.target === e.currentTarget) {
         onClose();
       }
     }}>
-      <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="profile-modal" 
+        style={{
+          top: position?.y ? `${position.y}px` : '50%',
+          left: position?.x ? `${position.x}px` : '50%'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="profile-header">
           <button className="close-btn" onClick={onClose}>
             <i className="bi bi-x-lg"></i>

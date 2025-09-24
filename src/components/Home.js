@@ -30,9 +30,12 @@ function Home() {
 
   const handleAuthClick = (e, type) => {
     const rect = e.target.getBoundingClientRect();
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    
     setPopupPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
+      x: rect.left + rect.width / 2 + scrollX,
+      y: rect.top + rect.height / 2 + scrollY
     });
     
     if (type === 'login') {
@@ -44,9 +47,12 @@ function Home() {
 
   const handleProfileClick = (e) => {
     const rect = e.target.getBoundingClientRect();
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    
     setPopupPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
+      x: rect.left + rect.width / 2 + scrollX,
+      y: rect.top + rect.height / 2 + scrollY
     });
     setShowProfile(true);
   };

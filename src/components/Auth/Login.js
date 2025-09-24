@@ -37,16 +37,19 @@ function Login({ onClose, switchToRegister, position }) {
   return (
     <div 
       className="auth-modal-overlay" 
-      style={{
-        '--popup-x': `${position?.x || window.innerWidth / 2}px`,
-        '--popup-y': `${position?.y || window.innerHeight / 2}px`
-      }}
       onClick={(e) => {
       if (e.target === e.currentTarget) {
         onClose();
       }
     }}>
-      <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="auth-modal" 
+        style={{
+          top: position?.y ? `${position.y}px` : '50%',
+          left: position?.x ? `${position.x}px` : '50%'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="auth-header">
           <h2>Welcome Back!</h2>
           <p>Sign in to continue your learning journey</p>
