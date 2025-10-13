@@ -6,8 +6,9 @@ import { useAuth } from "../context/AuthContext";
 function Quiz() {
   const { level } = useParams();
   const navigate = useNavigate();
-  const { questions, currentQuestion, setCurrentQuestion } = useQuizContext();
+  const { getShuffledQuestions, currentQuestion, setCurrentQuestion } = useQuizContext();
   const { user, updateUserStats } = useAuth();
+  const [questions, setQuestions] = useState(null);
 
   const [isNextButton, setIsNextButton] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
@@ -44,17 +45,17 @@ function Quiz() {
   const addAnswer = useCallback((index) => {
     const selectedAnswer =
       index !== null
-        ? questions[level][currentQuestion].answers[index]
+        ? questions[currentQuestion].answers[index]
         : {
             answer: "Time's Up",
             trueAnswer: false,
           };
     const newAnswers = [...selectedAnswers, selectedAnswer];
     setSelectedAnswers(newAnswers);
-  }, [questions, level, currentQuestion, selectedAnswers]);
+  }, [questions, currentQuestion, selectedAnswers]);
 
   const nextQuestion = useCallback((index) => {
-    if (currentQuestion >= questions[level].length - 1) {
+    if (currentQuestion >= questions.length - 1) {
       addAnswer(index);
       setCurrentQuestion(0);
       setIsResult(true);
@@ -66,20 +67,22 @@ function Quiz() {
       setSelectedIndex(null);
       setAudioBlob(null);
     }
-  }, [currentQuestion, questions, level, addAnswer, setCurrentQuestion, setIsResult, setTime, setIsNextButton, setSelectedIndex, setAudioBlob]);
+  }, [currentQuestion, questions, addAnswer, setCurrentQuestion]);
 
   useEffect(() => {
-    if (questions[level]) {
+    const shuffled = getShuffledQuestions(level);
+    if (shuffled && shuffled.length > 0) {
+      setQuestions(shuffled);
       setIsLoading(false);
     }
-  }, [level, questions]);
+  }, [level, getShuffledQuestions]);
 
   // Initialize speech recognition for speaking questions
   useEffect(() => {
-    if (questions[level] && questions[level][currentQuestion]?.type === 'speaking') {
+    if (questions && questions[currentQuestion]?.type === 'speaking') {
       initializeSpeechRecording();
     }
-  }, [currentQuestion, level, questions]);
+  }, [currentQuestion, questions]);
 
   useEffect(() => {
     if (time <= 0) {
@@ -108,11 +111,11 @@ function Quiz() {
 
   // Handle result navigation
   useEffect(() => {
-    if (isResult && user && selectedAnswers.length > 0 && questions[level]) {
+    if (isResult && user && selectedAnswers.length > 0 && questions) {
       const correctCount = selectedAnswers.filter(answer => answer.trueAnswer).length;
       const stats = updateUserStats({
         correctAnswers: correctCount,
-        totalQuestions: questions[level].length,
+        totalQuestions: questions.length,
         level: level
       });
 
@@ -120,7 +123,7 @@ function Quiz() {
         navigate("/result", {
           state: {
             answers: selectedAnswers,
-            questions: questions[level],
+            questions: questions,
             level: level,
             xpGained: stats.xpGained || 0,
             levelUp: stats.newLevel > stats.oldLevel
@@ -130,18 +133,18 @@ function Quiz() {
         navigate("/result", {
           state: {
             answers: selectedAnswers,
-            questions: questions[level],
+            questions: questions,
             level: level,
             xpGained: 0,
             levelUp: false
           },
         });
       }
-    } else if (isResult && !user && selectedAnswers.length > 0 && questions[level]) {
+    } else if (isResult && !user && selectedAnswers.length > 0 && questions) {
       navigate("/result", {
         state: {
           answers: selectedAnswers,
-          questions: questions[level],
+          questions: questions,
           level: level,
           xpGained: 0,
           levelUp: false
@@ -185,7 +188,7 @@ function Quiz() {
   };
 
   const selectAnswer = (index) => {
-    if (currentQuestion === questions[level].length - 1) {
+    if (currentQuestion === questions.length - 1) {
       setIsNextButton(false);
       setIsResultButton(true);
     } else {
@@ -194,7 +197,7 @@ function Quiz() {
     setSelectedIndex(index);
   };
 
-  if (isLoading) {
+  if (isLoading || !questions) {
     return (
       <div className="quiz-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
         <div className="loading-spinner"></div>
@@ -202,7 +205,7 @@ function Quiz() {
     );
   }
 
-  if (!questions[level]) {
+  if (!questions || questions.length === 0) {
     return (
       <div className="quiz-container">
         <div className="error-message">
@@ -217,9 +220,9 @@ function Quiz() {
     return null;
   }
 
-  const progressPercentage = ((currentQuestion + 1) / questions[level].length) * 100;
+  const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
   const timePercentage = (time / 30) * 100;
-  const currentQuestionData = questions[level][currentQuestion];
+  const currentQuestionData = questions[currentQuestion];
 
   const renderQuestionContent = () => {
     switch (currentQuestionData.type) {
@@ -314,7 +317,7 @@ function Quiz() {
             <div className="quiz-meta">
               <div className="meta-item">
                 <i className="bi bi-question-circle"></i>
-                <span>{questions[level].length} Questions</span>
+                <span>{questions.length} Questions</span>
               </div>
               <div className="meta-item">
                 <i className="bi bi-clock"></i>
@@ -347,7 +350,7 @@ function Quiz() {
         <div className="progress-header">
           <div className="progress-info">
             <h2>Quiz Progress</h2>
-            <p>Question {currentQuestion + 1} of {questions[level].length}</p>
+            <p>Question {currentQuestion + 1} of {questions.length}</p>
           </div>
           <div className="time-display">
             <div 
@@ -369,7 +372,7 @@ function Quiz() {
           <div className="progress-text">
             <span>Progress</span>
             <span className="progress-fraction">
-              {currentQuestion + 1} / {questions[level].length}
+              {currentQuestion + 1} / {questions.length}
             </span>
           </div>
         </div>

@@ -4,6 +4,16 @@ const QuizContext = createContext();
 
 export function Provider({ children }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [shuffledQuestions, setShuffledQuestions] = useState({});
+
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
   // Quiz questions data
   const questions = {
@@ -1760,10 +1770,34 @@ export function Provider({ children }) {
     ]
   };
 
+  const getShuffledQuestions = (level) => {
+    if (shuffledQuestions[level]) {
+      return shuffledQuestions[level];
+    }
+
+    if (questions[level]) {
+      const shuffled = questions[level].map(question => ({
+        ...question,
+        answers: shuffleArray(question.answers)
+      }));
+
+      setShuffledQuestions(prev => ({
+        ...prev,
+        [level]: shuffled
+      }));
+
+      return shuffled;
+    }
+
+    return [];
+  };
+
   const value = {
     questions,
     currentQuestion,
-    setCurrentQuestion
+    setCurrentQuestion,
+    getShuffledQuestions,
+    shuffledQuestions
   };
 
   return (
