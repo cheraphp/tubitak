@@ -339,11 +339,12 @@ function Home() {
       </nav>
 
       {/* Theme Toggle */}
-      <button 
-        className="fixed bottom-6 right-6 w-12 h-12 bg-white rounded-full shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:text-primary-600 transition-colors z-30"
+      <button
+        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-110 transition-transform z-30 group"
         onClick={toggleTheme}
+        title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       >
-        <i className={`bi bi-${theme === 'light' ? 'moon' : 'sun'} text-lg`}></i>
+        <i className={`bi bi-${theme === 'light' ? 'moon-stars-fill' : 'sun-fill'} text-xl group-hover:rotate-12 transition-transform`}></i>
       </button>
       
       <div className="animate-fade-in">
@@ -393,11 +394,11 @@ function Home() {
               </p>
               <div className="grid grid-cols-3 gap-8 max-w-md mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 <div className="text-center">
-                  <div className="text-3xl font-bold">150+</div>
+                  <div className="text-3xl font-bold">{gradeData.reduce((sum, grade) => sum + grade.units.reduce((uSum, unit) => uSum + unit.questions, 0), 0)}+</div>
                   <div className="text-sm opacity-80">Questions</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold">16</div>
+                  <div className="text-3xl font-bold">{gradeData.reduce((sum, grade) => sum + grade.units.length, 0)}</div>
                   <div className="text-sm opacity-80">Units</div>
                 </div>
                 <div className="text-center">

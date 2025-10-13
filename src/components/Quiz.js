@@ -279,8 +279,8 @@ function Quiz() {
   };
 
   return (
-    <>
-    <div className="quiz-container">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Quiz Header */}
       <div className="quiz-header">
         <div className="quiz-header-content">
@@ -455,7 +455,7 @@ function Quiz() {
       )}
     </div>
 
-    {/* XP Notification */}
+      {/* XP Notification */}
     {showXPNotification && xpData && (
       <div className={`xp-notification ${xpData.newLevel > xpData.oldLevel ? 'level-up' : ''}`}>
         <div className="xp-icon">
@@ -476,7 +476,7 @@ function Quiz() {
         </div>
       </div>
     )}
-    </>
+    </div>
   );
 }
 

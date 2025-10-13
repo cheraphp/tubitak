@@ -85,7 +85,8 @@ function Result() {
   }
 
   return (
-    <div className="result-container animate-fadeInUp">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+      <div className="result-container py-8 px-4 animate-fadeInUp">
       {/* Score Section */}
       <div
         className="score-section"
@@ -253,6 +254,7 @@ function Result() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
