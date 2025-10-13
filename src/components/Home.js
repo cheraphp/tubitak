@@ -506,27 +506,27 @@ function Home() {
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-3xl mb-4 mx-auto">
                   <i className="bi bi-exclamation-triangle-fill"></i>
                 </div>
-                <h2 className="text-2xl font-bold mb-2">Geliştirme Aşamasında</h2>
-                <p className="opacity-90">Bu site şu anda geliştirme aşamasındadır</p>
+                <h2 className="text-2xl font-bold mb-2">Under Development</h2>
+                <p className="opacity-90">This site is under development</p>
               </div>
             </div>
             
             <div className="p-6 space-y-4">
               <div className="text-gray-700">
-                Bu site henüz geliştirme aşamasındadır. Bazı özellikler tam olarak çalışmayabilir 
-                veya beklenmedik hatalar oluşabilir. Lütfen bu durumu göz önünde bulundurarak kullanınız.
+                This site is still under development. Some features may not work properly 
+                or unexpected errors may occur. Please keep this in mind when using the site.
               </div>
               
               <div className="bg-gray-50 p-4 rounded-lg">
                 <div className="font-semibold text-gray-900 mb-1">
-                  Bu site <strong>Süleyman Demirel Mesleki ve Teknik Anadolu Lisesi</strong> için geliştirilmiştir.
+                  This site has been developed for <strong>Süleyman Demirel Vocational and Technical Anatolian High School</strong>.
                 </div>
               </div>
               
               <div className="bg-primary-50 p-4 rounded-lg border border-primary-200">
-                <div className="font-medium text-primary-900 mb-1">İletişim:</div>
+                <div className="font-medium text-primary-900 mb-1">Contact:</div>
                 <div className="text-sm text-primary-700">
-                  Herhangi bir sorun yaşadığınızda veya önerileriniz için footer kısmındaki iletişim çubuğunu kullanabilirsiniz.
+                  If you encounter any issues or have suggestions, you can use the contact form in the footer section.
                 </div>
               </div>
               
@@ -535,7 +535,7 @@ function Home() {
                 onClick={handleWarningClose}
               >
                 <i className="bi bi-check-lg"></i>
-                Anladım, Devam Et
+                Understood, Continue.
               </button>
             </div>
           </div>
