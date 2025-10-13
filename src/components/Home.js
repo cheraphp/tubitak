@@ -526,7 +526,7 @@ function Home() {
               <div className="bg-primary-50 p-4 rounded-lg border border-primary-200">
                 <div className="font-medium text-primary-900 mb-1">İletişim:</div>
                 <div className="text-sm text-primary-700">
-                  Herhangi bir sorun yaşadığınızda veya önerileriniz için okul yönetimi ile iletişime geçebilirsiniz.
+                  Herhangi bir sorun yaşadığınızda veya önerileriniz için footer kısmındaki iletişim çubuğunu kullanabilirsiniz.
                 </div>
               </div>
               
