@@ -171,50 +171,53 @@ function Register({ onClose, switchToLogin }) {
           </div>
 
           <div className="space-y-3 border-t border-gray-200 pt-4">
-            <div className="flex items-start gap-3">
-              <input
-                type="checkbox"
-                id="acceptedTerms"
-                name="acceptedTerms"
-                checked={formData.acceptedTerms}
-                onChange={handleChange}
-                required
-                className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-              />
-              <label htmlFor="acceptedTerms" className="text-sm text-gray-700">
-                <button
-                  type="button"
-                  onClick={() => setShowTerms(true)}
-                  className="text-primary-600 hover:text-primary-700 font-medium underline"
-                >
-                  Kullanım Koşulları
-                </button>
-                'nı okudum ve kabul ediyorum
-              </label>
-            </div>
+  {/* Terms of Service Checkbox */}
+  <div className="flex items-start gap-3">
+    <input
+      type="checkbox"
+      id="acceptedTerms"
+      name="acceptedTerms"
+      checked={formData.acceptedTerms}
+      onChange={handleChange}
+      required
+      className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+    />
+    <label htmlFor="acceptedTerms" className="text-sm text-gray-700">
+      <button
+        type="button"
+        onClick={() => setShowTerms(true)}
+        className="text-primary-600 hover:text-primary-700 font-medium underline"
+      >
+        Terms of Service
+      </button>
+      {' '}I have read and agree to the terms
+    </label>
+  </div>
 
-            <div className="flex items-start gap-3">
-              <input
-                type="checkbox"
-                id="acceptedPrivacy"
-                name="acceptedPrivacy"
-                checked={formData.acceptedPrivacy}
-                onChange={handleChange}
-                required
-                className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-              />
-              <label htmlFor="acceptedPrivacy" className="text-sm text-gray-700">
-                <button
-                  type="button"
-                  onClick={() => setShowPrivacy(true)}
-                  className="text-primary-600 hover:text-primary-700 font-medium underline"
-                >
-                  Gizlilik Politikası
-                </button>
-                'nı okudum ve kabul ediyorum
-              </label>
-            </div>
-          </div>
+  {/* Privacy Policy Checkbox */}
+  <div className="flex items-start gap-3">
+    <input
+      type="checkbox"
+      id="acceptedPrivacy"
+      name="acceptedPrivacy"
+      checked={formData.acceptedPrivacy}
+      onChange={handleChange}
+      required
+      className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+    />
+    <label htmlFor="acceptedPrivacy" className="text-sm text-gray-700">
+      <button
+        type="button"
+        onClick={() => setShowPrivacy(true)}
+        className="text-primary-600 hover:text-primary-700 font-medium underline"
+      >
+        Privacy Policy
+      </button>
+      {' '}I have read and agree to the policy
+    </label>
+  </div>
+</div>
+
 
           <button type="submit" className="btn btn-secondary w-full" disabled={loading}>
             {loading ? (
