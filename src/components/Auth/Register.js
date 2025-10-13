@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import PrivacyPolicy from '../Legal/PrivacyPolicy';
+import TermsOfService from '../Legal/TermsOfService';
 
 function Register({ onClose, switchToLogin }) {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    acceptedTerms: false,
+    acceptedPrivacy: false
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
   const { register } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -29,10 +35,24 @@ function Register({ onClose, switchToLogin }) {
       return;
     }
 
+    if (!formData.acceptedTerms) {
+      setError('Kullanım Koşulları\'nı kabul etmelisiniz');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.acceptedPrivacy) {
+      setError('Gizlilik Politikası\'nı kabul etmelisiniz');
+      setLoading(false);
+      return;
+    }
+
     const result = await register({
       username: formData.username,
       email: formData.email,
-      password: formData.password
+      password: formData.password,
+      acceptedTerms: formData.acceptedTerms,
+      acceptedPrivacy: formData.acceptedPrivacy
     });
     
     if (result.success) {
@@ -45,9 +65,10 @@ function Register({ onClose, switchToLogin }) {
   };
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
@@ -149,6 +170,52 @@ function Register({ onClose, switchToLogin }) {
             />
           </div>
 
+          <div className="space-y-3 border-t border-gray-200 pt-4">
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="acceptedTerms"
+                name="acceptedTerms"
+                checked={formData.acceptedTerms}
+                onChange={handleChange}
+                required
+                className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+              />
+              <label htmlFor="acceptedTerms" className="text-sm text-gray-700">
+                <button
+                  type="button"
+                  onClick={() => setShowTerms(true)}
+                  className="text-primary-600 hover:text-primary-700 font-medium underline"
+                >
+                  Kullanım Koşulları
+                </button>
+                'nı okudum ve kabul ediyorum
+              </label>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="acceptedPrivacy"
+                name="acceptedPrivacy"
+                checked={formData.acceptedPrivacy}
+                onChange={handleChange}
+                required
+                className="mt-1 w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+              />
+              <label htmlFor="acceptedPrivacy" className="text-sm text-gray-700">
+                <button
+                  type="button"
+                  onClick={() => setShowPrivacy(true)}
+                  className="text-primary-600 hover:text-primary-700 font-medium underline"
+                >
+                  Gizlilik Politikası
+                </button>
+                'nı okudum ve kabul ediyorum
+              </label>
+            </div>
+          </div>
+
           <button type="submit" className="btn btn-secondary w-full" disabled={loading}>
             {loading ? (
               <>
@@ -167,7 +234,7 @@ function Register({ onClose, switchToLogin }) {
         <div className="px-6 pb-6 text-center border-t border-gray-200 pt-4">
           <p className="text-gray-600">
             Already have an account?{' '}
-            <button 
+            <button
               className="text-secondary-600 hover:text-secondary-700 font-medium"
               onClick={switchToLogin}
             >
@@ -176,6 +243,9 @@ function Register({ onClose, switchToLogin }) {
           </p>
         </div>
       </div>
+
+      {showPrivacy && <PrivacyPolicy onClose={() => setShowPrivacy(false)} />}
+      {showTerms && <TermsOfService onClose={() => setShowTerms(false)} />}
     </div>
   );
 }

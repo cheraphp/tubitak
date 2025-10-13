@@ -8,8 +8,12 @@ function Leaderboard() {
   const { getLeaderboard, user } = useAuth();
 
   useEffect(() => {
-    setLeaderboard(getLeaderboard());
-    setTimeout(() => setIsLoaded(true), 100);
+    const fetchLeaderboard = async () => {
+      const data = await getLeaderboard();
+      setLeaderboard(data);
+      setTimeout(() => setIsLoaded(true), 100);
+    };
+    fetchLeaderboard();
   }, [getLeaderboard]);
 
   const getRankIcon = (rank) => {
@@ -138,12 +142,8 @@ function Leaderboard() {
                           <span>Level {player.level}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <i className="bi bi-trophy-fill text-orange-500"></i>
-                          <span>{player.totalQuizzes} Quizzes</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <i className="bi bi-check-circle-fill text-green-500"></i>
-                          <span>{player.correctAnswers} Correct</span>
+                          <i className="bi bi-lightning-fill text-blue-500"></i>
+                          <span>{player.xp} XP</span>
                         </div>
                       </div>
                     </div>
@@ -155,22 +155,6 @@ function Leaderboard() {
                       <div className="text-sm text-gray-500 font-medium">XP</div>
                     </div>
 
-                    <div className="flex-shrink-0 text-center">
-                      <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-                        player.totalQuizzes > 0 && Math.round((player.correctAnswers / (player.totalQuizzes * 10)) * 100) >= 80
-                          ? 'bg-gradient-to-r from-green-400 to-green-600'
-                          : player.totalQuizzes > 0 && Math.round((player.correctAnswers / (player.totalQuizzes * 10)) * 100) >= 60
-                          ? 'bg-gradient-to-r from-blue-400 to-blue-600'
-                          : 'bg-gradient-to-r from-orange-400 to-orange-600'
-                      } text-white shadow-lg`}>
-                        <div>
-                          <div className="text-2xl font-bold">
-                            {player.totalQuizzes > 0 ? Math.round((player.correctAnswers / (player.totalQuizzes * 10)) * 100) : 0}%
-                          </div>
-                          <div className="text-xs opacity-90">Accuracy</div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               ))}
@@ -210,7 +194,7 @@ function Leaderboard() {
                     <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-3">
                       <i className="bi bi-check-circle-fill text-white text-xl"></i>
                     </div>
-                    <div className="text-2xl font-bold text-gray-900 mb-1">{user.totalQuizzes}</div>
+                    <div className="text-2xl font-bold text-gray-900 mb-1">{user.total_quizzes || 0}</div>
                     <div className="text-sm text-gray-600">Quizzes</div>
                   </div>
                 </div>

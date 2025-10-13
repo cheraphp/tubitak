@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import UserProfile from "./UserProfile";
+import Footer from "./Footer";
 
 function Home() {
   const [theme, setTheme] = useState('light');
@@ -349,7 +350,7 @@ function Home() {
       
       <div className="animate-fade-in">
         {/* Hero Section */}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden hero-gradient">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600"></div>
           <div className="absolute inset-0 bg-black/10"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -494,6 +495,8 @@ function Home() {
             </div>
           </div>
         </div>
+
+        <Footer />
       </div>
 
       {/* Warning Modal */}

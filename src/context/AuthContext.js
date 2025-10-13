@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
 const AuthContext = createContext();
 
@@ -7,43 +8,72 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on app start
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    // Check current user from Supabase
+    checkUser();
   }, []);
+
+  const checkUser = async () => {
+    try {
+      const sessionUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (sessionUser) {
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', sessionUser.id)
+          .maybeSingle();
+
+        if (data && !error) {
+          setUser(data);
+          localStorage.setItem('currentUser', JSON.stringify(data));
+        } else {
+          localStorage.removeItem('currentUser');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const register = async (userData) => {
     try {
-      // Get existing users
-      const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
-      
       // Check if email already exists
-      if (existingUsers.find(u => u.email === userData.email)) {
+      const { data: existingUser } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', userData.email)
+        .maybeSingle();
+
+      if (existingUser) {
         throw new Error('Email already exists');
       }
 
       // Create new user
       const newUser = {
-        id: Date.now().toString(),
-        ...userData,
+        email: userData.email,
+        password: userData.password,
+        username: userData.username,
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.username}`,
         xp: 0,
         level: 1,
-        totalQuizzes: 0,
-        correctAnswers: 0,
-        createdAt: new Date().toISOString(),
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.username}`
+        total_quizzes: 0,
+        correct_answers: 0,
+        accepted_terms: userData.acceptedTerms || false,
+        accepted_privacy: userData.acceptedPrivacy || false
       };
 
-      // Save to users array
-      existingUsers.push(newUser);
-      localStorage.setItem('users', JSON.stringify(existingUsers));
+      const { data, error } = await supabase
+        .from('users')
+        .insert([newUser])
+        .select()
+        .single();
+
+      if (error) throw error;
 
       // Set as current user
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
-      setUser(newUser);
+      localStorage.setItem('currentUser', JSON.stringify(data));
+      setUser(data);
 
       return { success: true };
     } catch (error) {
@@ -53,15 +83,19 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const user = users.find(u => u.email === email && u.password === password);
-      
-      if (!user) {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .eq('password', password)
+        .maybeSingle();
+
+      if (error || !data) {
         throw new Error('Invalid email or password');
       }
 
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      setUser(user);
+      localStorage.setItem('currentUser', JSON.stringify(data));
+      setUser(data);
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -73,34 +107,54 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-  const updateUserStats = (quizResults) => {
+  const updateUserStats = async (quizResults) => {
     if (!user) return;
 
     const { correctAnswers, totalQuestions, level: quizLevel } = quizResults;
     const xpGained = calculateXP(correctAnswers, totalQuestions, quizLevel);
-    
-    const updatedUser = {
-      ...user,
-      xp: user.xp + xpGained,
-      totalQuizzes: user.totalQuizzes + 1,
-      correctAnswers: user.correctAnswers + correctAnswers
-    };
 
-    // Calculate new level
-    updatedUser.level = calculateLevel(updatedUser.xp);
+    const newXp = user.xp + xpGained;
+    const newLevel = calculateLevel(newXp);
+    const oldLevel = user.level;
 
-    // Update in localStorage
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const userIndex = users.findIndex(u => u.id === user.id);
-    if (userIndex !== -1) {
-      users[userIndex] = updatedUser;
-      localStorage.setItem('users', JSON.stringify(users));
+    try {
+      // Update user stats
+      const { data: updatedUser, error: userError } = await supabase
+        .from('users')
+        .update({
+          xp: newXp,
+          level: newLevel,
+          total_quizzes: user.total_quizzes + 1,
+          correct_answers: user.correct_answers + correctAnswers
+        })
+        .eq('id', user.id)
+        .select()
+        .single();
+
+      if (userError) throw userError;
+
+      // Insert quiz result
+      const { error: resultError } = await supabase
+        .from('quiz_results')
+        .insert([{
+          user_id: user.id,
+          quiz_level: quizLevel,
+          score: Math.round((correctAnswers / totalQuestions) * 100),
+          total_questions: totalQuestions,
+          correct_answers: correctAnswers,
+          xp_gained: xpGained
+        }]);
+
+      if (resultError) throw resultError;
+
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+
+      return { xpGained, newLevel, oldLevel };
+    } catch (error) {
+      console.error('Error updating user stats:', error);
+      return { xpGained: 0, newLevel: oldLevel, oldLevel };
     }
-
-    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-
-    return { xpGained, newLevel: updatedUser.level, oldLevel: user.level };
   };
 
   const calculateXP = (correct, total, quizLevel) => {
@@ -122,15 +176,24 @@ export function AuthProvider({ children }) {
     return Math.floor(xp / 100) + 1;
   };
 
-  const getLeaderboard = () => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    return users
-      .sort((a, b) => b.xp - a.xp)
-      .slice(0, 10)
-      .map((user, index) => ({
+  const getLeaderboard = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('id, username, avatar, xp, level')
+        .order('xp', { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+
+      return data.map((user, index) => ({
         ...user,
         rank: index + 1
       }));
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+      return [];
+    }
   };
 
   const value = {
