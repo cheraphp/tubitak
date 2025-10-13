@@ -348,38 +348,6 @@ function Home() {
       </button>
       
       <div className="animate-fade-in">
-        {/* User Welcome Section */}
-        {user && (
-          <div className="bg-gradient-to-r from-success-500 to-emerald-600 text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">Welcome back, {user.username}! 👋</h2>
-                  <div className="flex items-center gap-6 text-sm opacity-90">
-                    <div className="flex items-center gap-2">
-                      <i className="bi bi-star-fill"></i>
-                      <span>Level {user.level}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <i className="bi bi-lightning-fill"></i>
-                      <span>{user.xp} XP</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <i className="bi bi-trophy-fill"></i>
-                      <span>{user.totalQuizzes} Quizzes</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="hidden md:block">
-                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center animate-float">
-                    <i className="bi bi-mortarboard text-3xl"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Hero Section */}
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600"></div>

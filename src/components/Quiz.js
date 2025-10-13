@@ -21,7 +21,6 @@ function Quiz() {
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [showXPNotification, setShowXPNotification] = useState(false);
-  const [xpData, setXpData] = useState(null);
 
   // Get level display name
   const getLevelDisplayName = (levelKey) => {
@@ -99,13 +98,57 @@ function Quiz() {
 
   // Show XP notification effect
   useEffect(() => {
-    if (showXPNotification && xpData) {
+    if (showXPNotification) {
       const timer = setTimeout(() => {
         setShowXPNotification(false);
       }, 4000);
       return () => clearTimeout(timer);
     }
-  }, [showXPNotification, xpData]);
+  }, [showXPNotification]);
+
+  // Handle result navigation
+  useEffect(() => {
+    if (isResult && user && selectedAnswers.length > 0 && questions[level]) {
+      const correctCount = selectedAnswers.filter(answer => answer.trueAnswer).length;
+      const stats = updateUserStats({
+        correctAnswers: correctCount,
+        totalQuestions: questions[level].length,
+        level: level
+      });
+
+      if (stats) {
+        navigate("/result", {
+          state: {
+            answers: selectedAnswers,
+            questions: questions[level],
+            level: level,
+            xpGained: stats.xpGained || 0,
+            levelUp: stats.newLevel > stats.oldLevel
+          },
+        });
+      } else {
+        navigate("/result", {
+          state: {
+            answers: selectedAnswers,
+            questions: questions[level],
+            level: level,
+            xpGained: 0,
+            levelUp: false
+          },
+        });
+      }
+    } else if (isResult && !user && selectedAnswers.length > 0 && questions[level]) {
+      navigate("/result", {
+        state: {
+          answers: selectedAnswers,
+          questions: questions[level],
+          level: level,
+          xpGained: 0,
+          levelUp: false
+        },
+      });
+    }
+  }, [isResult, user, selectedAnswers, navigate, questions, level, updateUserStats]);
 
   const initializeSpeechRecording = async () => {
     try {
@@ -171,30 +214,6 @@ function Quiz() {
   }
 
   if (isResult) {
-    // Calculate and update user stats if logged in
-    if (user) {
-      const correctCount = selectedAnswers.filter(answer => answer.trueAnswer).length;
-      const stats = updateUserStats({
-        correctAnswers: correctCount,
-        totalQuestions: questions[level].length,
-        level: level
-      });
-      
-      if (stats) {
-        setXpData(stats);
-        setShowXPNotification(true);
-      }
-    }
-
-    navigate("/result", {
-      state: {
-        answers: selectedAnswers,
-        questions: questions[level],
-        level: level,
-        xpGained: xpData?.xpGained || 0,
-        levelUp: xpData?.newLevel > xpData?.oldLevel
-      },
-    });
     return null;
   }
 
@@ -455,27 +474,6 @@ function Quiz() {
       )}
     </div>
 
-      {/* XP Notification */}
-    {showXPNotification && xpData && (
-      <div className={`xp-notification ${xpData.newLevel > xpData.oldLevel ? 'level-up' : ''}`}>
-        <div className="xp-icon">
-          <i className={`bi ${xpData.newLevel > xpData.oldLevel ? 'bi-star-fill' : 'bi-lightning-fill'}`}></i>
-        </div>
-        <div>
-          {xpData.newLevel > xpData.oldLevel ? (
-            <>
-              <div><strong>Level Up!</strong></div>
-              <div>You reached Level {xpData.newLevel}!</div>
-            </>
-          ) : (
-            <>
-              <div><strong>+{xpData.xpGained} XP</strong></div>
-              <div>Great job!</div>
-            </>
-          )}
-        </div>
-      </div>
-    )}
     </div>
   );
 }
