@@ -521,7 +521,6 @@ function Home() {
                 <div className="font-semibold text-gray-900 mb-1">
                   Bu site <strong>Süleyman Demirel Mesleki ve Teknik Anadolu Lisesi</strong> için geliştirilmiştir.
                 </div>
-                <div className="text-sm text-gray-600">İzinsiz kullanılması yasaktır.</div>
               </div>
               
               <div className="bg-primary-50 p-4 rounded-lg border border-primary-200">
