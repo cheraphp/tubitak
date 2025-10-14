@@ -43,8 +43,8 @@ function ContactModal({ onClose }) {
                 <i className="bi bi-envelope-fill text-2xl"></i>
               </div>
               <div>
-                <h2 className="text-2xl font-bold">İletişim</h2>
-                <p className="text-sm opacity-90">Bizimle iletişime geçin</p>
+                <h2 className="text-2xl font-bold">Contact Us</h2>
+                <p className="text-sm opacity-90">Get in touch with us</p>
               </div>
             </div>
             <button
@@ -62,8 +62,8 @@ function ContactModal({ onClose }) {
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
                 <i className="bi bi-info-circle-fill text-blue-600 text-xl flex-shrink-0 mt-0.5"></i>
                 <div className="text-sm text-gray-700">
-                  <strong className="text-gray-900">Not:</strong> Mesajınız en kısa sürede değerlendirilecek ve size geri dönüş yapılacaktır.
-                  Acil durumlar için lütfen okul yönetimiyle direkt iletişime geçiniz.
+                  <strong className="text-gray-900">Note:</strong> Your message will be reviewed as soon as possible and we will get back to you.
+                  For urgent matters, please contact school administration directly.
                 </div>
               </div>
 
@@ -71,7 +71,7 @@ function ContactModal({ onClose }) {
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     <i className="bi bi-person mr-2"></i>
-                    Adınız Soyadınız *
+                    Full Name *
                   </label>
                   <input
                     type="text"
@@ -80,7 +80,7 @@ function ContactModal({ onClose }) {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    placeholder="Ad Soyad"
+                    placeholder="Full Name"
                     className="input"
                   />
                 </div>
@@ -88,7 +88,7 @@ function ContactModal({ onClose }) {
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     <i className="bi bi-envelope mr-2"></i>
-                    E-posta Adresiniz *
+                    Email Address *
                   </label>
                   <input
                     type="email"
@@ -97,7 +97,7 @@ function ContactModal({ onClose }) {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    placeholder="ornek@email.com"
+                    placeholder="example@email.com"
                     className="input"
                   />
                 </div>
@@ -106,7 +106,7 @@ function ContactModal({ onClose }) {
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                   <i className="bi bi-tag mr-2"></i>
-                  Konu *
+                  Subject *
                 </label>
                 <select
                   id="subject"
@@ -116,20 +116,20 @@ function ContactModal({ onClose }) {
                   required
                   className="input"
                 >
-                  <option value="">Konu seçiniz</option>
-                  <option value="technical">Teknik Destek</option>
-                  <option value="content">İçerik ve Quiz Soruları</option>
-                  <option value="account">Hesap Sorunları</option>
-                  <option value="suggestion">Öneri ve Geri Bildirim</option>
-                  <option value="report">Hata Bildirimi</option>
-                  <option value="other">Diğer</option>
+                  <option value="">Select a subject</option>
+                  <option value="technical">Technical Support</option>
+                  <option value="content">Content and Quiz Questions</option>
+                  <option value="account">Account Issues</option>
+                  <option value="suggestion">Suggestions and Feedback</option>
+                  <option value="report">Bug Report</option>
+                  <option value="other">Other</option>
                 </select>
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                   <i className="bi bi-chat-left-text mr-2"></i>
-                  Mesajınız *
+                  Your Message *
                 </label>
                 <textarea
                   id="message"
@@ -138,23 +138,23 @@ function ContactModal({ onClose }) {
                   onChange={handleChange}
                   required
                   rows="6"
-                  placeholder="Mesajınızı buraya yazınız..."
+                  placeholder="Write your message here..."
                   className="input resize-none"
                   minLength="10"
                 ></textarea>
                 <p className="text-xs text-gray-500 mt-2">
-                  Minimum 10 karakter
+                  Minimum 10 characters
                 </p>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <i className="bi bi-clock text-primary-600"></i>
-                  <span><strong>Yanıt Süresi:</strong> 1-2 iş günü</span>
+                  <span><strong>Response Time:</strong> 1-2 business days</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <i className="bi bi-telephone text-primary-600"></i>
-                  <span><strong>Acil Durumlar:</strong> Okul yönetimi ile iletişime geçiniz</span>
+                  <span><strong>Urgent Matters:</strong> Contact school administration</span>
                 </div>
               </div>
 
@@ -165,7 +165,7 @@ function ContactModal({ onClose }) {
                   className="btn btn-outline flex-1"
                 >
                   <i className="bi bi-x-circle"></i>
-                  İptal
+                  Cancel
                 </button>
                 <button
                   type="submit"
@@ -175,12 +175,12 @@ function ContactModal({ onClose }) {
                   {loading ? (
                     <>
                       <div className="loading-spinner"></div>
-                      Gönderiliyor...
+                      Sending...
                     </>
                   ) : (
                     <>
                       <i className="bi bi-send"></i>
-                      Gönder
+                      Send
                     </>
                   )}
                 </button>
@@ -191,12 +191,12 @@ function ContactModal({ onClose }) {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
                 <i className="bi bi-check-circle-fill text-green-600 text-4xl"></i>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Mesajınız Gönderildi!</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Message Sent!</h3>
               <p className="text-gray-600 mb-2">
-                Mesajınız için teşekkür ederiz. En kısa sürede size geri dönüş yapacağız.
+                Thank you for your message. We will get back to you as soon as possible.
               </p>
               <p className="text-sm text-gray-500">
-                Bu pencere otomatik olarak kapanacaktır...
+                This window will close automatically...
               </p>
             </div>
           )}

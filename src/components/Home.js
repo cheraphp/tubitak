@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import UserProfile from "./UserProfile";
+import AccountStatus from "./AccountStatus";
 import Footer from "./Footer";
 
 function Home() {
@@ -13,7 +14,7 @@ function Home() {
   const [showRegister, setShowRegister] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -277,6 +278,17 @@ function Home() {
     );
   }
 
+  if (user && (user.status === 'suspended' || user.status === 'banned')) {
+    return (
+      <AccountStatus
+        status={user.status}
+        suspendedUntil={user.suspended_until}
+        bannedReason={user.banned_reason}
+        onLogout={logout}
+      />
+    );
+  }
+
   return (
     <>
       {/* Navigation */}
@@ -291,13 +303,23 @@ function Home() {
             </Link>
             
             <div className="flex items-center gap-4">
-              <Link 
-                to="/leaderboard" 
+              <Link
+                to="/leaderboard"
                 className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-gray-50"
               >
                 <i className="bi bi-trophy"></i>
                 <span className="hidden sm:inline">Leaderboard</span>
               </Link>
+
+              {user && (
+                <Link
+                  to="/tickets"
+                  className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-gray-50"
+                >
+                  <i className="bi bi-ticket-perforated"></i>
+                  <span className="hidden sm:inline">Support</span>
+                </Link>
+              )}
               
               {user ? (
                 <div className="flex items-center gap-3">

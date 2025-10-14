@@ -142,10 +142,16 @@ function AdminPanel() {
                 <span className="text-xl font-bold text-gradient">Admin Panel</span>
               </Link>
             </div>
-            <Link to="/" className="btn btn-outline">
-              <i className="bi bi-arrow-left"></i>
-              Back to Site
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link to="/tickets" className="btn btn-outline">
+                <i className="bi bi-ticket-perforated"></i>
+                Tickets
+              </Link>
+              <Link to="/" className="btn btn-outline">
+                <i className="bi bi-arrow-left"></i>
+                Back to Site
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
