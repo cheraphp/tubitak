@@ -39,14 +39,25 @@ export function AuthProvider({ children }) {
   const register = async (userData) => {
     try {
       // Check if email already exists
-      const { data: existingUser } = await supabase
+      const { data: existingEmail } = await supabase
         .from('users')
         .select('email')
         .eq('email', userData.email)
         .maybeSingle();
 
-      if (existingUser) {
+      if (existingEmail) {
         throw new Error('Email already exists');
+      }
+
+      // Check if username already exists
+      const { data: existingUsername } = await supabase
+        .from('users')
+        .select('username')
+        .eq('username', userData.username)
+        .maybeSingle();
+
+      if (existingUsername) {
+        throw new Error('Username already taken');
       }
 
       // Create new user
@@ -92,6 +103,31 @@ export function AuthProvider({ children }) {
 
       if (error || !data) {
         throw new Error('Invalid email or password');
+      }
+
+      // Check if user is banned
+      if (data.status === 'banned') {
+        throw new Error('This account has been banned. Reason: ' + (data.banned_reason || 'Violated terms of service'));
+      }
+
+      // Check if user is suspended
+      if (data.status === 'suspended') {
+        if (data.suspended_until) {
+          const suspendedUntil = new Date(data.suspended_until);
+          if (suspendedUntil > new Date()) {
+            throw new Error(`This account is suspended until ${suspendedUntil.toLocaleDateString()}`);
+          } else {
+            // Suspension expired, reactivate account
+            await supabase
+              .from('users')
+              .update({ status: 'active', suspended_until: null })
+              .eq('id', data.id);
+            data.status = 'active';
+            data.suspended_until = null;
+          }
+        } else {
+          throw new Error('This account is suspended');
+        }
       }
 
       localStorage.setItem('currentUser', JSON.stringify(data));

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PrivacyPolicy from './Legal/PrivacyPolicy';
 import TermsOfService from './Legal/TermsOfService';
+import ContactModal from './ContactModal';
 
 function Footer() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   return (
     <>
@@ -98,6 +100,14 @@ function Footer() {
                   <span className="text-gray-400">© 2025 VocQuiz</span>
                 </li>
               </ul>
+
+              <button
+                onClick={() => setShowContact(true)}
+                className="mt-4 w-full btn bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:from-primary-700 hover:to-secondary-700"
+              >
+                <i className="bi bi-chat-dots"></i>
+                Contact Us
+              </button>
             </div>
           </div>
 
@@ -140,6 +150,7 @@ function Footer() {
       {/* --- Legal Modals --- */}
       {showPrivacy && <PrivacyPolicy onClose={() => setShowPrivacy(false)} />}
       {showTerms && <TermsOfService onClose={() => setShowTerms(false)} />}
+      {showContact && <ContactModal onClose={() => setShowContact(false)} />}
     </>
   );
 }

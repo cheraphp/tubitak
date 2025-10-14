@@ -3,6 +3,7 @@ import Quiz from "./components/Quiz";
 import Result from "./components/Result";
 import Error from "./components/Error";
 import Leaderboard from "./components/Leaderboard";
+import AdminPanel from "./components/AdminPanel";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="/quiz/:level" element={<Quiz />} />
           <Route path="/result" element={<Result />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </div>

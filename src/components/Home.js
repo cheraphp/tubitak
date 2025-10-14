@@ -301,6 +301,15 @@ function Home() {
               
               {user ? (
                 <div className="flex items-center gap-3">
+                  {user.is_admin && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:from-red-700 hover:to-orange-700 transition-all"
+                    >
+                      <i className="bi bi-shield-lock-fill"></i>
+                      <span className="hidden sm:inline">Admin</span>
+                    </Link>
+                  )}
                   <div className="hidden sm:flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1 text-gray-600">
                       <i className="bi bi-star-fill text-yellow-500"></i>
@@ -311,8 +320,8 @@ function Home() {
                       <span>{user.xp} XP</span>
                     </div>
                   </div>
-                  <img 
-                    src={user.avatar} 
+                  <img
+                    src={user.avatar}
                     alt={user.username}
                     className="w-10 h-10 rounded-full border-2 border-primary-500 cursor-pointer hover:scale-105 transition-transform"
                     onClick={handleProfileClick}
