@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
@@ -17,15 +17,7 @@ function Tickets() {
     priority: 'medium'
   });
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return;
-    }
-    fetchTickets();
-  }, [user, navigate]);
-
-  const fetchTickets = async () => {
+  const fetchTickets = useCallback(async () => {
     setLoading(true);
     try {
       let query = supabase
@@ -50,7 +42,15 @@ function Tickets() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+      return;
+    }
+    fetchTickets();
+  }, [user, navigate, fetchTickets]);
 
   const handleCreateTicket = async (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
@@ -13,16 +13,7 @@ function TicketDetail() {
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return;
-    }
-    fetchTicket();
-    fetchMessages();
-  }, [id, user, navigate]);
-
-  const fetchTicket = async () => {
+  const fetchTicket = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('tickets')
@@ -52,9 +43,9 @@ function TicketDetail() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, navigate, user]);
 
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('ticket_messages')
@@ -70,7 +61,16 @@ function TicketDetail() {
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+      return;
+    }
+    fetchTicket();
+    fetchMessages();
+  }, [id, user, navigate, fetchTicket, fetchMessages]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
