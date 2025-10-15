@@ -105,28 +105,15 @@ export function AuthProvider({ children }) {
         throw new Error('Invalid email or password');
       }
 
-      // Check if user is banned
-      if (data.status === 'banned') {
-        throw new Error('This account has been banned. Reason: ' + (data.banned_reason || 'Violated terms of service'));
-      }
-
-      // Check if user is suspended
-      if (data.status === 'suspended') {
-        if (data.suspended_until) {
-          const suspendedUntil = new Date(data.suspended_until);
-          if (suspendedUntil > new Date()) {
-            throw new Error(`This account is suspended until ${suspendedUntil.toLocaleDateString()}`);
-          } else {
-            // Suspension expired, reactivate account
-            await supabase
-              .from('users')
-              .update({ status: 'active', suspended_until: null })
-              .eq('id', data.id);
-            data.status = 'active';
-            data.suspended_until = null;
-          }
-        } else {
-          throw new Error('This account is suspended');
+      if (data.status === 'suspended' && data.suspended_until) {
+        const suspendedUntil = new Date(data.suspended_until);
+        if (suspendedUntil <= new Date()) {
+          await supabase
+            .from('users')
+            .update({ status: 'active', suspended_until: null })
+            .eq('id', data.id);
+          data.status = 'active';
+          data.suspended_until = null;
         }
       }
 

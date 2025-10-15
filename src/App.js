@@ -6,10 +6,18 @@ import Leaderboard from "./components/Leaderboard";
 import AdminPanel from "./components/AdminPanel";
 import Tickets from "./components/Tickets";
 import TicketDetail from "./components/TicketDetail";
+import AccountSuspended from "./components/AccountSuspended";
+import { useAuth } from "./context/AuthContext";
 
 import { Routes, Route } from "react-router-dom";
 
 function App() {
+  const { user } = useAuth();
+
+  if (user && (user.status === 'banned' || user.status === 'suspended')) {
+    return <AccountSuspended />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
       <div className="min-h-screen">
