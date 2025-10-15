@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
 function ContactModal({ onClose }) {
   const [formData, setFormData] = useState({
@@ -21,16 +22,29 @@ function ContactModal({ onClose }) {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate sending message
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        }]);
 
-    setLoading(false);
-    setSubmitted(true);
+      if (error) throw error;
 
-    // Auto close after 3 seconds
-    setTimeout(() => {
-      onClose();
-    }, 3000);
+      setLoading(false);
+      setSubmitted(true);
+
+      setTimeout(() => {
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Error sending message: ' + error.message);
+      setLoading(false);
+    }
   };
 
   return (
