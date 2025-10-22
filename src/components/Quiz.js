@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Mascot from "./Mascot";
 
 function Quiz() {
   const { level } = useParams();
@@ -22,6 +23,9 @@ function Quiz() {
   const [audioBlob, setAudioBlob] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [showXPNotification, setShowXPNotification] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  const [hearts, setHearts] = useState(5);
 
   // Get level display name
   const getLevelDisplayName = (levelKey) => {
@@ -188,13 +192,24 @@ function Quiz() {
   };
 
   const selectAnswer = (index) => {
-    if (currentQuestion === questions.length - 1) {
-      setIsNextButton(false);
-      setIsResultButton(true);
-    } else {
-      setIsNextButton(true);
+    const isCorrect = questions[currentQuestion].answers[index].trueAnswer;
+    setIsCorrectAnswer(isCorrect);
+    setShowFeedback(true);
+
+    if (!isCorrect) {
+      setHearts(prev => Math.max(0, prev - 1));
     }
-    setSelectedIndex(index);
+
+    setTimeout(() => {
+      setShowFeedback(false);
+      if (currentQuestion === questions.length - 1) {
+        setIsNextButton(false);
+        setIsResultButton(true);
+      } else {
+        setIsNextButton(true);
+      }
+      setSelectedIndex(index);
+    }, 1500);
   };
 
   if (isLoading || !questions) {
@@ -352,12 +367,22 @@ function Quiz() {
             <h2>Quiz Progress</h2>
             <p>Question {currentQuestion + 1} of {questions.length}</p>
           </div>
-          <div className="time-display">
-            <div 
-              className={`time-circle ${time <= 5 ? 'warning' : ''}`}
-              style={{ '--progress': timePercentage }}
-            >
-              <span className="time-number">{time}</span>
+          <div className="flex items-center gap-6">
+            <div className="hearts-display">
+              {[...Array(5)].map((_, i) => (
+                <i
+                  key={i}
+                  className={`bi bi-heart-fill heart-icon ${i >= hearts ? 'empty' : ''}`}
+                ></i>
+              ))}
+            </div>
+            <div className="time-display">
+              <div
+                className={`time-circle ${time <= 5 ? 'warning' : ''}`}
+                style={{ '--progress': timePercentage }}
+              >
+                <span className="time-number">{time}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -473,6 +498,35 @@ function Quiz() {
             <i className="bi bi-exclamation-triangle"></i>
           </div>
           <span>Hurry up! Time is running out!</span>
+        </div>
+      )}
+
+      {/* Feedback Modal */}
+      {showFeedback && (
+        <div className="modal-overlay" style={{ zIndex: 100 }}>
+          <div className={`feedback-modal ${isCorrectAnswer ? 'correct' : 'incorrect'}`}>
+            <div className="feedback-mascot">
+              <Mascot
+                emotion={isCorrectAnswer ? 'celebrating' : 'sad'}
+                size="xl"
+              />
+            </div>
+            <div className="feedback-content">
+              {isCorrectAnswer ? (
+                <>
+                  <h2 className="feedback-title">Great Job!</h2>
+                  <p className="feedback-message">That's the correct answer!</p>
+                  <div className="feedback-xp">+10 XP</div>
+                </>
+              ) : (
+                <>
+                  <h2 className="feedback-title">Not quite!</h2>
+                  <p className="feedback-message">Don't worry, keep practicing!</p>
+                  <div className="feedback-hearts">-1 ❤️</div>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>

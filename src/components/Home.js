@@ -6,6 +6,8 @@ import Register from "./Auth/Register";
 import UserProfile from "./UserProfile";
 import AccountStatus from "./AccountStatus";
 import Footer from "./Footer";
+import LearningPath from "./LearningPath";
+import Mascot from "./Mascot";
 
 function Home() {
   const [theme, setTheme] = useState('light');
@@ -240,35 +242,6 @@ function Home() {
     }
   ];
 
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case 'Beginner': return 'bg-gradient-to-r from-emerald-500 to-emerald-600';
-      case 'Intermediate': return 'bg-gradient-to-r from-blue-500 to-blue-600';
-      case 'Upper-Int': return 'bg-gradient-to-r from-purple-500 to-purple-600';
-      case 'Advanced': return 'bg-gradient-to-r from-red-500 to-red-600';
-      default: return 'bg-gradient-to-r from-gray-500 to-gray-600';
-    }
-  };
-
-  const getTypeIcon = (type) => {
-    switch (type) {
-      case 'listening': return 'bi-headphones';
-      case 'speaking': return 'bi-mic';
-      case 'visual': return 'bi-image';
-      default: return 'bi-book';
-    }
-  };
-
-  const getTypeColor = (color) => {
-    const colors = {
-      emerald: 'from-emerald-500 to-emerald-600',
-      blue: 'from-blue-500 to-blue-600',
-      purple: 'from-purple-500 to-purple-600',
-      orange: 'from-orange-500 to-orange-600',
-      red: 'from-red-500 to-red-600'
-    };
-    return colors[color] || 'from-gray-500 to-gray-600';
-  };
 
   if (!isLoaded) {
     return (
@@ -303,12 +276,29 @@ function Home() {
             </Link>
             
             <div className="flex items-center gap-4">
+              {user && (
+                <div className="flex items-center gap-3">
+                  <div className="streak-display">
+                    <span className="streak-flame">🔥</span>
+                    <span>{user.streak_count || 0}</span>
+                  </div>
+                  <div className="hearts-display">
+                    {[...Array(5)].map((_, i) => (
+                      <i
+                        key={i}
+                        className={`bi bi-heart-fill heart-icon ${i >= (user.hearts || 5) ? 'empty' : ''}`}
+                      ></i>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <Link
                 to="/leaderboard"
                 className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-gray-50"
               >
                 <i className="bi bi-trophy"></i>
-                <span className="hidden sm:inline">Leaderboard</span>
+                <span className="hidden sm:inline">Leagues</span>
               </Link>
 
               {user && (
@@ -320,7 +310,7 @@ function Home() {
                   <span className="hidden sm:inline">Support</span>
                 </Link>
               )}
-              
+
               {user ? (
                 <div className="flex items-center gap-3">
                   {user.is_admin && (
@@ -351,13 +341,13 @@ function Home() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <button 
+                  <button
                     className="px-4 py-2 text-gray-600 hover:text-primary-600 transition-colors"
                     onClick={(e) => handleAuthClick(e, 'login')}
                   >
                     Sign In
                   </button>
-                  <button 
+                  <button
                     className="btn btn-primary"
                     onClick={(e) => handleAuthClick(e, 'register')}
                   >
@@ -381,138 +371,68 @@ function Home() {
       
       <div className="animate-fade-in">
         {/* Hero Section */}
-        <div className="relative overflow-hidden hero-gradient">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-600"></div>
-          <div className="absolute inset-0 bg-black/10"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div className="text-center text-white">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-slide-up">
-                VocQuiz
-              </h1>
-              <p className="text-xl md:text-2xl mb-8 opacity-90 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                Master English vocabulary with interactive quizzes designed for Turkish students
-              </p>
-              <div className="grid grid-cols-3 gap-8 max-w-md mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                <div className="text-center">
-                  <div className="text-3xl font-bold">{gradeData.reduce((sum, grade) => sum + grade.units.reduce((uSum, unit) => uSum + unit.questions, 0), 0)}+</div>
-                  <div className="text-sm opacity-80">Questions</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold">{gradeData.reduce((sum, grade) => sum + grade.units.length, 0)}</div>
-                  <div className="text-sm opacity-80">Units</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold">4</div>
-                  <div className="text-sm opacity-80">Types</div>
-                </div>
+        <div className="relative overflow-hidden bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600">
+          <div className="absolute inset-0 bg-black/5"></div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="flex items-center justify-between text-white">
+              <div className="flex-1">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-slide-up">
+                  Learn English with VocQuiz
+                </h1>
+                <p className="text-lg md:text-xl opacity-90 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+                  Practice vocabulary every day and reach your goals
+                </p>
+              </div>
+              <div className="hidden md:block animate-float">
+                <Mascot emotion="happy" size="lg" />
               </div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-50 to-transparent"></div>
         </div>
 
-        {/* Grades Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-          {gradeData.map((gradeInfo, index) => (
-            <div key={index} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-              <div className="card p-8">
-                <div className="flex items-center gap-6 mb-8 pb-6 border-b border-gray-200">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${gradeInfo.color} rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg`}>
-                    {gradeInfo.icon}
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold text-gray-900 mb-2">{gradeInfo.grade}</h2>
-                    <p className="text-gray-600">{gradeInfo.description}</p>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {gradeInfo.units.map((unit, unitIndex) => (
-                    <div key={unitIndex} className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                      <div className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
-                            {unit.title}
-                          </h3>
-                          <span className={`px-3 py-1 text-xs font-medium text-white rounded-full ${getDifficultyColor(unit.difficulty)}`}>
-                            {unit.difficulty}
-                          </span>
-                        </div>
-                        
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                          {unit.description}
-                        </p>
-                        
-                        <div className="flex items-center gap-4 text-xs text-gray-500 mb-6">
-                          <div className="flex items-center gap-1">
-                            <i className={`${getTypeIcon(unit.type)} text-${unit.color}-500`}></i>
-                            <span className="capitalize">{unit.type}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <i className="bi bi-question-circle"></i>
-                            <span>{unit.questions} Questions</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <i className="bi bi-clock"></i>
-                            <span>30s each</span>
-                          </div>
-                        </div>
-                        
-                        <Link 
-                          className={`btn w-full bg-gradient-to-r ${getTypeColor(unit.color)} text-white justify-center`}
-                          to={user ? `/quiz/${unit.id}` : '#'}
-                          onClick={!user ? (e) => {
-                            e.preventDefault();
-                            handleAuthClick(e, 'login');
-                          } : undefined}
-                        >
-                          <span>Start Quiz</span>
-                          <i className="bi bi-arrow-right"></i>
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Learning Path Section */}
+        <LearningPath
+          gradeData={gradeData}
+          user={user}
+          handleAuthClick={handleAuthClick}
+        />
 
         {/* Features Section */}
-        <div className="bg-gray-50 py-16">
+        <div className="bg-gradient-to-br from-gray-50 to-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose VocQuiz?</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Experience the most effective way to learn English vocabulary with our modern, interactive platform
+                The fun way to learn English vocabulary
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
-                  icon: "bi-stopwatch",
-                  title: "Timed Challenges",
-                  description: "30-second time limit per question to improve your quick thinking and vocabulary recall",
-                  color: "from-blue-500 to-blue-600"
+                  icon: "bi-fire",
+                  title: "Daily Streaks",
+                  description: "Build a habit by practicing every day and maintaining your streak",
+                  color: "from-orange-500 to-red-600"
                 },
                 {
-                  icon: "bi-headphones",
-                  title: "Multiple Question Types",
-                  description: "Practice with vocabulary, listening, speaking, and visual recognition questions",
-                  color: "from-purple-500 to-purple-600"
-                },
-                {
-                  icon: "bi-graph-up",
-                  title: "XP & Levels",
-                  description: "Earn experience points, level up, and compete with other learners on the leaderboard",
+                  icon: "bi-trophy-fill",
+                  title: "Compete in Leagues",
+                  description: "Join weekly leagues and compete with other learners to climb the ranks",
                   color: "from-emerald-500 to-emerald-600"
                 },
                 {
-                  icon: "bi-check-circle",
-                  title: "Instant Feedback",
-                  description: "Get immediate results with correct answers and explanations after each quiz",
-                  color: "from-orange-500 to-orange-600"
+                  icon: "bi-heart-fill",
+                  title: "Hearts System",
+                  description: "Stay focused! You lose a heart for each wrong answer. Keep them all!",
+                  color: "from-pink-500 to-red-500"
+                },
+                {
+                  icon: "bi-award-fill",
+                  title: "Earn Achievements",
+                  description: "Unlock badges and rewards as you progress through your learning journey",
+                  color: "from-yellow-500 to-yellow-600"
                 }
               ].map((feature, index) => (
                 <div key={index} className="text-center group animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>

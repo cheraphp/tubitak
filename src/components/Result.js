@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Mascot from "./Mascot";
 
 function Result() {
   const location = useLocation();
@@ -85,8 +86,24 @@ function Result() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="result-container py-8 px-4 animate-fadeInUp">
+      {/* Celebration Section */}
+      <div className="celebration-section">
+        <div className="celebration-mascot">
+          <Mascot
+            emotion={percentage >= 70 ? 'celebrating' : percentage >= 50 ? 'happy' : 'encouraging'}
+            size="xl"
+            message={
+              percentage >= 90 ? "Outstanding! You're amazing!" :
+              percentage >= 70 ? "Great job! Keep it up!" :
+              percentage >= 50 ? "Good effort! Practice more!" :
+              "Don't give up! You can do better!"
+            }
+          />
+        </div>
+      </div>
+
       {/* Score Section */}
       <div
         className="score-section"
@@ -96,9 +113,9 @@ function Result() {
       >
         <div className="score-content">
           <div className="score-percentage">{percentage}%</div>
-          <h1 className="score-title">Quiz Completed!</h1>
+          <h1 className="score-title">Lesson Complete!</h1>
           <p className="score-description">
-            You completed the {getLevelDisplayName(level)} vocabulary quiz
+            {getLevelDisplayName(level)}
           </p>
 
           <div className="performance-badge">
@@ -108,16 +125,25 @@ function Result() {
 
           <div className="score-stats">
             <div className="stat-item">
+              <div className="stat-icon-wrapper correct">
+                <i className="bi bi-check-circle-fill"></i>
+              </div>
               <span className="stat-number">{correctAnswers}</span>
               <span className="stat-label">Correct</span>
             </div>
             <div className="stat-item">
+              <div className="stat-icon-wrapper incorrect">
+                <i className="bi bi-x-circle-fill"></i>
+              </div>
               <span className="stat-number">{incorrectAnswers}</span>
               <span className="stat-label">Incorrect</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">{totalQuestions}</span>
-              <span className="stat-label">Total</span>
+              <div className="stat-icon-wrapper xp">
+                <i className="bi bi-lightning-fill"></i>
+              </div>
+              <span className="stat-number">+{correctAnswers * 10}</span>
+              <span className="stat-label">XP Earned</span>
             </div>
           </div>
         </div>
@@ -125,11 +151,9 @@ function Result() {
 
       {/* Action Buttons */}
       <div className="result-actions">
-        <Link to="/" className="action-btn btn-primary">
-          <span>Take Another Quiz</span>
-          <div className="btn-icon">
-            <i className="bi bi-arrow-right"></i>
-          </div>
+        <Link to="/" className="action-btn btn-primary w-full md:w-auto">
+          <i className="bi bi-house-fill"></i>
+          <span>Continue Learning</span>
         </Link>
         <button
           onClick={() =>
@@ -138,12 +162,10 @@ function Result() {
               behavior: "smooth",
             })
           }
-          className="action-btn btn-secondary"
+          className="action-btn btn-secondary w-full md:w-auto"
         >
+          <i className="bi bi-list-check"></i>
           <span>Review Answers</span>
-          <div className="btn-icon">
-            <i className="bi bi-eye"></i>
-          </div>
         </button>
       </div>
 

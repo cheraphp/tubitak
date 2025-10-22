@@ -2,7 +2,7 @@ import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import Result from "./components/Result";
 import Error from "./components/Error";
-import Leaderboard from "./components/Leaderboard";
+import Leagues from "./components/Leagues";
 import AdminPanel from "./components/AdminPanel";
 import Tickets from "./components/Tickets";
 import TicketDetail from "./components/TicketDetail";
@@ -25,7 +25,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/quiz/:level" element={<Quiz />} />
           <Route path="/result" element={<Result />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/leaderboard" element={<Leagues />} />
+          <Route path="/leagues" element={<Leagues />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/tickets" element={<Tickets />} />
           <Route path="/ticket/:id" element={<TicketDetail />} />
