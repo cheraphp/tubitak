@@ -1,18 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Mascot from './Mascot';
 
 function LearningPath({ gradeData, user, handleAuthClick }) {
-  const getUnitStatus = (unitIndex, gradeIndex) => {
-    if (unitIndex === 0 && gradeIndex === 0) return 'active';
-    if (unitIndex < 2) return 'unlocked';
-    return 'locked';
+  const getUnitStatus = (unitId, unitIndex, gradeIndex) => {
+    if (!user) {
+      if (unitIndex === 0 && gradeIndex === 0) return 'active';
+      return 'locked';
+    }
+
+    const completedUnits = user.completed_units || [];
+    const isCompleted = completedUnits.includes(unitId);
+
+    if (unitIndex === 0 && gradeIndex === 0) return isCompleted ? 'unlocked' : 'active';
+
+    if (gradeIndex === 0) {
+      const previousUnitId = gradeData[gradeIndex].units[unitIndex - 1].id;
+      return completedUnits.includes(previousUnitId) ? (isCompleted ? 'unlocked' : 'active') : 'locked';
+    }
+
+    const previousGrade = gradeData[gradeIndex - 1];
+    const allPreviousCompleted = previousGrade.units.every(unit => completedUnits.includes(unit.id));
+
+    if (!allPreviousCompleted) return 'locked';
+
+    if (unitIndex === 0) return isCompleted ? 'unlocked' : 'active';
+
+    const previousUnitId = gradeData[gradeIndex].units[unitIndex - 1].id;
+    return completedUnits.includes(previousUnitId) ? (isCompleted ? 'unlocked' : 'active') : 'locked';
   };
 
-  const getProgressPercentage = (unitIndex) => {
-    if (unitIndex === 0) return 60;
-    if (unitIndex === 1) return 30;
-    return 0;
+  const getProgressPercentage = (unitId) => {
+    if (!user || !user.unit_progress) return 0;
+
+    const progress = user.unit_progress[unitId];
+    if (!progress) return 0;
+
+    const percentage = Math.round((progress.correct / progress.total) * 100);
+    return Math.min(percentage, 100);
   };
 
   return (
@@ -31,8 +55,8 @@ function LearningPath({ gradeData, user, handleAuthClick }) {
 
           <div className="path-line relative">
             {grade.units.map((unit, unitIndex) => {
-              const status = getUnitStatus(unitIndex, gradeIndex);
-              const progress = getProgressPercentage(unitIndex);
+              const status = getUnitStatus(unit.id, unitIndex, gradeIndex);
+              const progress = getProgressPercentage(unit.id);
               const isEven = unitIndex % 2 === 0;
 
               return (
@@ -130,15 +154,6 @@ function LearningPath({ gradeData, user, handleAuthClick }) {
                       )}
                     </div>
 
-                    {status === 'active' && unitIndex === 0 && (
-                      <div className="mascot-hint">
-                        <Mascot
-                          emotion="encouraging"
-                          size="sm"
-                          message="Let's practice together!"
-                        />
-                      </div>
-                    )}
                   </div>
                 </div>
               );

@@ -505,12 +505,6 @@ function Quiz() {
       {showFeedback && (
         <div className="modal-overlay" style={{ zIndex: 100 }}>
           <div className={`feedback-modal ${isCorrectAnswer ? 'correct' : 'incorrect'}`}>
-            <div className="feedback-mascot">
-              <Mascot
-                emotion={isCorrectAnswer ? 'celebrating' : 'sad'}
-                size="xl"
-              />
-            </div>
             <div className="feedback-content">
               {isCorrectAnswer ? (
                 <>
@@ -525,6 +519,13 @@ function Quiz() {
                   <div className="feedback-hearts">-1 ❤️</div>
                 </>
               )}
+            </div>
+            <div className="feedback-mascot">
+              <Mascot
+                emotion={isCorrectAnswer ? 'celebrating' : 'sad'}
+                size="lg"
+                message={isCorrectAnswer ? "You're doing amazing!" : "Try again next time!"}
+              />
             </div>
           </div>
         </div>

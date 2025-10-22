@@ -135,20 +135,38 @@ export function AuthProvider({ children }) {
 
     const { correctAnswers, totalQuestions, level: quizLevel } = quizResults;
     const xpGained = calculateXP(correctAnswers, totalQuestions, quizLevel);
+    const percentage = (correctAnswers / totalQuestions) * 100;
 
     const newXp = user.xp + xpGained;
     const newLevel = calculateLevel(newXp);
     const oldLevel = user.level;
 
+    const completedUnits = user.completed_units || [];
+    const unitProgress = user.unit_progress || {};
+
+    const isUnitComplete = percentage >= 70;
+
+    if (isUnitComplete && !completedUnits.includes(quizLevel)) {
+      completedUnits.push(quizLevel);
+    }
+
+    unitProgress[quizLevel] = {
+      correct: correctAnswers,
+      total: totalQuestions,
+      percentage: Math.round(percentage),
+      last_attempt: new Date().toISOString()
+    };
+
     try {
-      // Update user stats
       const { data: updatedUser, error: userError } = await supabase
         .from('users')
         .update({
           xp: newXp,
           level: newLevel,
           total_quizzes: user.total_quizzes + 1,
-          correct_answers: user.correct_answers + correctAnswers
+          correct_answers: user.correct_answers + correctAnswers,
+          completed_units: completedUnits,
+          unit_progress: unitProgress
         })
         .eq('id', user.id)
         .select()
@@ -156,13 +174,12 @@ export function AuthProvider({ children }) {
 
       if (userError) throw userError;
 
-      // Insert quiz result
       const { error: resultError } = await supabase
         .from('quiz_results')
         .insert([{
           user_id: user.id,
           quiz_level: quizLevel,
-          score: Math.round((correctAnswers / totalQuestions) * 100),
+          score: Math.round(percentage),
           total_questions: totalQuestions,
           correct_answers: correctAnswers,
           xp_gained: xpGained
